@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name           Webcomic Reader
 // @author         Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version        2018.08.26
+// @version        2019.02.12
 // @license        MIT
 // @namespace      http://userscripts.org/scripts/show/59842
 // @description    Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -145,10 +145,7 @@ var defaultSettings = {
 // @include        http://www.arcamax.com/*
 // @include        http://www.nettserier.no/*
 // @include        http://nettserier.no/*
-// @include        http://www.nerfnow.com/*
-// @include        http://nerfnow.com/*
-// @exclude        http://www.nerfnow.com/*/comments*
-// @exclude        http://nerfnow.com/*/comments*
+// @include        http*://www.nerfnow.com/*
 // @include        http://www.virtualshackles.com/*
 // @include        http://www.little-gamers.com/*
 // @include        http://www.digitalunrestcomic.com/*
@@ -214,9 +211,9 @@ var defaultSettings = {
 // @include        http://lackadaisycats.com/comic.php*
 // @include        http://www.lukesurl.com/*
 // @include        http://mycardboardlife.com/*
-// @include        http://megatokyo.com/*
-// @include        http://www.megatokyo.it/*
-// @include        http://www.megatokyo.de/*
+// @include        http*://megatokyo.com/*
+// @include        http*://www.megatokyo.it/*
+// @include        http*://www.megatokyo.de/*
 // @include        http://ex2.unixmanga.net/*
 // @include        http://noreasoncomics.com/*
 // @include        http://www.pixelcomic.net/*
@@ -341,8 +338,7 @@ var defaultSettings = {
 // @include        http://memoria.valice.net/*
 // @include        http://www.twilightlady.com/*
 // @include        http://submanga.com/*
-// @include        http://e-hentai.org/s/*
-// @include        https://e-hentai.org/s/*
+// @include        http*://e-hentai.org/*
 // @include        http://crazytje.be/*
 // @include        http://www.tenmangas.com/*
 // @include        http://tenmangas.com/*
@@ -407,8 +403,7 @@ var defaultSettings = {
 // @include        http://babyblues.com/*
 // @include        http://www.bearandtiger.com/*
 // @include        http://mangatopia.net/*
-// @include        http://exhentai.org/s/*
-// @include        https://exhentai.org/s/*
+// @include        http*://exhentai.org/*
 // @include        http://www.wigucomics.com/*
 // @include        http://www.mankin-trad.net/*
 // @include        http://mankin-trad.net/*
@@ -472,12 +467,10 @@ var defaultSettings = {
 // @include        http://www.truefork.org/*
 // @include        http://truefork.org/*
 // @include        http://www.aorange.com/*
-// @include        http://www.thewotch.com/*
-// @include        http://thewotch.com/*
-// @include        http://www.cheercomic.com/*
-// @include        http://cheercomic.com/*
-// @include        http://www.sgvy.com/*
-// @include        http://sgvy.com/*
+// @include        http*://www.thewotch.com/*
+// @include        http*://cheer.sailorsun.org/*
+// @include        http://montrose.is/sgvy/archives/*
+// @include        http://www.montrose.is/sgvy/archives/*
 // @include        http://www.drunkduck.com/*
 // @include        http://drunkduck.com/*
 // @include        http://www.ephralon.de/seekers_detailed.php*
@@ -609,7 +602,7 @@ var defaultSettings = {
 // @include        http://krakowstudios.com/*
 // @include        http://www.aikoniacomic.com/*
 // @include        http://aikoniacomic.com/*
-// @include        http://www.grrlpowercomic.com/*
+// @include        http*://grrlpowercomic.com/*
 // @include        http://www.poisonedminds.com/*
 // @include        http://poisonedminds.com/*
 // @include        http://nodwick.humor.gamespy.com/*
@@ -832,6 +825,7 @@ var defaultSettings = {
 // @match          *://www.mngdoom.com/*/*
 // @match          *://kimchicuddles.com/post/*
 // @match          *://marktrail.com/*
+// @include        http*://www.atomic-robo.com/*
 // ==/UserScript==
 
 // End of includes
@@ -1413,7 +1407,7 @@ var paginas = [
 		txtcol:	'#888'
 	},
 	{	url:	'misfile.com',
-		img:	'overlay.php?pageCalled'
+		img:	'comics/'
 	},
 	{	url:	'digitalunrestcomic.com',
 		img:	'strips/'
@@ -2312,7 +2306,7 @@ var paginas = [
 	},
 	{	url:	'nerfnow.com',
 		img:	[['#comic img']],
-		extra:	[[['.comment']]],
+		extra:	[[['.comment']]]
 	},
 	{	url:	'zapcomic.com',
 		img:	'http://www.zapcomic.com?comic_object='
@@ -2499,10 +2493,10 @@ var paginas = [
 		back:	'@rel="prev"',
 		next:	'@rel="next"'
 	},
-	{	url:	'cheercomic.com',
-		img:	'comics/',
-		back:	'img[@id="navimg3"]',
-		next:	'img[@id="navimg4"]'
+	{	url:	'cheer.sailorsun.org',
+        img:	[['#comic img']],
+        back:   [[['.comic-nav-previous']]],
+        next:   [[['.comic-nav-next']]]
 	},
 	{	url:	'drunkduck.com',
 		img:	[['#comic img']],
@@ -2516,7 +2510,7 @@ var paginas = [
 	{	url:	'ephralon.de',
 		img:	'/seekers/'
 	},
-	{	url:	'sgvy.com',
+	{	url:	'http://www.montrose.is/sgvy/',
 		img:	[['#comic']]
 	},
 	{	url:	'truefork.org',
@@ -2530,10 +2524,10 @@ var paginas = [
 		extra:	[[['img[src^="comix/"]', '<br/>', 1]]]
 	},
 	{	url:	'thewotch.com',
-		img:	'comics/',
-		back:	'img[contains(@src,"nav_prevpage")]',
-		next:	'img[contains(@src,"nav_nextpage")]',
-		extra:	[[['.comments']]]
+        back:   [[['.comic-nav-previous']]],
+        next:   [[['.comic-nav-next']]],
+		extra:	[[['.comments']]],
+        style:	'#wcr_imagen{max-height:100% !important;max-width:90vw !important;width:auto !important;height:auto !important;}'
 	},
 	{	url:	'thedevilbear.com',
 		img:	'comixx/'
@@ -4147,10 +4141,10 @@ var paginas = [
 	{
 		url:	'egscomics.com',
 		img:	'http://egscomics.com/comics/',
-		back:	'@rel="prev"',
-		next:	'@rel="next"',
-		first:	'@rel="first"',
-		last:	'@rel="last"',
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+		first:	[['.cc-first']],
+		last:	[['.cc-last']],
 		extra:	['<div id="wrapper"><div id="leftarea">',[['#news']],'</div></div>'],
 	},
 	{
@@ -4770,6 +4764,13 @@ var paginas = [
 	{
 		url:	'marktrail.com',
 		img:	[['#comic img']],
+	},
+    {	url:    'atomic-robo.com',
+        img:    ['//img[contains(@src, "/comics/")]'],
+        back:   [['.cc-prev']],
+        next:   [['.cc-next']],
+        first:	[['.cc-first']],
+		last:	[['.cc-last']]
 	},
     // End of sites
 	/*
