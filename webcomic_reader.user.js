@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name           Webcomic Reader
 // @author         Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version        2019.02.12
+// @version        2019.07.01
 // @license        MIT
 // @namespace      http://userscripts.org/scripts/show/59842
 // @description    Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -1635,7 +1635,8 @@ var paginas = [
 		img:	['//div[@id="comic"]/img']
 	},
 	{	url:	'*.katbox.net',
-		img:	[['.webcomic-image img']]
+		img:	[['.webcomic-image img']],
+        style:	'#wcr_imagen{height:auto !important;width:auto !important;}'
 	},
 	{	url:	'gipcomic.com',
 		img:	'/pages/',
@@ -4141,10 +4142,10 @@ var paginas = [
 	{
 		url:	'egscomics.com',
 		img:	'http://egscomics.com/comics/',
-		back:	'@rel="prev"',
-		next:	'@rel="next"',
-		first:	'@rel="first"',
-		last:	'@rel="last"',
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+		first:	[['.cc-first']],
+		last:	[['.cc-last']],
 		extra:	['<div id="wrapper"><div id="leftarea">',[['#news']],'</div></div>'],
 	},
 	{
@@ -4768,7 +4769,9 @@ var paginas = [
     {	url:    'atomic-robo.com',
         img:    ['//img[contains(@src, "/comics/")]'],
         back:   [['.cc-prev']],
-        next:   [['.cc-next']]
+        next:   [['.cc-next']],
+        first:	[['.cc-first']],
+		last:	[['.cc-last']]
 	},
     // End of sites
 	/*
