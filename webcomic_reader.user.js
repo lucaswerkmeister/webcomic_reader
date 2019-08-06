@@ -4791,8 +4791,7 @@ var paginas = [
         img:    [['#submissionImg']],
         back:	['//span[@class="parsed_nav_links"]//a[contains(.,"PREV")]'],
         next:	['//span[@class="parsed_nav_links"]//a[contains(.,"NEXT")]'],
-		first:	'.="FIRST"',
-        extra:  [['.maintable']]
+		first:	['//span[@class="parsed_nav_links"]//a[contains(.,"FIRST")]']
 	}
     // End of sites
 	/*
