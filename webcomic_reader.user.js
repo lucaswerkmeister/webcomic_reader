@@ -826,7 +826,6 @@ var defaultSettings = {
 // @match		  *://kimchicuddles.com/post/*
 // @match		  *://marktrail.com/*
 // @include		http*://www.atomic-robo.com/*
-// @include		http*://www.dhscomix.com/comics*
 // @include		http*://www.furaffinity.net/view/*
 // @include		http*://www.furaffinity.net/full/*
 // ==/UserScript==
@@ -4792,14 +4791,6 @@ var paginas = [
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
 		style:	'#wcr_imagen{height:auto !important;width:auto !important;}'
-	},
-	{	url:	'dhscomix.com/comics',
-		img:	['//div[@id="content"]//img'],
-		back:	'img[contains(@src, "nav_prevpage")]',
-		next:	'img[contains(@src, "nav_nextpage")]',
-		first:	'img[contains(@src, "nav_firstpage")]',
-		last:	'img[contains(@src, "nav_newpage")]',
-        extra:  [['//p[@align="center"]//img']]
 	},
 	{	url:	'furaffinity.net',
 		img:	[['#submissionImg']],
