@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name           Webcomic Reader
 // @author         Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version        2019.07.01
+// @version        2019.08.06
 // @license        MIT
 // @namespace      http://userscripts.org/scripts/show/59842
 // @description    Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -827,6 +827,8 @@ var defaultSettings = {
 // @match          *://marktrail.com/*
 // @include        http*://www.atomic-robo.com/*
 // @include        http*://www.dhscomix.com/comics*
+// @include        http*://www.furaffinity.net/view/*
+// @include        http*://www.furaffinity.net/full/*
 // ==/UserScript==
 
 // End of includes
@@ -4784,6 +4786,13 @@ var paginas = [
 		next:	'img[contains(@src, "nav_nextpage")]',
 		first:	'img[contains(@src, "nav_firstpage")]',
 		last:	'img[contains(@src, "nav_newpage")]'
+	},
+    {	url:    'furaffinity.net',
+        img:    [['#submissionImg']],
+        back:	['//span[@class="parsed_nav_links"]//a[contains(.,"PREV")]'],
+        next:	['//span[@class="parsed_nav_links"]//a[contains(.,"NEXT")]'],
+		first:	'.="FIRST"',
+        extra:  [['.maintable']]
 	}
     // End of sites
 	/*
