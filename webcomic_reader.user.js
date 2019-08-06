@@ -4141,11 +4141,11 @@ var paginas = [
 	},
 	{
 		url:	'egscomics.com',
-		img:    [['#cc-comic']],
-		back:	[['.cc-prev']],
-		next:	[['.cc-next']],
-		first:	[['.cc-first']],
-		last:	[['.cc-last']],
+		img:	'http://egscomics.com/comics/',
+		back:	'@rel="prev"',
+		next:	'@rel="next"',
+		first:	'@rel="first"',
+		last:	'@rel="last"',
 		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>'],
 	},
 	{
