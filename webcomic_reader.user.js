@@ -131,8 +131,8 @@ var defaultSettings = {
 // @include		http://pennyandaggie.com/*
 // @include		http://www.darkbolt.com/*
 // @include		http://darkbolt.com/*
-// @include		http://www.egscomics.com/*
 // @include		http://egscomics.com/*
+// @include		http://www.egscomics.com/*
 // @include		http://www.the-gutters.com/*
 // @include		http://www.punchanpie.net/*
 // @include		http://punchanpie.net/*
@@ -4142,8 +4142,10 @@ var paginas = [
 		next:	'text()="next >"',
 		first:	'text()="|<"',
 	},
+    //Needed Two Seperate EGS entries to handle the www and non-www URLs
+    //--[
 	{
-		url:	'egscomics.com',
+		url:	'http://www.egscomics.com',
 		img:	[['#cc-comic']],
 		back:   [['.cc-prev']],
 		next:   [['.cc-next']],
@@ -4151,9 +4153,20 @@ var paginas = [
 		last:	[['.cc-last']],
 		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>'],
 		fixurl:	function(url, img, link){
-					return url.replace('http://egscomics', 'http://www.egscomics');
+        if(link) return url.replace('http://egscomics', 'http://www.egscomics');
+		return url;
 		}
 	},
+    {
+		url:	'http://egscomics.com',
+		img:	[['#cc-comic']],
+		back:   [['.cc-prev']],
+		next:   [['.cc-next']],
+		first:	[['.cc-first']],
+		last:	[['.cc-last']],
+		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>']
+	},
+    //]--
 	{
 		url:	'http://mspfanventures.com/',
 		img:	[['article img']],
@@ -4781,11 +4794,12 @@ var paginas = [
 		style:	'#wcr_imagen{height:auto !important;width:auto !important;}'
 	},
 	{	url:	'dhscomix.com/comics',
-		img:	['div[@id="content"]//img'],
+		img:	['//div[@id="content"]//img'],
 		back:	'img[contains(@src, "nav_prevpage")]',
 		next:	'img[contains(@src, "nav_nextpage")]',
 		first:	'img[contains(@src, "nav_firstpage")]',
-		last:	'img[contains(@src, "nav_newpage")]'
+		last:	'img[contains(@src, "nav_newpage")]',
+        extra:  [['//p[@align="center"]//img']]
 	},
 	{	url:	'furaffinity.net',
 		img:	[['#submissionImg']],
