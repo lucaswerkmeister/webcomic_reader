@@ -4141,12 +4141,12 @@ var paginas = [
 	},
 	{
 		url:	'egscomics.com',
-		img:	'http://egscomics.com/comics/',
+		img:    [['#cc-comic']],
 		back:	[['.cc-prev']],
 		next:	[['.cc-next']],
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
-		extra:	['<div id="wrapper"><div id="leftarea">',[['#news']],'</div></div>'],
+		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>'],
 	},
 	{
 		url:	'http://mspfanventures.com/',
