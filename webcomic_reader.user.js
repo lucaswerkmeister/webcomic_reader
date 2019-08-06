@@ -197,8 +197,8 @@ var defaultSettings = {
 // @include        http://www.gocomics.com/*
 // @exclude        http://www.gocomics.com/
 // @exclude        http://www.gocomics.com/?*
-// @include        http://www.gunnerkrigg.com/*
-// @include        http://gunnerkrigg.com/*
+// @include        http*://www.gunnerkrigg.com/*
+// @include        http*://gunnerkrigg.com/*
 // @include        http://www.ho-lo.co.il/*
 // @include        http://www.jeffzugale.com/*
 // @include        http://www.threepanelsoul.com/*
@@ -826,6 +826,7 @@ var defaultSettings = {
 // @match          *://kimchicuddles.com/post/*
 // @match          *://marktrail.com/*
 // @include        http*://www.atomic-robo.com/*
+// @include        http*://www.dhscomix.com/comics*
 // ==/UserScript==
 
 // End of includes
@@ -4141,12 +4142,15 @@ var paginas = [
 	},
 	{
 		url:	'egscomics.com',
-		img:	'http://egscomics.com/comics/',
-		back:	'@rel="prev"',
-		next:	'@rel="next"',
-		first:	'@rel="first"',
-		last:	'@rel="last"',
+		img:    [['#cc-comic']],
+        back:   [['.cc-prev']],
+        next:   [['.cc-next']],
+        first:	[['.cc-first']],
+		last:	[['.cc-last']],
 		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>'],
+        fixurl:	function(url, img, link){
+					return url.replace('http://egscomics', 'http://www.egscomics');
+        }
 	},
 	{
 		url:	'http://mspfanventures.com/',
@@ -4767,12 +4771,20 @@ var paginas = [
 		img:	[['#comic img']],
 	},
     {	url:    'atomic-robo.com',
-        img:    ['//img[contains(@src, "/comics/")]'],
+        img:    [['#cc-comic']],
         back:   [['.cc-prev']],
         next:   [['.cc-next']],
         first:	[['.cc-first']],
-		last:	[['.cc-last']]
+		last:	[['.cc-last']],
+        style:	'#wcr_imagen{height:auto !important;width:auto !important;}'
 	},
+    {	url:    'dhscomix.com/comics',
+        img:    ['div[@id="content"]//img'],
+        back:	'img[contains(@src, "nav_prevpage")]',
+		next:	'img[contains(@src, "nav_nextpage")]',
+		first:	'img[contains(@src, "nav_firstpage")]',
+		last:	'img[contains(@src, "nav_newpage")]'
+	}
     // End of sites
 	/*
 	,
