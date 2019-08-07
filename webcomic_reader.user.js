@@ -828,6 +828,23 @@ var defaultSettings = {
 // @include		http*://www.atomic-robo.com/*
 // @include		http*://www.furaffinity.net/view/*
 // @include		http*://www.furaffinity.net/full/*
+// @include		http*://www.dhscomix.com/comics*
+// @include		http*://www.dhscomix.com/bcomics*
+// @include		http*://www.dhscomix.com/dcomics*
+// @include		http*://www.dhscomix.com/decomics*
+// @include		http*://www.dhscomix.com/dfcomics*
+// @include		http*://www.dhscomix.com/dhscomics*
+// @include		http*://www.dhscomix.com/fcomics*
+// @include		http*://www.dhscomix.com/jcomics*
+// @include		http*://www.dhscomix.com/kcomics*
+// @include		http*://www.dhscomix.com/lcomics*
+// @include		http*://www.dhscomix.com/mercomics*
+// @include		http*://www.dhscomix.com/ocomics*
+// @include		http*://www.dhscomix.com/pcomics*
+// @include		http*://www.dhscomix.com/scomics*
+// @include		http*://www.dhscomix.com/tcomics*
+// @include		http*://www.dhscomix.com/wcomics*
+
 // ==/UserScript==
 
 // End of includes
@@ -4798,6 +4815,34 @@ var paginas = [
 		next:	['//span[@class="parsed_nav_links"]//a[contains(.,"NEXT")]'],
 		first:	['//span[@class="parsed_nav_links"]//a[contains(.,"FIRST")]'],
 		extra:  [['//table[@class="maintable"]//tbody//tr//table[@class="maintable"]']]
+	},
+	{	url:	'dhscomix.com/comics', //Random Encounters
+		img:	['//div[@id="content"]//img'],
+        extra:	[['//div[@id="content"]']],
+		back:	'img[contains(@src, "nav_prevpage")]',
+		next:	'img[contains(@src, "nav_nextpage")]',
+        //Work around for multiple comic images on a page
+        style:  '#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
+        js:	function(dir){ //Copied from Webtoon's entry. Thanks to who ever did that
+				// Makes it so anything within extra will be nav-clickable
+				var elemImagen = document.querySelectorAll('#wcr_extra');
+				setEvt(elemImagen, 'click', imgClick);
+				setEvt(elemImagen, 'mousemove', imgCursor);
+				},
+	},
+	{	url:	'dhscomix.com/bcomics|dhscomix.com/dcomics|dhscomix.com/decomics|dhscomix.com/dfcomics|dhscomix.com/dhscomics|dhscomix.com/fcomics|dhscomix.com/jcomics|dhscomix.com/kcomics|dhscomix.com/lcomics|dhscomix.com/mercomics|dhscomix.com/ocomics|dhscomix.com/pcomics|dhscomix.com/scomics|dhscomix.com/tcomics|dhscomix.com/wcomics', //All the other DHS Comix Comics
+		img:	['//div[@id="content"]//img'],
+        extra:	[['//div[@id="content"]']],
+		back:	'img[contains(@src, "previous")]',
+		next:	'img[contains(@src, "next")]',
+        //Work around for multiple comic images on a page
+        style:  '#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
+        js:	function(dir){ //Copied from whoever did Webtoon's entry
+				// Makes it so anything within extra will be nav-clickable
+				var elemImagen = document.querySelectorAll('#wcr_extra');
+				setEvt(elemImagen, 'click', imgClick);
+				setEvt(elemImagen, 'mousemove', imgCursor);
+				},
 	}
 	// End of sites
 	/*
