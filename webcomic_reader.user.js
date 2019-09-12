@@ -527,7 +527,6 @@ var defaultSettings = {
 // @include		http://www.dorktower.com/*
 // @include		http://nhentai.net/*
 // @include		http://www.hejibits.com/*
-// @include		http://5.79.87.81/*
 // @include		http://paintraincomic.com/*
 // @include		http://extrafabulouscomics.com/*
 // @include		http://www.feywinds.com/comic/*
@@ -2258,12 +2257,6 @@ var paginas = [
 	},
 	{	url:	'hejibits.com',
 		extra:	[[['.post-content']]]
-	},
-	{	url:	'5.79.87.81',
-		img:	[['#gsImageView img']],
-		back:	[['.previous']],
-		next:	[['.next']],
-		scrollx:'R'
 	},
 	{	url:	'paintraincomic.com',
 		img:	[['#comic img']],
