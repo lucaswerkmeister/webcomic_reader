@@ -77,7 +77,7 @@ var defaultSettings = {
 // @include		http*://drmcninja.com/*
 // @include		http*://www.vgcats.com/*/*
 // @include		http*://www.phdcomics.com/*
-// @include		http*://www.cad-comic.com/*
+// @include		http*://cad-comic.com/*
 // @match		  *://*.smbc-comics.com/*
 // @include		http*://abstrusegoose.com/*
 // @include		http*://thedoghousediaries.com/*
