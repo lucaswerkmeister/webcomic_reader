@@ -174,7 +174,8 @@ var defaultSettings = {
 // @include		http://threepanelsoul.com/*
 // @match		  *://*.oglaf.com/*
 // @include		http://www.kevinandkell.com/*
-// @include		http://kevinandkell.com/*
+// @include		http*://kevinandkell.com/*
+// @include		http*://www.kevinandkell.com/*
 // @include		http://www.lackadaisycats.com/comic.php*
 // @include		http://lackadaisycats.com/comic.php*
 // @include		http://www.lukesurl.com/*
@@ -1949,6 +1950,7 @@ var paginas = [
 		extra:	[[['#blurb']]]
 	},
 	{	url:	'grrlpowercomic.com',
+        img:	[['#comic img']],
 		extra:	[[['.post-comic']]]
 	},
 	{	url:	'the-whiteboard.com',
