@@ -96,8 +96,7 @@ var defaultSettings = {
 // @include		http*://www.bobandgeorge.com/*
 // @include		http*://bobandgeorge.com/*
 // @include		http*://www.stationv3.com/*
-// @include		http*://www.lfgcomic.com/page/*
-// @include		http*://lfgcomic.com/page/*
+// @include		http*://www.lfg.co/page/*
 // @include		http*://www.gpf-comics.com/*
 // @match		  *://*.questionablecontent.net/*
 // @include		http*://www.daisyowl.com/*
@@ -568,6 +567,7 @@ var defaultSettings = {
 // @include		http*://www.dhscomix.com/scomics*
 // @include		http*://www.dhscomix.com/tcomics*
 // @include		http*://www.dhscomix.com/wcomics*
+// @include     http*://*.kemono.cafe/*
 
 // ==/UserScript==
 
@@ -2656,6 +2656,13 @@ var paginas = [
         img:	['//div[@class="post-thumbnail"]//img'],
         next:   'i[contains(@src, "navi-next")]',
 		next:	'i[contains(@src, "navi-prev")]',
+        
+    },
+    //WIP - Applegeeks is being a pain to setup
+    {   url:    'applegeeks.com/comics',
+        img:	['//div[@id="castheader"]//img'],
+        next:   '//div[@id="sidebar"]//div//p//a/@href',
+        prev:   '//div[@id="sidebar"]//div//p[2]//a/img',
         
     }
 	// End of sites
