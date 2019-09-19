@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		   Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.09.17
+// @version		2019.09.12
 // @license		MIT
 // @namespace	  http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -285,6 +285,7 @@ var defaultSettings = {
 // @include		http*://www.exploitationnow.com/*
 // @include		http*://basicinstructions.net/*
 // @include		http*://www.missmab.com/*
+// @include		http*://missmab.com/*
 // @include		http*://www.lookwhatibroughthome.com/*
 // @include		http*://hijinksensue.com/*
 // @include		http*://www.darthsanddroids.net/*
@@ -473,6 +474,7 @@ var defaultSettings = {
 // @include		http*://zenpencils.com/*
 // @include		http*://webcomics.yaoi911.com/*
 // @include		http*://www.whompcomic.com/*
+// @include		http*://www.curtailedcomic.com/*
 // @include		http*://curtailedcomic.com/*
 // @include		http*://bradcolbow.com/*
 // @include		http*://www.theherobiz.com/*
@@ -528,8 +530,8 @@ var defaultSettings = {
 // @include		http*://www.feywinds.com/comic/*
 // @include		http*://www.omgbeaupeep.com/*
 // @include		http*://orgymania.net/*
-// @include		http*://mspaintadventures.com/*
-// @include		http*://www.mspaintadventures.com/*
+// @include		http*://homestuck.com/*
+// @include		http*://www.homestuck.com/*
 // @include		http*://mspfanventures.com/
 // @include		http*://www.mangatown.com/manga/*
 // @include		http*://www.legostargalactica.net/*
@@ -2329,97 +2331,6 @@ var paginas = [
 		style:	'#wcr_imagen { display: none; }',
 	},
 	{
-		url:	'mspaintadventures.com/?s=1',
-		img:	'http://cdn.mspaintadventures.com/advimgs',
-		next:	[['font[size="5"]>a']],
-		extra:	[['//table[@width="600"]']],
-		js:	function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
-			
-			// Click on any img
-			var elemImagen=document.querySelectorAll('#wcr_extra img');
-			setEvt(elemImagen, 'click', imgClick);
-			setEvt(elemImagen, 'mousemove', imgCursor);},
-		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
-	},
-	{
-		url:	'mspaintadventures.com/extras',
-		img:	'http://www.mspaintadventures.com/extra',
-		back:	function(html, pos){var comicNr = parseInt(link[pos].match(/\d+/)[0]);
-			if (comicNr == 1) throw new Error("First comic");
-			comicNr--;
-			comicNr = ("000000" + comicNr).match(/0*(\d{6})$/)[1];
-			return link[pos].replace(/\d+/, comicNr);},
-		next:	function(html, pos){var comicNr = parseInt(link[pos].match(/\d+/)[0]);
-			comicNr++;
-			comicNr = ("000000" + comicNr).match(/0*(\d{6})/)[1];
-			return link[pos].replace(/\d+/, comicNr);},
-		extra:	[['//table[@width="800"]']],
-		js:	function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
-			
-			// Click on any img
-			var elemImagen=document.querySelectorAll('#wcr_extra img');
-			setEvt(elemImagen, 'click', imgClick);
-			setEvt(elemImagen, 'mousemove', imgCursor);},
-		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
-	},
-	{
-		url:	'mspaintadventures.com/?s=4',
-		img:	'http://cdn.mspaintadventures.com/advimgs',
-		back:	'text()="Go Back"',
-		next:	[['font[size="5"]>a']],
-		extra:	[['//table[@width="600"]']],
-		js:	function(dir){
-			// Click on any img
-			var elemImagen=document.querySelectorAll('#wcr_extra img');
-			setEvt(elemImagen, 'click', imgClick);
-			setEvt(elemImagen, 'mousemove', imgCursor);},
-		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
-	},
-	{
-		url:	'mspaintadventures.com/?s=6',
-		img:	'http://cdn.mspaintadventures.com/storyfiles/',
-		back:	'text()="Go Back"',
-		next:	function(html, pos){var x = selCss('font[size="5"]>a',html,true);
-			return x[x.length-1];},
-		extra:	[['//table[@width="600"]']],
-		xelem:	'//table[@width="600"]',
-		layelem:	'//table[@width="600"]',
-		js:	function(dir){
-			// Click on any img to switch page
-			var elemImagen=document.querySelectorAll('#wcr_extra img');
-			setEvt(elemImagen, 'click', imgClick);
-			setEvt(elemImagen, 'mousemove', imgCursor);
-			
-			// Show pesterlogs
-			var x = document.getElementsByClassName('spoiler');
-			for (var i = 0; i < x.length; i++) {x[i].previousSibling.firstChild.click();}
-			},
-		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
-	},
-	{
-		url:	'mspaintadventures.com/scratch.php?',
-		img:	'storyfiles/',
-		back:	'text()="Go Back"',
-		next:	function(html, pos){var x = selCss('font[size="5"]>a',html,true);
-			return x[x.length-1];},
-		extra:	[['//table[@width="600"]']],
-		xelem:	'//table[@width="600"]/tbody',
-		layelem:	'//table[@width="600"]',
-		js:	function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
-			
-			// Click on any img to switch page
-			var elemImagen=document.querySelectorAll('#wcr_extra img');
-			setEvt(elemImagen, 'click', imgClick);
-			setEvt(elemImagen, 'mousemove', imgCursor);
-			
-			// Show pesterlogs
-			var x = document.getElementsByClassName('spoiler');
-			for (var i = 0; i < x.length; i++) {x[i].previousSibling.firstChild.click();}
-			
-			typeof onChange == 'function' && onChange(dir);},
-		style:	'#wcr_imagena { display: none; }\np { font-size: large; }',
-	},
-	{
 		url:	'mangatown.com/manga/',
 		img:	[['#image']],
 		back:	function(html, pos){try {
@@ -2653,17 +2564,41 @@ var paginas = [
 				},
 	},
     {   url:    'dominic-deegan.com',
-        img:	['//div[@class="post-thumbnail"]//img'],
-        next:   'i[contains(@src, "navi-next")]',
-		next:	'i[contains(@src, "navi-prev")]',
+        img:	['//div[@class="post-thumbnail"]//img']
+        
+    },
+    {   url:    'cad-comic.com',
+        img:	['//div[@class="comicpage"]//img[contains(@src, "wp-content/uploads")]'],
+        back:   '@rel="prev"',
+        next:   '@rel="next"'
+        
+    },
+    {   url:    'curtailedcomic.com',
+        img:	['//div[@id="comic"]//a//img'],
+        back:   '@class="navi comic-nav-previous navi-prev"',
+        next:   '@class="navi comic-nav-next navi-next"',
+        extra:  [['//div[@class="entry-content"]']],
+        style:  '.creator-comment{background:white}'
+        
+    },
+    {   url:    'homestuck.com/story',
+        img:	['//img[contains(@src, "/storyfiles/")]'],
+        next:   ['//div[contains(@class, "o_story-nav")]//div//a'],
+        extra:  ['<br>',['//div[contains(@class, "o_chat-container")]'],['//div[contains(@class, "o_story-nav")]']],
+        style:  '.disp-n{display: inherit !important;}.o_chat-log-btn{display:none;}.o_chat-container{background: #EFEFEF}.o_story-nav{background:#efefef;border: 1px dashed gray;margin-right: 25px;margin-left: 25px;padding-top: 25px;padding-bottom:25px;}.pad-t-lg{display:none}',
+        js:	function(dir){ //Copied from whoever did Webtoon's entry
+				// Makes it so anything within extra will be nav-clickable
+				var elemImagen = document.querySelectorAll('.o_story-nav');
+				setEvt(elemImagen, 'click', imgClick);
+				setEvt(elemImagen, 'mousemove', imgCursor);
+				},
+        
         
     },
     //WIP - Applegeeks is being a pain to setup
     {   url:    'applegeeks.com/comics',
         img:	['//div[@id="castheader"]//img'],
-        next:   '//div[@id="sidebar"]//div//p//a/@href',
-        prev:   '//div[@id="sidebar"]//div//p[2]//a/img',
-        
+        next:   ['//div[@id="sidebar"]//div[@class="sidenotes"]//p//a']
     }
 	// End of sites
 	/*
