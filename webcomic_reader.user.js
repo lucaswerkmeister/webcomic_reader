@@ -2585,8 +2585,8 @@ var paginas = [
     {   url:    'homestuck.com/story',
         img:	['//img[contains(@src, "/storyfiles/")]'],
         next:   ['//div[contains(@class, "o_story-nav")]//div//a'],
-        extra:  ['<br>',['//div[contains(@class, "o_chat-container")]'],['//div[contains(@class, "o_story-nav")]']],
-        style:  '.disp-n{display: inherit !important;}.o_chat-log-btn{display:none;}.o_chat-container{background: #EFEFEF}.o_story-nav{background:#efefef;border: 1px dashed gray;margin-right: 25px;margin-left: 25px;padding-top: 25px;padding-bottom:25px;}.pad-t-lg{display:none}',
+        extra:  ['<br>',['//p[contains(@class, "o-story_text")]'],['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]']],
+        style:  '.disp-n{display: inherit !important;}.o_chat-log-btn{display:none;}.o_chat-container,.o-story_text{background: #EFEFEF}.o_story-nav{background:#efefef;border: 1px dashed gray;margin-right: 25px;margin-left: 25px;padding-top: 25px;padding-bottom:25px;}.pad-t-lg{display:none}',
         js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('.o_story-nav');
