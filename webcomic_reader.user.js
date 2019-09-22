@@ -1951,7 +1951,8 @@ var paginas = [
 	},
 	{	url:	'grrlpowercomic.com',
         img:	[['#comic img']],
-		extra:	[[['.post-comic']]]
+		extra:	[[['.post-content']],'<br>',[['#comment-wrapper']]],
+        style:  '#content{display:none}.post-content,#comment-wrapper{width: 766px;margin: auto;}'
 	},
 	{	url:	'the-whiteboard.com',
 		img:	[['center>img']]
