@@ -1106,7 +1106,7 @@ var paginas = [
 		back:	'..[@id="prevstrip"]',
 		next:	'..[@id="nextstrip"]',
 		extra:	[['//div[@id="caption"]/span']],
-        style:  '.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{width: auto;}body{min-width: 0px}'
+        style:  '.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px}'
 	},
 	{	url:	'mycardboardlife.com',
 		img:	'http://mycardboardlife.com/comics/',
