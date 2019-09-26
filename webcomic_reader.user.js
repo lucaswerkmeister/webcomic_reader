@@ -621,7 +621,7 @@ try{
 		};
 	}
 }catch(e){}
-
+var docelem = document.documentElement;
 var prefetchSize = confPrefetchSize([defaultSettings.prefetchBack, defaultSettings.prefetchNext]); //number of prefetched pages ahead in each direction
 var prefetchSizeStart = confPrefetchSizeStart([defaultSettings.prefetchBackStart, defaultSettings.prefetchNextStart]); //number of prefetched pages in each direction the first time
 var prefetchNoNext = confBool('prefetchNoNext', true);
@@ -2693,7 +2693,8 @@ var layoutDefault =
 				'<button id="wcr_btnfit">Enable Fit-to-screen</button> '+
 				'<button id="wcr_btnlayout">Use Original Layout</button> '+
 				'<button id="wcr_btnslide">Start Slideshow</button> '+
-				'<button id="wcr_btnsettings">Settings</button>'+
+				'<button id="wcr_btnsettings">Settings</button> '+
+                '<button id="wcr_btnfullscreen">Enable Fullscreen</button>'+
 			'</div>'+
 		'</div>'+
 		'<div id="wcr_imagenes" style="display:none"></div>'+
@@ -2822,6 +2823,9 @@ var colOK   = 'rgb(204, 238, 204)'; //verde
 var colWait = 'rgb(238, 238, 238)'; //plomo
 var colLoad = 'rgb(238, 238, 204)'; //amarillo
 var colFail = 'rgb(238, 204, 204)'; //rojo
+
+//default variable value for Fullscreen functionality
+var fullScreened = false;
 
 var cursores_custom = {
 	'1': 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAABYdJREFUWIXtll+IXFcdxz+/c86dO3dmJ7ubNsaG1FhZW7fVBpvY1BJ8ia0PrRWpSgNWpT4Ilap5EB+aB0EqvimKYKONVUFBaKiCUCwohtQKeailtQQTa9Jsmmx2Zje7szsze+89v58PM7PJJs0m/kMf8oPDmcM9/L6f8/uePwPX4lr8j8P/M5Mnd0386IbJDZ8aDevfk/fyVp7nM/8tsEvivR+dOPBi+3fWitP2TOtpu/vz2w/9J/KGq5k0cdeWJ7/1w29+fFttJ2rKu5JJet1OAmzMyJJIrIVaVquntRGwhvPWkCAZUMvqWb2yLjQoWG6dWni5OTd9GDg7zC1XEn/HbZv3Pv7sV77xic2fo7QcJ54TnWM8+dz3aMgYlSwQqp5qNSNkniQNVNMqPvGklZQkVAg+kK1PaZ2d5S9/OsJ3d//s9qJYeuWKAJs2b3rkC88+9NRn3/0o3WIJw4EozhzBJ9jKTMOs34OBcv6bGeI9o/VRgg/89uSv+fRNX7w3svz8mhaMj4/f98mf3PPUA+98iNOLU5gAppgKaoZcsXYr+vjgkMwI5ukVPby3JEYcoG8JkIVs+337dv7q/skHeXPxJJhhppgJZoaZoarIVVCYGSEJ1GOGiCcnX/X9LQDSiY98/4N/uP/Oj/nphTN9MeuXdihuMWIYqnLew1U/LjDHjCRJWK9jOBy5La8JcP09T9xxcNeuXbVme4YY44pwjAARi0ZUGBotCIhQxJx23qaIyzjnGUkaVEMGGEmssKgbcebI9fIA1Q99edvBnQ/uuGGhvYBaxNSIGlE1TBU17eua0S16nF08TbMzzUz3DPO9eYzB3jBQjHqos6lxIzdvvI2bdAuiQnm5Cuz4zNbnGruZfOHE70GFIAl1N0Lma5j2Pc+LnNluk7lOk/ZyG439fSA4vPfIRYcq15zXzx3ldDHF224Zo2GjdOLSQDZfBVBZd2t6V5F3KaxEVenEJeZikzKWxKhoqUSNWFQ0Gk48/eUORO2880MMEcHhCBKIUjJfzrGgi6sg3aBPDj3+ysP2WlVd4jAzxPqZBI/D45zgncMFj0sgJA5XEVxiuMSQYIjvN3OGyfBuGPJdjLcaIO/G7qHDe47uqczUkeD6fht4Z7gg+IonqXpCFZLM4+oQRjyh4QgjjsqIJ9Q9PhN8KrjE9aEETM6TXGzT0IICmDvXPXfg8KPHx+98esvXF9N5KAwRj0hEnMMEnAuoi3hzRAwkIAYaFYuCRaAUYqlo0R+H4PH4S1Z/IQBAD5htzp7d/+pj1fVbf/z2Ly2GWRTFe49LDPOgHtQZJY5k4JMZmDqsNKwEzQVfCrpsxFxxiZC6CiqGWyn6pQAAXWD2jRNvfLu6J9nwvn0bdre1hXpFKmDBYd5Q5/q7X9zQYEzBSkXLgBaG9owyNaQHFefIXErpFC9+TQADOkDrry//bW/4anLdtn0b723aNEVYJoY42GggYjgHblABFDQKrhC0AE1BlqFMhATHuFtH1+fMyvyaAEOIJcC9dvDIY9nXbv/pHT/YtOOkHQcP4h1ZSJloT9KcWyBWCtRHokQKKykoiCjRRcqkf3RTaiwkixQ+0tEeAjoUW+s1ccAocOPdj7z/l1u/s+6WY3YU7zyNrMap3aN/P/Kb1/cnWVJ1IWQhUA31UEsynyU1V5PMpz6TzGcuTdcltarPitN/bh1tHTv30szc9H6gyeVew0EosABM/XH/Sw9Xrv/AgZuf2LK55ZtcJ2O8Wdf52U7z53TQCxbiBk0u6of5ikF124Pxlf8R0bdpDMKtH967/Zl6LZUzr84fP/VC8xdTJ6b20T89w1wXXI2rxsMnMgLloK1MuppIgPFBS+lf5HPA7GBV/3JcLQD0K1GlX9I4gPi3xK/F/0X8A9KAi5v8bApEAAAAAElFTkSuQmCC',
@@ -3075,6 +3079,7 @@ function iniciar(){
 		setEvt('wcr_btnlayout', 'click', toggleConfKeepLayout);
 		setEvt('wcr_btnslide', 'click', slideshow);
 		setEvt('wcr_btnsettings', 'click', mostrarSettings);
+        setEvt('wcr_btnfullscreen', 'click', toggleFullscreen);
 		//setEvt(window, 'touchstart', touchstart);
 		//setEvt(window, 'touchend', touchend);
 
@@ -4317,6 +4322,35 @@ function toggleConfFit(){
 	fitImagen();
 	scrollear();
 	get('wcr_btnfit').innerHTML = (fitSize ? 'Disable' : 'Enable') + ' Fit-to-screen';
+}
+
+//Toggle Fullscreen
+function toggleFullscreen(){ 
+    if (fullScreened == false){
+        if (docelem.requestFullscreen) {
+            docelem.requestFullscreen();
+        } else if (docelem.mozRequestFullScreen) { /* Firefox */
+            docelem.mozRequestFullScreen();
+        } else if (docelem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+            docelem.webkitRequestFullscreen();
+        } else if (docelem.msRequestFullscreen) { /* IE/Edge */
+            docelem.msRequestFullscreen();
+        }
+        fullScreened = true;
+        document.getElementById('wcr_btnfullscreen').innerText = 'Disable Fullscreen';
+    } else if (fullScreened == true){
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { /* Firefox */
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE/Edge */
+            document.msExitFullscreen();
+        }
+        fullScreened = false;
+        document.getElementById('wcr_btnfullscreen').innerText = 'Enable Fullscreen';
+    }
 }
 
 //alterna una conf booleana para esta pag
