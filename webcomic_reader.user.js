@@ -41,31 +41,30 @@ var defaultSettings = {
 };
 
 // ==UserScript==
-// @name		   Webcomic Reader
+// @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.09.26
+// @version		2019.09.27
 // @license		MIT
-// @namespace	  http://userscripts.org/scripts/show/59842
+// @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
 // @homepageURL	https://github.com/anka-213/webcomic_reader#readme
 // @supportURL	 https://github.com/anka-213/webcomic_reader/issues
-// @updateURL	  https://raw.githubusercontent.com/anka-213/webcomic_reader/master/webcomic_reader.user.js
+// @updateURL		https://raw.githubusercontent.com/anka-213/webcomic_reader/master/webcomic_reader.user.js
 // @updatetype	 24
-// @grant		  GM_getValue
-// @grant		  GM_setValue
-// @grant		  GM_deleteValue
-// @grant		  GM_xmlhttpRequest
-// @grant		  GM_registerMenuCommand
-// @grant		  GM_openInTab
+// @grant			GM_getValue
+// @grant			GM_setValue
+// @grant			GM_deleteValue
+// @grant			GM_xmlhttpRequest
+// @grant			GM_registerMenuCommand
+// @grant			GM_openInTab
 // @include		http*://www.sluggy.com/*
 // @include		http*://sluggy.com/*
 // @include		http*://www.penny-arcade.com/comic*
 // @include		http*://penny-arcade.com/comic*
-// @match		  *://*.xkcd.com/*
+// @match			*://*.xkcd.com/*
 // @include		http*://www.giantitp.com/*
 // @include		http*://www.dilbert.com/strip/*
 // @include		http*://dilbert.com/strip/*
-// @include		http*://hf.dilbert.com/strip/*
 // @include		http*://www.explosm.net/*
 // @include		http*://explosm.net/*
 // @include		http*://www.nuklearpower.com/*
@@ -78,7 +77,7 @@ var defaultSettings = {
 // @include		http*://www.vgcats.com/*/*
 // @include		http*://www.phdcomics.com/*
 // @include		http*://cad-comic.com/*
-// @match		  *://*.smbc-comics.com/*
+// @match			*://*.smbc-comics.com/*
 // @include		http*://abstrusegoose.com/*
 // @include		http*://thedoghousediaries.com/*
 // @include		http*://www.erfworld.com/*
@@ -98,15 +97,15 @@ var defaultSettings = {
 // @include		http*://www.stationv3.com/*
 // @include		http*://www.lfg.co/page/*
 // @include		http*://www.gpf-comics.com/*
-// @match		  *://*.questionablecontent.net/*
+// @match			*://*.questionablecontent.net/*
 // @include		http*://www.daisyowl.com/*
 // @include		http*://daisyowl.com/*
 // @include		http*://www.hyperdeathbabies.com/*
 // @include		http*://amultiverse.com/*
 // @include		http*://wondermark.com/*
 // @include		http*://www.amazingsuperpowers.com/*
-// @match		  *://fanfox.net/*
-// @match		  *://m.fanfox.net/*
+// @match			*://fanfox.net/*
+// @match			*://m.fanfox.net/*
 // @include		http*://www.leasticoulddo.com/*
 // @include		http*://leasticoulddo.com/*
 // @include		http*://www.sinfest.net/*
@@ -169,11 +168,11 @@ var defaultSettings = {
 // @include		http*://www.ho-lo.co.il/*
 // @include		http*://www.threepanelsoul.com/*
 // @include		http*://threepanelsoul.com/*
-// @match		  *://*.oglaf.com/*
+// @match			*://*.oglaf.com/*
 // @include		http*://www.kevinandkell.com/*
 // @include		http*://kevinandkell.com/*
-// @include		http*://www.lackadaisycats.com/comic.php*
-// @include		http*://lackadaisycats.com/comic.php*
+// @include		http*://www.lackadaisy.com/comic.php*
+// @include		http*://lackadaisy.com/comic.php*
 // @include		http*://www.lukesurl.com/*
 // @include		http*://mycardboardlife.com/*
 // @include		http*://megatokyo.com/*
@@ -238,7 +237,7 @@ var defaultSettings = {
 // @include		http*://thedreamercomic.com/
 // @include		http*://www.shazzbaa.com/*
 // @include		http*://shazzbaa.com/*
-// @match		  *://*.sandraandwoo.com/*
+// @match			*://*.sandraandwoo.com/*
 // @include		http*://www.freakangels.com/*
 // @include		http*://www.sakanacomic.com/*
 // @include		http*://keychain.patternspider.net/*
@@ -467,7 +466,7 @@ var defaultSettings = {
 // @include		http*://ps238.nodwick.com/*
 // @include		http*://thedevilspanties.com/*
 // @include		http*://www.animephile.com/*
-// @match		  *://kissmanga.com/*
+// @match			*://kissmanga.com/*
 // @include		http*://invisiblebread.com/*
 // @include		http*://www.vickifox.com/*
 // @include		http*://vickifox.com/*
@@ -509,8 +508,8 @@ var defaultSettings = {
 // @include		http*://www.schizmatic.com/*
 // @include		http*://schizmatic.com/*
 // @include		http*://www.bringbackroomies.com/*
-// @match		  *://*.blindsprings.com/*
-// @match		  *://*.forgottenordercomic.com/*
+// @match			*://*.blindsprings.com/*
+// @match			*://*.forgottenordercomic.com/*
 // @include		http*://www.wtfcomics.com/*archive.html?*
 // @include		http*://wtfcomics.com/*archive.html?*
 // @include		http*://www.olympusoverdrive.com/index.php?*
@@ -548,9 +547,9 @@ var defaultSettings = {
 // @include		http*://project-apollo.net/mos/*
 // @include		http*://afterstrife.com/?p*
 // @include		http*://danbooru.donmai.us/*
-// @match		  *://www.mngdoom.com/*/*
-// @match		  *://kimchicuddles.com/post/*
-// @match		  *://marktrail.com/*
+// @match			*://www.mngdoom.com/*/*
+// @match			*://kimchicuddles.com/post/*
+// @match			*://marktrail.com/*
 // @include		http*://www.atomic-robo.com/*
 // @include		http*://www.furaffinity.net/view/*
 // @include		http*://www.furaffinity.net/full/*
@@ -570,9 +569,9 @@ var defaultSettings = {
 // @include		http*://www.dhscomix.com/scomics*
 // @include		http*://www.dhscomix.com/tcomics*
 // @include		http*://www.dhscomix.com/wcomics*
-// @include     http*://*.kemono.cafe/*
-// @include     http*://www.yoshsaga.com/*
-// @include     http*://www.artificialincident.com/*
+// @include		http*://*.kemono.cafe/*
+// @include		http*://www.yoshsaga.com/*
+// @include		http*://www.artificialincident.com/*
 
 // ==/UserScript==
 
@@ -715,10 +714,10 @@ var paginas = [
 				}],
 		bgcol:	'#fff'
 	},
-	{	url:	'*.dilbert.com',
+	{	url:	'dilbert.com',
 		img:	[['.img-comic']],
-		back:	'@alt="Older Strip"',
-		next:	'@alt="Newer Strip"'
+		back:	'@title="Older Strip"',
+		next:	'@title="Next Strip"'
 	},
 	{	url:	'explosm.net/comics',
 		img:	[['#main-comic']],
@@ -1071,8 +1070,8 @@ var paginas = [
 				}
 	},
 	{	url:	'threepanelsoul.com',
-        img:    [['#cc-comic']],
-        next:   '@rel="next"',
+		img:	[['#cc-comic']],
+		next:	'@rel="next"',
 		back:	'@rel="prev"',
 	},
 	{	url:	'oglaf.com',
@@ -1106,10 +1105,12 @@ var paginas = [
 		bgcol:	'#ccc',
 	},
 	{	url:	'kevinandkell.com',
-		back:	'..[@id="prevstrip"]',
-		next:	'..[@id="nextstrip"]',
+		first:	'@title="First Strip"',
+		last:	'@href="/"',
+		back:	'@title="Previous Strip"',
+		next:	'@title="Next Strip"',
 		extra:	[['//div[@id="caption"]/span']],
-        style:  '.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px;}'
+		style:	'.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px;}'
 	},
 	{	url:	'mycardboardlife.com',
 		img:	'http://mycardboardlife.com/comics/',
@@ -1678,8 +1679,8 @@ var paginas = [
 	},
 	{	url:	'cheer.sailorsun.org',
 		img:	[['#comic img']],
-		back:   [[['.comic-nav-previous']]],
-		next:   [[['.comic-nav-next']]]
+		back:	[[['.comic-nav-previous']]],
+		next:	[[['.comic-nav-next']]]
 	},
 	{	url:	'drunkduck.com',
 		img:	[['#comic img']],
@@ -1707,8 +1708,8 @@ var paginas = [
 		extra:	[[['img[src^="comix/"]', '<br/>', 1]]]
 	},
 	{	url:	'thewotch.com',
-		back:   [[['.comic-nav-previous']]],
-		next:   [[['.comic-nav-next']]],
+		back:	[[['.comic-nav-previous']]],
+		next:	[[['.comic-nav-next']]],
 		extra:	[[['.comments']]],
 		style:	'#wcr_imagen{max-height:100% !important;max-width:90vw !important;width:auto !important;height:auto !important;}'
 	},
@@ -1953,9 +1954,9 @@ var paginas = [
 		extra:	[[['#blurb']]]
 	},
 	{	url:	'grrlpowercomic.com',
-        img:	[['#comic img']],
+		img:	[['#comic img']],
 		extra:	[[['.post-content']],'<br>',[['#comment-wrapper']]],
-        style:  '#content{display:none}.post-content,#comment-wrapper{width: 766px;margin: auto;}'
+		style:	'#content{display:none}.post-content,#comment-wrapper{width: 766px;margin: auto;}'
 	},
 	{	url:	'the-whiteboard.com',
 		img:	[['center>img']]
@@ -2174,10 +2175,10 @@ var paginas = [
 		js:	function(dir){
 				var disqusJs = selCss('.cc-commentbody>script').innerHTML;
 				DISQUS && DISQUS.reset({
-			  		reload: true,
-			  		config: function () {
-			  			this.page.identifier = disqusJs.match(/identifier = '(.*)'/)[1];
-			  			this.page.url = disqusJs.match(/url = '(.*)'/)[1];
+						reload: true,
+						config: function () {
+							this.page.identifier = disqusJs.match(/identifier = '(.*)'/)[1];
+							this.page.url = disqusJs.match(/url = '(.*)'/)[1];
 					}
 				});
 			},
@@ -2271,7 +2272,7 @@ var paginas = [
 	{	url:	'feywinds.com/comic',
 		img:	'../comic/pages'
 	},
-	{   url:	'omgbeaupeep.com',
+	{	url:	'omgbeaupeep.com',
 		img:	[['#omv .picture']],
 		back: function(html, pos) {
 			try {
@@ -2298,31 +2299,31 @@ var paginas = [
 		next:	'text()="next >"',
 		first:	'text()="|<"',
 	},
-    //Needed Two Seperate EGS entries to handle the www and non-www URLs
-    //--[
+	//Needed Two Seperate EGS entries to handle the www and non-www URLs
+	//--[
 	{
 		url:	'http://www.egscomics.com',
 		img:	[['#cc-comic']],
-		back:   [['.cc-prev']],
-		next:   [['.cc-next']],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
 		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>'],
 		fixurl:	function(url, img, link){
-        if(link) return url.replace('http://egscomics', 'http://www.egscomics');
+		if(link) return url.replace('http://egscomics', 'http://www.egscomics');
 		return url;
 		}
 	},
-    {
+	{
 		url:	'http://egscomics.com',
 		img:	[['#cc-comic']],
-		back:   [['.cc-prev']],
-		next:   [['.cc-next']],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
 		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>']
 	},
-    //]--
+	//]--
 	{
 		url:	'http://mspfanventures.com/',
 		img:	[['article img']],
@@ -2387,12 +2388,12 @@ var paginas = [
 				var page = Number(match(link[pos], /#(\d+)$/, 1, 1));
 				var pages = JSON.parse(html.match(/var pages = ([^;]*);/)[1]);
 				if (++page < pages.length) {
-				  return link[pos].replace(/(#?#.*)?$/,"##"+page);
+					return link[pos].replace(/(#?#.*)?$/,"##"+page);
 				}
 
 				var url = selCss("#next_link", html).href;
 				if (url.match(/#$/)) {
-				  throw new Error("Last page");
+					throw new Error("Last page");
 				}
 				return url;
 			},
@@ -2421,7 +2422,7 @@ var paginas = [
 					if (!extraData.imgs[page]) {
 						extraData.imgs[page] = selCss(".post-preview", html, true);
 					}
-					//var imgs =  xpath('//*[@class="post-preview"]/@data-file-url', html, true);
+					//var imgs =	xpath('//*[@class="post-preview"]/@data-file-url', html, true);
 
 					link[pos] = link[pos].replace(/##last/,"##"+extraData.imgs[page].length);
 					var index = parseInt(match(link[pos],/##(\d+)/,1, 1));
@@ -2467,8 +2468,8 @@ var paginas = [
 				var pageCh = link[pos].match(/(\d+)\/(\d+)$/);
 				var chapter, page;
 				if (pageCh) {
-				  chapter = pageCh[1];
-				  page = pageCh[2];
+					chapter = pageCh[1];
+					page = pageCh[2];
 				}
 				var images = JSON.parse(html.match(/var images = ([^;]*)/)[1]).map(x=>x.url);
 				
@@ -2495,17 +2496,17 @@ var paginas = [
 				var pageCh = link[pos].match(/(\d+)\/(\d+)$/);
 				var chapter, page;
 				if (pageCh) {
-				  chapter = +pageCh[1];
-				  page = +pageCh[2];
+					chapter = +pageCh[1];
+					page = +pageCh[2];
 				}
 				var images =JSON.parse(html.match(/var images = ([^;]*)/)[1]).map(x=>x.url);
 				
 				var next_ch =html.match(/var next_chapter_url = '([^']*)'/);
 				
 				if (page >= images.length-1) {
-				  return next_ch[1];
+					return next_ch[1];
 				} else {
-				  return link[pos].replace(/(\d+)\/(\d+)$/, chapter + "/" + (page+1));
+					return link[pos].replace(/(\d+)\/(\d+)$/, chapter + "/" + (page+1));
 				}
 				},
 	},
@@ -2523,8 +2524,8 @@ var paginas = [
 	},
 	{	url:	'atomic-robo.com',
 		img:	[['#cc-comic']],
-		back:   [['.cc-prev']],
-		next:   [['.cc-next']],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
 		style:	'#wcr_imagen{height:auto !important;width:auto !important;}'
@@ -2534,16 +2535,16 @@ var paginas = [
 		back:	['//span[@class="parsed_nav_links"]//a[contains(.,"PREV")]'],
 		next:	['//span[@class="parsed_nav_links"]//a[contains(.,"NEXT")]'],
 		first:	['//span[@class="parsed_nav_links"]//a[contains(.,"FIRST")]'],
-		extra:  [['//table[@class="maintable"]//tbody//tr//table[@class="maintable"]']]
+		extra:	[['//table[@class="maintable"]//tbody//tr//table[@class="maintable"]']]
 	},
 	{	url:	'dhscomix.com/comics', //Random Encounters
 		img:	['//div[@id="content"]//img'],
-        extra:	[['//div[@id="content"]']],
+		extra:	[['//div[@id="content"]']],
 		back:	'img[contains(@src, "nav_prevpage")]',
 		next:	'img[contains(@src, "nav_nextpage")]',
-        //Work around for multiple comic images on a page
-        style:  '#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
-        js:	function(dir){ //Copied from Webtoon's entry. Thanks to who ever did that
+		//Work around for multiple comic images on a page
+		style:	'#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
+		js:	function(dir){ //Copied from Webtoon's entry. Thanks to who ever did that
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('#wcr_extra');
 				setEvt(elemImagen, 'click', imgClick);
@@ -2552,55 +2553,56 @@ var paginas = [
 	},
 	{	url:	'dhscomix.com/bcomics|dhscomix.com/dcomics|dhscomix.com/decomics|dhscomix.com/dfcomics|dhscomix.com/dhscomics|dhscomix.com/fcomics|dhscomix.com/jcomics|dhscomix.com/kcomics|dhscomix.com/lcomics|dhscomix.com/mercomics|dhscomix.com/ocomics|dhscomix.com/pcomics|dhscomix.com/scomics|dhscomix.com/tcomics|dhscomix.com/wcomics', //All the other DHS Comix Comics
 		img:	['//div[@id="content"]//img'],
-        extra:	[['//div[@id="content"]']],
+		extra:	[['//div[@id="content"]']],
 		back:	'img[contains(@src, "previous")]',
 		next:	'img[contains(@src, "next")]',
-        //Work around for multiple comic images on a page
-        style:  '#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
-        js:	function(dir){ //Copied from whoever did Webtoon's entry
+		//Work around for multiple comic images on a page
+		style:	'#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
+		js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('#wcr_extra');
 				setEvt(elemImagen, 'click', imgClick);
 				setEvt(elemImagen, 'mousemove', imgCursor);
 				},
 	},
-    {   url:    'dominic-deegan.com',
-        img:	['//div[@class="post-thumbnail"]//img']
-        
-    },
-    {   url:    'cad-comic.com',
-        img:	['//div[@class="comicpage"]//img[contains(@src, "wp-content/uploads")]'],
-        back:   '@rel="prev"',
-        next:   '@rel="next"'
-        
-    },
-    {   url:    'curtailedcomic.com',
-        img:	['//div[@id="comic"]//a//img'],
-        back:   '@class="navi comic-nav-previous navi-prev"',
-        next:   '@class="navi comic-nav-next navi-next"',
-        extra:  [['//div[@class="entry-content"]']],
-        style:  '.creator-comment{background:white}'
-        
-    },
-    {   url:    'homestuck.com/story',
-        img:	['//img[contains(@src, "/storyfiles/")]'],
-        next:   ['//div[contains(@class, "o_story-nav")]//div//a'],
-        extra:  ['<br>',['//p[contains(@class, "o-story_text")]'],['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]']],
-        style:  '.disp-n{display: inherit !important;}.o_chat-log-btn{display:none;}.o_chat-container,.o-story_text{background: #EFEFEF}.o_story-nav{background:#efefef;border: 1px dashed gray;margin-right: 25px;margin-left: 25px;padding-top: 25px;padding-bottom:25px;}.pad-t-lg{display:none}',
-        js:	function(dir){ //Copied from whoever did Webtoon's entry
+	{	url:	'dominic-deegan.com',
+		img:	['//div[@class="post-thumbnail"]//img'],
+		style:	'body{background-color:inherit !important;}'
+		
+	},
+	{	url:	'cad-comic.com',
+		img:	['//div[@class="comicpage"]//img[contains(@src, "wp-content/uploads")]'],
+		back:	'@rel="prev"',
+		next:	'@rel="next"'
+		
+	},
+	{	url:	'curtailedcomic.com',
+		img:	['//div[@id="comic"]//a//img'],
+		back:	'@class="navi comic-nav-previous navi-prev"',
+		next:	'@class="navi comic-nav-next navi-next"',
+		extra:	[['//div[@class="entry-content"]']],
+		style:	'.creator-comment{background:white}'
+		
+	},
+	{	url:	'homestuck.com/story',
+		img:	['//img[contains(@src, "/storyfiles/")]'],
+		next:	['//div[contains(@class, "o_story-nav")]//div//a'],
+		extra:	['<br>',['//p[contains(@class, "o-story_text")]'],['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]']],
+		style:	'.disp-n{display: inherit !important;}.o_chat-log-btn{display:none;}.o_chat-container,.o-story_text{background: #EFEFEF}.o_story-nav{background:#efefef;border: 1px dashed gray;margin-right: 25px;margin-left: 25px;padding-top: 25px;padding-bottom:25px;}.pad-t-lg{display:none}',
+		js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('.o_story-nav');
 				setEvt(elemImagen, 'click', imgClick);
 				setEvt(elemImagen, 'mousemove', imgCursor);
 				},
-    },
-    {   url:    'yoshsaga.com|artificialincident.com',
-        img:	['//div[@class="webcomic-image"]//a//img']        
-    },
-	{	url:	'vickifox.com',
+	},
+	{	url:	'yoshsaga.com|artificialincident.com',
+		img:	['//div[@class="webcomic-image"]//a//img']		
+	},
+	{	url:	'vickifox.com/comic',
 		img:	['//img[contains(@src, "/pics/comic/")]'],
-        //Modified from kingfeatures.com's entry
-        back:	function(html, pos){
+		//Modified from kingfeatures.com's entry
+		back:	function(html, pos){
 					var date = xpath('//button[@id="btnPrev"]/@value', html);
 					return 'strip?id='+date;
 				},
@@ -2609,11 +2611,11 @@ var paginas = [
 					return 'strip?id='+date;
 				},
 	},
-    //WIP - Applegeeks is being a pain to setup
-    {   url:    'applegeeks.com/comics',
-        img:	['//div[@id="castheader"]//img'],
-        next:   ['//div[@id="sidebar"]//div[@class="sidenotes"]//p//a']
-    }
+	//WIP - Applegeeks is being a pain to setup
+	{	url:	'applegeeks.com/comics',
+		img:	['//div[@id="castheader"]//img'],
+		next:	['//div[@id="sidebar"]//div[@class="sidenotes"]//p//a']
+	}
 	// End of sites
 	/*
 	,
@@ -2681,7 +2683,8 @@ prefetcheado[-1] = prefetcheado[1] = 0;
 
 var layoutDefault =
 	'<div id="wcr_div" style="text-align:center">'+
-		'<style id="wcr_style" type="text/css">#wcr_div button{float:none;}</style>'+
+		//Default styling for the buttons
+		'<style id="wcr_style" type="text/css">#wcr_div button{font-weight: 100;letter-spacing: 0;text-transform: none;line-height: 20px;font-size: 16px;padding: 0px 8px 0px 8px;float:none;text-align: center;color: #222;background-color: #ccc;border: 2px solid rgba(22,22,22,0.3);font-family: "Lucida Grande", sans-serif !important;}#wcr_pages{font-size: 14px;padding: 0px 8px 0px 8px;background: #222;color: #ccc;font-family: "Lucida Grande", sans-serif !important;}#wcr_pages optgroup{background-color: #030;}#wcr_pages option{background-color: #222;}</style>'+
 		'<img id="wcr_imagen"/><br/>' +
 		'<div id="wcr_title"></div>' +
 		'<div id="wcr_extra"></div>' +
@@ -2707,7 +2710,7 @@ var layoutDefault =
 				'<button id="wcr_btnlayout">Use Original Layout</button> '+
 				'<button id="wcr_btnslide">Start Slideshow</button> '+
 				'<button id="wcr_btnsettings">Settings</button> '+
-                '<button id="wcr_btnfullscreen">Enable Fullscreen</button>'+
+				'<button id="wcr_btnfullscreen">Enable Fullscreen</button>'+
 			'</div>'+
 		'</div>'+
 		'<div id="wcr_imagenes" style="display:none"></div>'+
@@ -2832,7 +2835,7 @@ var bordey = confVal('bordey', defaultSettings.borderUD); //borde arriba y abajo
 var scrollRate = parseInt(confVal('scroll_rate', 50)); //borde a los lados de la imagen
 var dimScreen = confVal('dim', '0');
 
-var colOK   = 'rgb(204, 238, 204)'; //verde
+var colOK	= 'rgb(204, 238, 204)'; //verde
 var colWait = 'rgb(238, 238, 238)'; //plomo
 var colLoad = 'rgb(238, 238, 204)'; //amarillo
 var colFail = 'rgb(238, 204, 204)'; //rojo
@@ -3092,7 +3095,7 @@ function iniciar(){
 		setEvt('wcr_btnlayout', 'click', toggleConfKeepLayout);
 		setEvt('wcr_btnslide', 'click', slideshow);
 		setEvt('wcr_btnsettings', 'click', mostrarSettings);
-        setEvt('wcr_btnfullscreen', 'click', toggleFullscreen);
+		setEvt('wcr_btnfullscreen', 'click', toggleFullscreen);
 		//setEvt(window, 'touchstart', touchstart);
 		//setEvt(window, 'touchend', touchend);
 
@@ -3885,11 +3888,11 @@ function debugInfo(){
 
 	for(min=posActual; link[min-1]!==undefined; min--) continue;
 	s+= mostrarLinks(min, min+3);
-	if(min+4 < posActual-3) s+= '...\n' +  mostrarLinks(posActual-3, posActual+3);
+	if(min+4 < posActual-3) s+= '...\n' +	mostrarLinks(posActual-3, posActual+3);
 	else s+= mostrarLinks(min+4, posActual+3);
 
 	for(max=posActual; link[max+1]!==undefined; max++) continue;
-	if(posActual+4 < max-3) s+= '...\n' +  mostrarLinks(max-3, max);
+	if(posActual+4 < max-3) s+= '...\n' +	mostrarLinks(max-3, max);
 	else s+= mostrarLinks(posActual+4, max);
 
 	alert(s);
@@ -4291,7 +4294,7 @@ function confCursor(conf, elem, defval){
 //convierte un cursor custom (url o base64) al formato url
 function cursorUrl(val){
 	if(!val) return 'auto';
-	if(val.match(/[^a-z0-9+\/=]/i)) return  "url("+val+") 16 16, auto";
+	if(val.match(/[^a-z0-9+\/=]/i)) return	"url("+val+") 16 16, auto";
 	return "url('data:image/cursor;base64,"+val+"') 16 16, auto";
 }
 
@@ -4339,31 +4342,33 @@ function toggleConfFit(){
 
 //Toggle Fullscreen
 function toggleFullscreen(){ 
-    if (fullScreened == false){
-        if (docelem.requestFullscreen) {
-            docelem.requestFullscreen();
-        } else if (docelem.mozRequestFullScreen) { /* Firefox */
-            docelem.mozRequestFullScreen();
-        } else if (docelem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-            docelem.webkitRequestFullscreen();
-        } else if (docelem.msRequestFullscreen) { /* IE/Edge */
-            docelem.msRequestFullscreen();
-        }
-        fullScreened = true;
-        document.getElementById('wcr_btnfullscreen').innerText = 'Disable Fullscreen';
-    } else if (fullScreened == true){
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) { /* Firefox */
-            document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { /* IE/Edge */
-            document.msExitFullscreen();
-        }
-        fullScreened = false;
-        document.getElementById('wcr_btnfullscreen').innerText = 'Enable Fullscreen';
-    }
+	if (fullScreened == false){
+		//Toggle on
+		if (docelem.requestFullscreen) {
+			docelem.requestFullscreen();
+		} else if (docelem.mozRequestFullScreen) { /* Firefox */
+			docelem.mozRequestFullScreen();
+		} else if (docelem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+			docelem.webkitRequestFullscreen();
+		} else if (docelem.msRequestFullscreen) { /* IE/Edge */
+			docelem.msRequestFullscreen();
+		}
+		fullScreened = true;
+		document.getElementById('wcr_btnfullscreen').innerText = 'Disable Fullscreen';
+	} else if (fullScreened == true){
+		// Toggle Off
+		if (document.exitFullscreen) {
+			document.exitFullscreen();
+		} else if (document.mozCancelFullScreen) { /* Firefox */
+			document.mozCancelFullScreen();
+		} else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+			document.webkitExitFullscreen();
+		} else if (document.msExitFullscreen) { /* IE/Edge */
+			document.msExitFullscreen();
+		}
+		fullScreened = false;
+		document.getElementById('wcr_btnfullscreen').innerText = 'Enable Fullscreen';
+	}
 }
 
 //alterna una conf booleana para esta pag
@@ -4767,7 +4772,7 @@ function mostrarSettings(){
 
 		var arrcursores = ['default', 'none', 'context-menu', 'help', 'pointer', 'progress', 'wait', 'cell', 'crosshair', 'text', 'vertical-text', 'alias', 'copy', 'move', 'no-drop', 'not-allowed', 'all-scroll', 'col-resize', 'row-resize', 'n-resize', 'e-resize', 's-resize', 'w-resize', 'ne-resize', 'nw-resize', 'se-resize', 'sw-resize', 'ew-resize', 'ns-resize', 'nesw-resize', 'nwse-resize'];
 		if(isFirefox()) arrcursores.push('-moz-grab', '-moz-grabbing', '-moz-zoom-in', '-moz-zoom-out');
-		if(isWebKit())  arrcursores.push('-webkit-grab', '-webkit-grabbing', '-webkit-zoom-in', '-webkit-zoom-out');
+		if(isWebKit())	arrcursores.push('-webkit-grab', '-webkit-grabbing', '-webkit-zoom-in', '-webkit-zoom-out');
 		var cursores = {
 			'1': 'Left green arrow',
 			'2': 'Right green arrow',
@@ -5861,7 +5866,7 @@ function printarPaginaCustom(custom){
 	}
 
 	function pretty(y) {
-		if (y.tipo == "str") return  changeQuote(JSON.stringify(y.valor));
+		if (y.tipo == "str") return	changeQuote(JSON.stringify(y.valor));
 		if (typeof(y) == "string") return changeQuote(JSON.stringify(y));
 		else if (y.tipo == "fn") return indent(y.valor,4);
 		else if (y.tipo == "xp" || y.tipo == "css" || y.tipo == "bool") return JSON.stringify(y.valor).replace(/"(?:[^"\\]|\\.)*"/g, changeQuote);
