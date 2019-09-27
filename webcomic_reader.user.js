@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		   Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.09.12
+// @version		2019.09.26
 // @license		MIT
 // @namespace	  http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -470,6 +470,7 @@ var defaultSettings = {
 // @match		  *://kissmanga.com/*
 // @include		http*://invisiblebread.com/*
 // @include		http*://www.vickifox.com/*
+// @include		http*://vickifox.com/*
 // @include		http*://www.spinnyverse.com/*
 // @include		http*://zenpencils.com/*
 // @include		http*://webcomics.yaoi911.com/*
@@ -570,6 +571,8 @@ var defaultSettings = {
 // @include		http*://www.dhscomix.com/tcomics*
 // @include		http*://www.dhscomix.com/wcomics*
 // @include     http*://*.kemono.cafe/*
+// @include     http*://www.yoshsaga.com/*
+// @include     http*://www.artificialincident.com/*
 
 // ==/UserScript==
 
@@ -1106,7 +1109,7 @@ var paginas = [
 		back:	'..[@id="prevstrip"]',
 		next:	'..[@id="nextstrip"]',
 		extra:	[['//div[@id="caption"]/span']],
-        style:  '.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px}'
+        style:  '.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px;}'
 	},
 	{	url:	'mycardboardlife.com',
 		img:	'http://mycardboardlife.com/comics/',
@@ -2052,9 +2055,6 @@ var paginas = [
 		scrollx:	'R',
 		layelem:	'//div[@id="divImage"]',
 	},
-	{	url:	'vickifox.com',
-		img:	[['.comic']]
-	},
 	{	url:	'spinnyverse.com',
 		back:	[['.nav-previous a']],
 		next:	[['.nav-next a']]
@@ -2593,9 +2593,22 @@ var paginas = [
 				setEvt(elemImagen, 'click', imgClick);
 				setEvt(elemImagen, 'mousemove', imgCursor);
 				},
-        
-        
     },
+    {   url:    'yoshsaga.com|artificialincident.com',
+        img:	['//div[@class="webcomic-image"]//a//img']        
+    },
+	{	url:	'vickifox.com',
+		img:	['//img[contains(@src, "/pics/comic/")]'],
+        //Modified from kingfeatures.com's entry
+        back:	function(html, pos){
+					var date = xpath('//button[@id="btnPrev"]/@value', html);
+					return 'strip?id='+date;
+				},
+		next:	function(html, pos){
+					var date = xpath('//button[@id="btnNext"]/@value', html);
+					return 'strip?id='+date;
+				},
+	},
     //WIP - Applegeeks is being a pain to setup
     {   url:    'applegeeks.com/comics',
         img:	['//div[@id="castheader"]//img'],
