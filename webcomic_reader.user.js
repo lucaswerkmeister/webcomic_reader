@@ -2614,7 +2614,8 @@ var paginas = [
 	//WIP - Applegeeks is being a pain to setup
 	{	url:	'applegeeks.com/comics',
 		img:	['//div[@id="castheader"]//img'],
-		next:	['//div[@id="sidebar"]//div[@class="sidenotes"]//p//a']
+		next:	'//div[@class="sidenotes"]//p[1]//a/@href',
+        back:	'//div[@class="sidenotes"]//p[2]//a/@href',
 	}
 	// End of sites
 	/*
