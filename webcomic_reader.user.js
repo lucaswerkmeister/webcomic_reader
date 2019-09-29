@@ -1109,8 +1109,7 @@ var paginas = [
 		last:	'@href="/"',
 		back:	'@title="Previous Strip"',
         next:	'@title="Next Strip"',
-		extra:	[['//p[@id="comicstripCaption"]']],
-		style:	'.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px;}#comicstripCaption{background: #FFF; color: #222;display: inline-block; margin: auto;}'
+		style:	'.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px;}'
 	},
 	{	url:	'mycardboardlife.com',
 		img:	'http://mycardboardlife.com/comics/',
