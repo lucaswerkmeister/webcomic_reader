@@ -1108,9 +1108,9 @@ var paginas = [
 		first:	'@title="First Strip"',
 		last:	'@href="/"',
 		back:	'@title="Previous Strip"',
-		next:	'@title="Next Strip"',
-		extra:	[['//div[@id="caption"]/span']],
-		style:	'.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px;}'
+        next:	'@title="Next Strip"',
+		extra:	[['//p[@id="comicstripCaption"]']],
+		style:	'.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px;}#comicstripCaption{background: #FFF; color: #222;display: inline-block; margin: auto;}'
 	},
 	{	url:	'mycardboardlife.com',
 		img:	'http://mycardboardlife.com/comics/',
@@ -2532,10 +2532,10 @@ var paginas = [
 	},
 	{	url:	'furaffinity.net',
 		img:	[['#submissionImg']],
-		back:	['//span[@class="parsed_nav_links"]//a[contains(.,"PREV")]'],
-		next:	['//span[@class="parsed_nav_links"]//a[contains(.,"NEXT")]'],
-		first:	['//span[@class="parsed_nav_links"]//a[contains(.,"FIRST")]'],
-		extra:	[['//table[@class="maintable"]//tbody//tr//table[@class="maintable"]']]
+		back:	['(//span[@class="parsed_nav_links"]//a[contains(.,"PREV")]|//a[@class="auto_link named_url" and contains(.,"PREV")]|//a[@class="prev button-link"])[last()]'],
+		next:	['(//span[@class="parsed_nav_links"]//a[contains(.,"NEXT")]|//a[@class="auto_link named_url" and contains(.,"NEXT")]|//a[@class="next button-link"])[last()]'],
+		first:	['//span[@class="parsed_nav_links"]//a[contains(.,"FIRST")]|//a[@class="auto_link named_url" and contains(.,"FIRST")]'],
+		extra:	[['//div[@class="minigalleries"]'],'<br>',['//table[@class="maintable"]//tbody//tr//table[@class="maintable"]']]
 	},
 	{	url:	'dhscomix.com/comics', //Random Encounters
 		img:	['//div[@id="content"]//img'],
@@ -2614,8 +2614,8 @@ var paginas = [
 	//WIP - Applegeeks is being a pain to setup
 	{	url:	'applegeeks.com/comics',
 		img:	['//div[@id="castheader"]//img'],
-		next:	'//div[@class="sidenotes"]//p[1]//a/@href',
-        back:	'//div[@class="sidenotes"]//p[2]//a/@href',
+        back:	'..//div[@class="sidenotes"]/p[2]/a',
+        next:	'..//div[@class="sidenotes"]/p[1]/a'
 	}
 	// End of sites
 	/*
@@ -2685,7 +2685,7 @@ prefetcheado[-1] = prefetcheado[1] = 0;
 var layoutDefault =
 	'<div id="wcr_div" style="text-align:center">'+
 		//Default styling for the buttons
-		'<style id="wcr_style" type="text/css">#wcr_div button{font-weight: 100;letter-spacing: 0;text-transform: none;line-height: 20px;font-size: 16px;padding: 0px 8px 0px 8px;float:none;text-align: center;color: #222;background-color: #ccc;border: 2px solid rgba(22,22,22,0.3);font-family: "Lucida Grande", sans-serif !important;}#wcr_pages{font-size: 14px;padding: 0px 8px 0px 8px;background: #222;color: #ccc;font-family: "Lucida Grande", sans-serif !important;}#wcr_pages optgroup{background-color: #030;}#wcr_pages option{background-color: #222;}</style>'+
+		'<style id="wcr_style" type="text/css">#wcr_div button,button[id^="wcr_set_btn"],button[id^="wcr_btn"]{font-weight: 100;letter-spacing: 0;text-transform: none;line-height: 20px;font-size: 16px;padding: 0px 8px 0px 8px;float:none;text-align: center;color: #222;background-color: #ccc;border: 2px solid rgba(22,22,22,0.3);font-family: "Lucida Grande", sans-serif !important;}#wcr_pages{font-size: 14px;padding: 0px 8px 0px 8px;background: #222;color: #ccc;font-family: "Lucida Grande", sans-serif !important;}#wcr_pages optgroup{background-color: #030;}#wcr_pages option{background-color: #222;}</style>'+
 		'<img id="wcr_imagen"/><br/>' +
 		'<div id="wcr_title"></div>' +
 		'<div id="wcr_extra"></div>' +
@@ -4990,7 +4990,7 @@ function mostrarSettings(){
 		divsets.style.textAlign = 'center';
 		divsets.innerHTML =
 			'<div style="position:fixed; z-index:232322; background:#000; top:0; left:0; right:0; bottom:0; opacity:0.8;"></div>'+
-			'<div id="wcr_settings_popup" style="position:absolute; left:50%; z-index:232323; background-color:#fff; color:#000; padding: 20px;">'+
+			'<div id="wcr_settings_popup" style="position:absolute; left:50%; z-index:232323; background-color:#fff; color:#000; padding: 20px;max-width:900px">'+
 				'<div id="wcr_settings_links">'+
 					'<span class="wcr_general">General</span> | '+
 					'<span class="wcr_layout">Graphic settings</span> | '+
@@ -5961,7 +5961,7 @@ function mostrarSettingsZoom(){
 		divsets.style.textAlign = 'center';
 		divsets.innerHTML =
 			'<div style="position:fixed; z-index:232322; background:#000; top:0; left:0; right:0; bottom:0; opacity:0.8;"></div>'+
-			'<div id="wcr_settings_popup" style="position:absolute; left:50%; z-index:232323; background-color:#fff; color:#000; padding: 20px;">'+
+			'<div id="wcr_settings_popup" style="position:absolute; left:50%; z-index:232323; background-color:#fff; color:#000; padding: 20px;max-width: 900px;">'+
 				'<div>How do you want the images to be fitted?</div><hr/>'+
 				'<div id="wcr_settings_content" style="text-align:left">'+html+'</div><br/>'+
 				'These (and more) settings can be changed later by clicking the "Settings" button<hr/>'+
