@@ -2684,7 +2684,31 @@ prefetcheado[-1] = prefetcheado[1] = 0;
 var layoutDefault =
 	'<div id="wcr_div" style="text-align:center">'+
 		//Default styling for the buttons
-		'<style id="wcr_style" type="text/css">#wcr_div button,button[id^="wcr_set_btn"],button[id^="wcr_btn"]{font-weight: 100;letter-spacing: 0;text-transform: none;line-height: 20px;font-size: 16px;padding: 0px 8px 0px 8px;float:none;text-align: center;color: #222;background-color: #ccc;border: 2px solid rgba(22,22,22,0.3);font-family: "Lucida Grande", sans-serif !important;}#wcr_pages{font-size: 14px;padding: 0px 8px 0px 8px;background: #222;color: #ccc;font-family: "Lucida Grande", sans-serif !important;}#wcr_pages optgroup{background-color: #030;}#wcr_pages option{background-color: #222;}</style>'+
+		'<style id="wcr_style" type="text/css">'+
+        '#wcr_div button,button[id^="wcr_set_btn"],button[id^="wcr_btn"]{'+
+            'font-weight: 100;'+
+            'letter-spacing: 0;'+
+            'text-transform: none;'+
+            'line-height: 20px;'+
+            'font-size: 16px;'+
+            'padding: 0px 8px 0px 8px;'+
+            'float:none;'+
+            'text-align: center;'+
+            'color: #222;'+
+            'background-color: #ccc;'+
+            'border: 2px solid rgba(22,22,22,0.3);'+
+            'font-family: "Lucida Grande", sans-serif !important;}'+
+        '#wcr_pages{'+
+            'font-size: 14px;'+
+            'padding: 0px 8px 0px 8px;'+
+            'background: #222;'+
+            'color: #ccc;'+
+            'font-family: "Lucida Grande", sans-serif !important;}'+
+        '#wcr_pages optgroup{'+
+            'background-color: #030;}'+
+        '#wcr_pages option{'+
+            'background-color: #222;}'+
+        '</style>'+
 		'<img id="wcr_imagen"/><br/>' +
 		'<div id="wcr_title"></div>' +
 		'<div id="wcr_extra"></div>' +
@@ -5934,11 +5958,18 @@ function isFirefox(){
 
 //If Mobile Device
 function ifMobile(){
-    console.log ('test');
     
     //https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device/3540295#3540295
     
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    
+    var GM_CMD_Buttons = document.createElement('div');
+		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
+		GM_CMD_Buttons.style.textAlign = 'center';
+		GM_CMD_Buttons.innerHTML =
+			'<script>'+
+			'';
+		
     
     //Detect if GreaseMonkey
         //https://stackoverflow.com/questions/27487828/how-to-detect-if-a-userscript-is-installed-from-the-chrome-store/27494812#27494812
@@ -5947,16 +5978,37 @@ function ifMobile(){
 
         if (typeof GM_info === "undefined") {
             scriptEngine = "N/A";
+            
         } else {
+            
             scriptEngine = GM_info.scriptHandler  ||  "Greasemonkey";
+            
         }
         
         if (scriptEngine === "Greasemonkey"){
-            console.log ("Greasemonkey mode!");
+            GM_CMD_Buttons.innerHTML =
+			'<style id="wcr_style" type="text/css">'+
+                'button:nth-last-of-type(1){'+
+                'font-weight: 100;'+
+                'letter-spacing: 0;'+
+                'text-transform: none;'+
+                'line-height: 20px;'+
+                'font-size: 16px;'+
+                'padding: 0px 8px 0px 8px;'+
+                'float:none;'+
+                'text-align: center;'+
+                'color: #222;'+
+                'background-color: #ccc;'+
+                'border: 2px solid rgba(22,22,22,0.3);'+
+                'font-family: "Lucida Grande", sans-serif !important;}'+
+                'button:nth-last-of-type(2){'+
+                'display: none}'+
+            '</style>';
         } else if (scriptEngine === "Tampermonkey"){
-            console.log ("Tampermonkey mode!");
+            GM_CMD_Buttons.innerHTML =
+			'<button id="wcr_set_btn_disable">Disable script for this site</button>';
         }
-    
+        document.body.appendChild(GM_CMD_Buttons);
     }
 
 
