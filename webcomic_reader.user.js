@@ -5932,6 +5932,37 @@ function isFirefox(){
 	return navigator.userAgent.indexOf('Gecko/')>0;
 }
 
+//If Mobile Device
+function ifMobile(){
+    console.log ('test');
+    
+    //https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device/3540295#3540295
+    
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    
+    //Detect if GreaseMonkey
+        //https://stackoverflow.com/questions/27487828/how-to-detect-if-a-userscript-is-installed-from-the-chrome-store/27494812#27494812
+
+        var scriptEngine;
+
+        if (typeof GM_info === "undefined") {
+            scriptEngine = "N/A";
+        } else {
+            scriptEngine = GM_info.scriptHandler  ||  "Greasemonkey";
+        }
+        
+        if (scriptEngine === "Greasemonkey"){
+            console.log ("Greasemonkey mode!");
+        } else if (scriptEngine === "Tampermonkey"){
+            console.log ("Tampermonkey mode!");
+        }
+    
+    }
+
+
+}
+ifMobile();
+
 //pantalla de configuracion q sale cuando se habilita el zoom pero no esta configurado
 function mostrarSettingsZoom(){
 	try{
@@ -6020,7 +6051,6 @@ function mostrarSettingsZoom(){
 		if(get('wcr_settings')) document.body.removeChild(get('wcr_settings'));
 	}
 }
-
 run_script();
 })();
 
