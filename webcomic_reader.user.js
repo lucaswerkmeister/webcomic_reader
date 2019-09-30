@@ -6002,18 +6002,23 @@ function ifMobile(){
                 'border: 2px solid rgba(22,22,22,0.3);'+
                 'font-family: "Lucida Grande", sans-serif !important;}'+
                 'button:nth-last-of-type(2){'+
-                'display: none}'+
+                'display: none;}'+
             '</style>';
         } else if (scriptEngine === "Tampermonkey"){
             GM_CMD_Buttons.innerHTML =
-			'<button id="wcr_set_btn_disable">Disable script for this site</button>';
+			'<button id="wcr_set_btn_disable_2">Disable script for this site</button>';
+            setEvt('wcr_set_btn_disable_2', 'click', function(){
+			if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
+				'(It can be re-enabled later with the Greasemonkey menu)')){
+				setData('confpag', 'dis');
+				redirect(link[posActual]);
+			}
         }
         document.body.appendChild(GM_CMD_Buttons);
     }
 
 
 }
-ifMobile();
 
 //pantalla de configuracion q sale cuando se habilita el zoom pero no esta configurado
 function mostrarSettingsZoom(){
@@ -6104,6 +6109,7 @@ function mostrarSettingsZoom(){
 	}
 }
 run_script();
+ifMobile();
 })();
 
 /*
