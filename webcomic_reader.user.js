@@ -5966,9 +5966,6 @@ function ifMobile(){
     var GM_CMD_Buttons = document.createElement('div');
 		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
 		GM_CMD_Buttons.style.textAlign = 'center';
-		GM_CMD_Buttons.innerHTML =
-			'<script>'+
-			'';
 		
     
     //Detect if GreaseMonkey
@@ -6007,12 +6004,13 @@ function ifMobile(){
         } else if (scriptEngine === "Tampermonkey"){
             GM_CMD_Buttons.innerHTML =
 			'<button id="wcr_set_btn_disable_2">Disable script for this site</button>';
-            setEvt('wcr_set_btn_disable_2', 'click', function(){
-			if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
-				'(It can be re-enabled later with the Greasemonkey menu)')){
-				setData('confpag', 'dis');
-				redirect(link[posActual]);
-			}
+                setEvt('wcr_set_btn_disable_2', 'click', function(){
+                if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
+                    '(It can be re-enabled later with the Greasemonkey menu)')){
+                    setData('confpag', 'dis');
+                    redirect(link[posActual]);
+                }
+            });
         }
         document.body.appendChild(GM_CMD_Buttons);
     }
@@ -6108,8 +6106,8 @@ function mostrarSettingsZoom(){
 		if(get('wcr_settings')) document.body.removeChild(get('wcr_settings'));
 	}
 }
-ifMobile();
 run_script();
+ifMobile();
 })();
 
 /*
