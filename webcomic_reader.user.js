@@ -5998,8 +5998,6 @@ function ifMobile(){
                 'background-color: #ccc;'+
                 'border: 2px solid rgba(22,22,22,0.3);'+
                 'font-family: "Lucida Grande", sans-serif !important;}'+
-                'button:nth-last-of-type(2){'+
-                'display: none;}'+
             '</style>';
         } else if (scriptEngine === "Tampermonkey"){
             GM_CMD_Buttons.innerHTML =
