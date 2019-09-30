@@ -6000,8 +6000,10 @@ function ifMobile(){
                 'font-family: "Lucida Grande", sans-serif !important;}'+
             '</style>';
         } else if (scriptEngine === "Tampermonkey"){
-            GM_CMD_Buttons.innerHTML =
+        /* Work in Progress
+        GM_CMD_Buttons.innerHTML =
 			'<button id="wcr_set_btn_disable_2">Disable script for this site</button>';
+        */
         }
         document.body.appendChild(GM_CMD_Buttons);
     }
