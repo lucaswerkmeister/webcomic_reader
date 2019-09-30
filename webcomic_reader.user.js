@@ -6108,8 +6108,8 @@ function mostrarSettingsZoom(){
 		if(get('wcr_settings')) document.body.removeChild(get('wcr_settings'));
 	}
 }
-run_script();
 ifMobile();
+run_script();
 })();
 
 /*
