@@ -1863,7 +1863,7 @@ var paginas = [
 		bgcol:	'#490606'
 	},
 	{	url:	'freefall.purrsia.com',
-		img:	'/ff',
+		img:	['//img[@height>="200"]'],
 		back:	'contains(.,"Previous")',
 		next:	'contains(.,"Next")'
 	},
