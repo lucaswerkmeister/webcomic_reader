@@ -3113,6 +3113,7 @@ function iniciar(){
 		setEvt(elemImagen, 'load', function(){
 			fitImagen();
 			scrollear();
+            ifMobile();
 		});
 		setEvt('wcr_btnaddbm', 'click', addBookmark);
 		setEvt('wcr_btnfit', 'click', toggleConfFit);
@@ -5989,13 +5990,13 @@ function ifMobile(){
                 'font-weight: 100;'+
                 'letter-spacing: 0;'+
                 'text-transform: none;'+
-                'line-height: 20px;'+
-                'font-size: 16px;'+
+                'line-height: 20px !important;'+
+                'font-size: 16px !important;'+
                 'padding: 0px 8px 0px 8px;'+
                 'float:none;'+
                 'text-align: center;'+
                 'color: #222;'+
-                'background-color: #ccc;'+
+                'background-color: #ccc !important;'+
                 'border: 2px solid rgba(22,22,22,0.3);'+
                 'font-family: "Lucida Grande", sans-serif !important;}'+
                 'display: block;'+
@@ -6109,7 +6110,6 @@ function mostrarSettingsZoom(){
 	}
 }
 run_script();
-ifMobile();
 })();
 
 /*
