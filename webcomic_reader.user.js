@@ -6030,7 +6030,7 @@ function ifMobile(){
                 'color: #222;'+
                 'background-color: #ccc !important;'+
                 'border: 2px solid rgba(22,22,22,0.3);'+
-                'font-family: "Lucida Grande", sans-serif !important;'
+                'font-family: "Lucida Grande", sans-serif !important;'+
                 'display: block;'+
                 'margin: 20px auto auto auto;'+
                 'width: 50%;'+
