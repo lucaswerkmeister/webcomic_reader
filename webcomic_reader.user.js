@@ -6032,9 +6032,9 @@ function ifMobile(){
                 'border: 2px solid rgba(22,22,22,0.3);'+
                 'font-family: "Lucida Grande", sans-serif !important;}'+
                 'display: block;'+
-                'margin: auto;'+
-                'width: 100%;'+
-                'height: 32px;'+
+                'margin: 20px auto auto auto;'+
+                'width: 50%;'+
+                'height: 64px;'+
             '</style>';
         } else if (scriptEngine === "Tampermonkey"){
         /* Work in Progress
