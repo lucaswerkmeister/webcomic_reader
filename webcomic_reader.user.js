@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.10.05b
+// @version		2019.10.05c
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -6018,7 +6018,7 @@ function ifMobile(){
         if (scriptEngine === "Greasemonkey"){
             GM_CMD_Buttons.innerHTML =
 			'<style id="wcr_style" type="text/css">'+
-                'button:nth-last-of-type(1){'+
+                'body > button:nth-last-of-type(1){'+
                 'display: block;'+
                 'margin: 20px auto auto auto;'+
                 'width: 50%;'+
@@ -6027,7 +6027,7 @@ function ifMobile(){
                 'letter-spacing: 0;'+
                 'text-transform: none;'+
                 'line-height: 20px !important;'+
-                'font-size: 16px !important;'+
+                'font-size: 24px !important;'+
                 'padding: 0px 8px 0px 8px;'+
                 'float:none;'+
                 'text-align: center;'+
