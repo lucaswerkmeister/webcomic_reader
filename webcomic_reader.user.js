@@ -2586,8 +2586,40 @@ var paginas = [
 	{	url:	'homestuck.com/story',
 		img:	['//img[contains(@src, "/storyfiles/")]'],
 		next:	['//div[contains(@class, "o_story-nav")]//div//a'],
-		extra:	['<br>',['//p[contains(@class, "o-story_text")]'],['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]']],
-		style:	'.disp-n{display: inherit !important;}.o_chat-log-btn{display:none;}.o_chat-container,.o-story_text{background: #EFEFEF}.o_story-nav{background:#efefef;border: 1px dashed gray;margin-right: 25px;margin-left: 25px;padding-top: 25px;padding-bottom:25px;}.pad-t-lg{display:none}',
+		extra:	['<div id="wcr_HS_title">',['//h2[contains(@class, "type-hs-header")]'],'</div><br>',['//p[contains(@class, "o-story_text")]'],['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]']],
+		style:	'.disp-n{'+
+                'display: inherit !important;}'+
+                
+                '.o_chat-log-btn{'+
+                'display:none;}'+
+                
+                '#wcr_HS_title, .o_chat-container, .o-story_text, .o_story-nav{'+
+                'background: #EFEFEF;'+
+                'background:#efefef;'+
+                'border: 1px dashed gray;}'+
+                
+                '.o_story-nav{'+
+                'margin-right: 25px;'+
+                'margin-left: 25px;'+
+                'padding-top: 25px;'+
+                'padding-bottom:25px;}'+
+                
+                '.type-hs-header{'+
+                'font-size: 20px;'+
+                'white-space: nowrap;'+
+                'font-weight:bold;}'+
+                
+                '#wcr_HS_title{'+
+                'display: inline-block;'+
+                'margin-bottom: 16px;'+
+                'margin-top: 8px}'+
+                '.pad-t-md.pad-x-lg--md.type-center.type-hs-header.line-tight{'+
+                'padding: 0;}'+
+                
+                '#content_container > h2{display: none;height:0px;}'+
+                
+                '.pad-t-lg{'+
+                'display:none;}',
 		js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('.o_story-nav');
@@ -6001,6 +6033,8 @@ function ifMobile(){
                 'font-family: "Lucida Grande", sans-serif !important;}'+
                 'display: block;'+
                 'margin: auto;'+
+                'width: 100%;'+
+                'height: 32px;'+
             '</style>';
         } else if (scriptEngine === "Tampermonkey"){
         /* Work in Progress
