@@ -2441,6 +2441,7 @@ var paginas = [
 		img:	'http://www.girlgeniusonline.com/ggmain/strips/',
 		back:	[['#bottomprev']],
 		next:	[['#bottomnext']],
+        extra:  [['//img[contains(@src, "/strips/")][2]'],['//img[contains(@src, "/strips/")][3]'],['//img[contains(@src, "/strips/")][4]'],['//img[contains(@src, "/strips/")][5]'],['//img[contains(@src, "/strips/")][6]'],['//img[contains(@src, "/strips/")][7]'],['//img[contains(@src, "/strips/")][8]'],['//img[contains(@src, "/strips/")][9]'],['//img[contains(@src, "/strips/")][10]']],
 	},
 	{
 		url:	'http://incase.buttsmithy.com/comic/',
