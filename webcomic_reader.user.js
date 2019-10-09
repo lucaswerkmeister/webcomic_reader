@@ -535,6 +535,7 @@ var defaultSettings = {
 // @include		http*://mspfanventures.com/
 // @include		http*://www.mangatown.com/manga/*
 // @include		http*://www.legostargalactica.net/*
+// @include		http*://mangaseeonline.us/*
 // @include		http*://*.keenspot.com/*
 // @include		http*://dynasty-scans.com/*
 // @include		http*://*.dynasty-scans.com/*
@@ -2398,6 +2399,42 @@ var paginas = [
 			},
 		extra:	[[['.pages-list']]],
 		layelem:'//*[@id="image"]',
+	},
+	{
+		url:	'mangaseeonline.us/read-online',
+		img: 	[['img.CurImage']],
+		layout:	true,
+		back:	function(html, pos) {
+					var cS = selCss('.ChapterSelect', html);
+					var pS = selCss('.PageSelect', html);
+					var indexName = selCss('input.IndexName', html).getAttribute('value');
+					var chapter = cS.selectedIndex;
+					var page = pS.selectedIndex;
+					if (page < 1) {
+						chapter--;
+						var request = new XMLHttpRequest();
+						request.open('POST', 'request.chapter.php', false);
+						request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+						request.send('IndexName=' + indexName + '&ChapterValue=' + cS[chapter].value + '&MaxPage=yes');
+						if (request.responseText) { page = JSON.parse(request.responseText).CurPage;}
+					}
+					var newChapter = cS[chapter].innerHTML.split(' ');
+					return document.location.href.replace(/(chapter-).+?(-.+?)\d+(.html)/, "$1" + newChapter[1] + "$2" + page + "$3");
+				},
+		next:	function(html, pos) {
+					var cS = selCss('.ChapterSelect', html);
+					var pS = selCss('.PageSelect', html);
+					var chapter = cS.selectedIndex;
+					var page = pS.selectedIndex + 1;
+					if (page >= pS.length) { page = 0; chapter++; }
+					var newChapter = cS[chapter].innerHTML.split(' ');
+					return document.location.href.replace(/(chapter-).+?(-.+?)\d+(.html)/, "$1" + newChapter[1] + "$2" + (page + 1) + "$3");
+				},
+		js:		function(dir){
+					document.querySelector('.navbar').className = "navbar navbar-default";
+					var mWrapper = document.getElementsByClassName('mainWrapper');
+					if (mWrapper && mWrapper.length > 0) mWrapper[0].style.marginTop = '0px';
+				},
 	},
 	{
 		url:	'girlgeniusonline.com/comic.php',
