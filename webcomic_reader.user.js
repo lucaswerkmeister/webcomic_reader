@@ -2442,6 +2442,12 @@ var paginas = [
 		back:	[['#bottomprev']],
 		next:	[['#bottomnext']],
         extra:  [['//img[contains(@src, "/strips/")][2]'],['//img[contains(@src, "/strips/")][3]'],['//img[contains(@src, "/strips/")][4]'],['//img[contains(@src, "/strips/")][5]'],['//img[contains(@src, "/strips/")][6]'],['//img[contains(@src, "/strips/")][7]'],['//img[contains(@src, "/strips/")][8]'],['//img[contains(@src, "/strips/")][9]'],['//img[contains(@src, "/strips/")][10]']],
+		js:	function(dir){ //Copied from whoever did Webtoon's entry
+				// Makes it so anything within extra will be nav-clickable
+				var elemImagen = document.querySelectorAll('#wcr_extra');
+				setEvt(elemImagen, 'click', imgClick);
+				setEvt(elemImagen, 'mousemove', imgCursor);
+				},
 	},
 	{
 		url:	'http://incase.buttsmithy.com/comic/',
@@ -2686,7 +2692,13 @@ var paginas = [
 	{	url:	'bobandgeorge.com/archives',
         img:    ['//img[@id="comic_0"]|//img[contains(@src, "comics/")]'],
 		extra:  [['//img[@id="comic_1"]'],['//img[@id="comic_2"]'],['//img[@id="comic_3"]'],['//img[@id="comic_4"]'],['//img[@id="comic_5"]'],['//img[@id="comic_6"]'],['//img[@id="comic_7"]'],['//img[@id="comic_8"]'],['//img[@id="comic_9"]'],['//img[@id="comic_10"]'],'<br><br>',['//table[@class="table-bottom"]']],
-        style:  '#comic_0, #comic_1, #comic_2, #comic_3, #comic_4, #comic_5, #comic_6, #comic_7, #comic_8, #comic_9, #comic_10{display: inline !important; top:auto !important; left: auto !important; position: relative !important;}'
+        style:  '#comic_0, #comic_1, #comic_2, #comic_3, #comic_4, #comic_5, #comic_6, #comic_7, #comic_8, #comic_9, #comic_10{display: inline !important; top:auto !important; left: auto !important; position: relative !important;}',
+		js:	function(dir){ //Copied from whoever did Webtoon's entry
+				// Makes it so anything within extra will be nav-clickable
+				var elemImagen = document.querySelectorAll('#wcr_extra');
+				setEvt(elemImagen, 'click', imgClick);
+				setEvt(elemImagen, 'mousemove', imgCursor);
+				},
 	},
 	//WIP - Applegeeks is being a pain to setup
 	{	url:	'applegeeks.com/comics',
