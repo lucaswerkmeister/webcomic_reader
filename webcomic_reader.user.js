@@ -2586,9 +2586,12 @@ var paginas = [
 	{	url:	'homestuck.com/story',
 		img:	['//img[contains(@src, "/storyfiles/")]'],
 		next:	['//div[contains(@class, "o_story-nav")]//div//a'],
-		extra:	['<div id="wcr_HS_title">',['//h2[contains(@class, "type-hs-header")]'],'</div><br>',['//p[contains(@class, "o-story_text")]'],['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]']],
+		extra:	['<div id="wcr-hs-extra">',['//div[@class="pad-t-md"]'],'</div><br>','<div id="wcr_HS_title">',['//h2[contains(@class, "type-hs-header")]'],'</div><br>',['//p[contains(@class, "o-story_text")]'],['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]']],
 		style:	'.disp-n{'+
                 'display: inherit !important;}'+
+                
+                '#wcr_imagen{'+
+                'display: none;}'+
                 
                 '.o_chat-log-btn{'+
                 'display:none;}'+
@@ -2622,7 +2625,7 @@ var paginas = [
                 'display:none;}',
 		js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
-				var elemImagen = document.querySelectorAll('.o_story-nav');
+				var elemImagen = document.querySelectorAll('.o_story-nav, #wcr-hs-extra');
 				setEvt(elemImagen, 'click', imgClick);
 				setEvt(elemImagen, 'mousemove', imgCursor);
 				},
