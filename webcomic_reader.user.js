@@ -2682,6 +2682,11 @@ var paginas = [
 					return 'strip?id='+date;
 				},
 	},
+	{	url:	'bobandgeorge.com/archives',
+        img:    ['//img[@id="comic_0"]|//img[contains(@src, "comics/")]'],
+		extra:  [['//img[@id="comic_1"]'],['//img[@id="comic_2"]'],['//img[@id="comic_3"]'],['//img[@id="comic_4"]'],['//img[@id="comic_5"]'],['//img[@id="comic_6"]'],['//img[@id="comic_7"]'],['//img[@id="comic_8"]'],['//img[@id="comic_9"]'],['//img[@id="comic_10"]'],'<br><br>',['//table[@class="table-bottom"]']],
+        style:  '#comic_0, #comic_1, #comic_2, #comic_3, #comic_4, #comic_5, #comic_6, #comic_7, #comic_8, #comic_9, #comic_10{display: inline !important; top:auto !important; left: auto !important; position: relative !important;}'
+	},
 	//WIP - Applegeeks is being a pain to setup
 	{	url:	'applegeeks.com/comics',
 		img:	['//div[@id="castheader"]//img'],
