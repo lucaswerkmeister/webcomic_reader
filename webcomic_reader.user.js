@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.10.12b
+// @version		2019.10.12c
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -6054,6 +6054,14 @@ function ifMobile(){
     //https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device/3540295#3540295
     
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        
+    setEvt('wcr_set_btn_disable_mobile', 'click', function(){
+					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
+						'(It can be re-enabled later with this menu)')){
+						setData('confpag', 'dis');
+						redirect(link[posActual]);
+            }
+        });
     
     var GM_CMD_Buttons = document.createElement('div');
 		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
@@ -6097,7 +6105,26 @@ function ifMobile(){
             '</style>';
         } else if (scriptEngine === "Tampermonkey"){
         GM_CMD_Buttons.innerHTML =
-			'<button id="wcr_set_btn_disable_mobile">Disable script for this site</button>';
+			'<button id="wcr_set_btn_disable_mobile">Disable script for this site</button>'+
+            '<style id="wcr_style" type="text/css">'+
+                '#wcr_set_btn_disable_mobile{'+
+                'display: block;'+
+                'margin: 20px auto auto auto;'+
+                'width: 50%;'+
+                'height: 64px;'+
+                'font-weight: 100;'+
+                'letter-spacing: 0;'+
+                'text-transform: none;'+
+                'line-height: 20px !important;'+
+                'font-size: 24px !important;'+
+                'padding: 0px 8px 0px 8px;'+
+                'float:none;'+
+                'text-align: center;'+
+                'color: #222;'+
+                'background-color: #ccc !important;'+
+                'border: 2px solid rgba(22,22,22,0.3);'+
+                'font-family: "Lucida Grande", sans-serif !important;}'+
+            '</style>';
         }
         document.body.appendChild(GM_CMD_Buttons);
     }
@@ -6105,9 +6132,23 @@ function ifMobile(){
 
 }
 
-function ifMobileNDisabled(){ //Function specifically for when script is set internally to be disabled
+function ifMobileNDisabled(){
+    //Function specifically for when script is set internally to be disabled
+    //Not meant for additional code related to how the script runs
+    //This is for adding/stylizing buttons at the bottom of the page
+    //to enable the script if it is set to be disabled for the site
+    
+    //For adding functionality for mobile, check the previous function ifMobile();
     
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    
+    setEvt('wcr_set_btn_enable_mobile', 'click', function(){
+					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
+						'(It can be re-enabled later with this menu)')){
+						delData('confpag');
+						redirect(link[posActual]);
+            }
+        });
     
     var GM_CMD_Buttons = document.createElement('div');
 		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
@@ -6149,7 +6190,26 @@ function ifMobileNDisabled(){ //Function specifically for when script is set int
             '</style>';
         } else if (scriptEngine === "Tampermonkey"){
         GM_CMD_Buttons.innerHTML =
-			'<button id="wcr_set_btn_disable_mobile">Disable script for this site</button>';
+			'<button id="wcr_set_btn_enable_mobile">Enable script for this site</button>'+
+            '<style id="wcr_style" type="text/css">'+
+                '#wcr_set_btn_disable_mobile{'+
+                'display: block;'+
+                'margin: 20px auto auto auto;'+
+                'width: 50%;'+
+                'height: 64px;'+
+                'font-weight: 100;'+
+                'letter-spacing: 0;'+
+                'text-transform: none;'+
+                'line-height: 20px !important;'+
+                'font-size: 24px !important;'+
+                'padding: 0px 8px 0px 8px;'+
+                'float:none;'+
+                'text-align: center;'+
+                'color: #222;'+
+                'background-color: #ccc !important;'+
+                'border: 2px solid rgba(22,22,22,0.3);'+
+                'font-family: "Lucida Grande", sans-serif !important;}'+
+            '</style>';
         }
         document.body.appendChild(GM_CMD_Buttons);
     }
@@ -6239,13 +6299,6 @@ function mostrarSettingsZoom(){
 				redirect(link[posActual]);
 			}
 		});
-        setEvt('wcr_set_btn_disable_mobile', 'click', function(){
-					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
-						'(It can be re-enabled later with this menu)')){
-						setData('confpag', 'dis');
-						redirect(link[posActual]);
-            }
-        });
 	}
 	catch(e){
 		alert('Error while initializing the zoom settings window: ' + e);
