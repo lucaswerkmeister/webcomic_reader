@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.10.12d
+// @version		2019.10.12e
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -6121,7 +6121,7 @@ function ifMobile(){
         document.body.appendChild(GM_CMD_Buttons);
         setEvt('wcr_set_btn_disable_mobile', 'click', function(){
 					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
-						'(It can be re-enabled later with this menu)')){
+						'(It can be re-enabled later with this button)')){
 						setData('confpag', 'dis');
 						redirect(link[posActual]);
             }
@@ -6204,12 +6204,9 @@ function ifMobileNDisabled(){
         }
         document.body.appendChild(GM_CMD_Buttons);
         setEvt('wcr_set_btn_enable_mobile', 'click', function(){
-					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
-						'(It can be re-enabled later with this menu)')){
-						delData('confpag');
-						redirect(link[posActual]);
-            }
-        });
+				delData('confpag');
+				redirect(link[posActual]);
+			});
     }
 
 
