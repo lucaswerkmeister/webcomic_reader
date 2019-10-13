@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.10.12
+// @version		2019.10.12a
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -644,7 +644,6 @@ maximgs[1] = Math.max(23, prefetchSize[1]);
 maximgs[-1] = Math.max(23, prefetchSize[0]);
 
 var usarb64 = confBool('b64_images', false);
-ifMobile();
 
 /* paginas[i] = {
 		url:
@@ -3061,6 +3060,7 @@ function run_script(){
 				delData('confpag');
 				redirect(link[posActual]);
 			});
+        ifMobile();
 		}
 	}catch(e){ error('loadpag: ', e); }
 }
