@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.10.12a
+// @version		2019.10.12b
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -3060,7 +3060,7 @@ function run_script(){
 				delData('confpag');
 				redirect(link[posActual]);
 			});
-        ifMobile();
+            ifMobileNDisabled();
 		}
 	}catch(e){ error('loadpag: ', e); }
 }
@@ -3204,6 +3204,7 @@ function iniciar(){
 		setEvt(elemImagen, 'load', function(){
 			fitImagen();
 			scrollear();
+            ifMobile();
 		});
 		setEvt('wcr_btnaddbm', 'click', addBookmark);
 		setEvt('wcr_btnfit', 'click', toggleConfFit);
@@ -6095,10 +6096,60 @@ function ifMobile(){
                 'font-family: "Lucida Grande", sans-serif !important;}'+
             '</style>';
         } else if (scriptEngine === "Tampermonkey"){
-        /* Work in Progress
         GM_CMD_Buttons.innerHTML =
-			'<button id="wcr_set_btn_disable_2">Disable script for this site</button>';
-        */
+			'<button id="wcr_set_btn_disable_mobile">Disable script for this site</button>';
+        }
+        document.body.appendChild(GM_CMD_Buttons);
+    }
+
+
+}
+
+function ifMobileNDisabled(){ //Function specifically for when script is set internally to be disabled
+    
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    
+    var GM_CMD_Buttons = document.createElement('div');
+		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
+		GM_CMD_Buttons.style.textAlign = 'center';
+		
+   
+
+        var scriptEngine;
+
+        if (typeof GM_info === "undefined") {
+            scriptEngine = "N/A";
+            
+        } else {
+            
+            scriptEngine = GM_info.scriptHandler  ||  "Greasemonkey";
+            
+        }
+        
+        if (scriptEngine === "Greasemonkey"){
+            GM_CMD_Buttons.innerHTML =
+			'<style id="wcr_style" type="text/css">'+
+                'body > button:nth-last-of-type(1){'+
+                'display: block;'+
+                'margin: 20px auto auto auto;'+
+                'width: 50%;'+
+                'height: 64px;'+
+                'font-weight: 100;'+
+                'letter-spacing: 0;'+
+                'text-transform: none;'+
+                'line-height: 20px !important;'+
+                'font-size: 24px !important;'+
+                'padding: 0px 8px 0px 8px;'+
+                'float:none;'+
+                'text-align: center;'+
+                'color: #222;'+
+                'background-color: #ccc !important;'+
+                'border: 2px solid rgba(22,22,22,0.3);'+
+                'font-family: "Lucida Grande", sans-serif !important;}'+
+            '</style>';
+        } else if (scriptEngine === "Tampermonkey"){
+        GM_CMD_Buttons.innerHTML =
+			'<button id="wcr_set_btn_disable_mobile">Disable script for this site</button>';
         }
         document.body.appendChild(GM_CMD_Buttons);
     }
@@ -6188,11 +6239,11 @@ function mostrarSettingsZoom(){
 				redirect(link[posActual]);
 			}
 		});
-        setEvt('wcr_set_btn_disable_2', 'click', function(){
-            if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
-                '(It can be re-enabled later with the Greasemonkey menu)')){
-                setData('confpag', 'dis');
-                redirect(link[posActual]);
+        setEvt('wcr_set_btn_disable_mobile', 'click', function(){
+					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
+						'(It can be re-enabled later with this menu)')){
+						setData('confpag', 'dis');
+						redirect(link[posActual]);
             }
         });
 	}
