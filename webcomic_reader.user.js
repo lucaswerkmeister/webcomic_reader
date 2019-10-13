@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.10.12c
+// @version		2019.10.12d
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -6054,14 +6054,6 @@ function ifMobile(){
     //https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device/3540295#3540295
     
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-        
-    setEvt('wcr_set_btn_disable_mobile', 'click', function(){
-					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
-						'(It can be re-enabled later with this menu)')){
-						setData('confpag', 'dis');
-						redirect(link[posActual]);
-            }
-        });
     
     var GM_CMD_Buttons = document.createElement('div');
 		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
@@ -6127,6 +6119,13 @@ function ifMobile(){
             '</style>';
         }
         document.body.appendChild(GM_CMD_Buttons);
+        setEvt('wcr_set_btn_disable_mobile', 'click', function(){
+					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
+						'(It can be re-enabled later with this menu)')){
+						setData('confpag', 'dis');
+						redirect(link[posActual]);
+            }
+        });
     }
 
 
@@ -6141,14 +6140,6 @@ function ifMobileNDisabled(){
     //For adding functionality for mobile, check the previous function ifMobile();
     
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-    
-    setEvt('wcr_set_btn_enable_mobile', 'click', function(){
-					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
-						'(It can be re-enabled later with this menu)')){
-						delData('confpag');
-						redirect(link[posActual]);
-            }
-        });
     
     var GM_CMD_Buttons = document.createElement('div');
 		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
@@ -6192,7 +6183,7 @@ function ifMobileNDisabled(){
         GM_CMD_Buttons.innerHTML =
 			'<button id="wcr_set_btn_enable_mobile">Enable script for this site</button>'+
             '<style id="wcr_style" type="text/css">'+
-                '#wcr_set_btn_disable_mobile{'+
+                '#wcr_set_btn_enable_mobile{'+
                 'display: block;'+
                 'margin: 20px auto auto auto;'+
                 'width: 50%;'+
@@ -6212,6 +6203,13 @@ function ifMobileNDisabled(){
             '</style>';
         }
         document.body.appendChild(GM_CMD_Buttons);
+        setEvt('wcr_set_btn_enable_mobile', 'click', function(){
+					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
+						'(It can be re-enabled later with this menu)')){
+						delData('confpag');
+						redirect(link[posActual]);
+            }
+        });
     }
 
 
