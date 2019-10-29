@@ -3053,6 +3053,7 @@ function run_script(){
 						redirect(link[posActual]);
 					}
 				});
+                ifMobile();
 			}
 		}
 		else if(GM_registerMenuCommand){
@@ -3204,7 +3205,6 @@ function iniciar(){
 		setEvt(elemImagen, 'load', function(){
 			fitImagen();
 			scrollear();
-            ifMobile();
 		});
 		setEvt('wcr_btnaddbm', 'click', addBookmark);
 		setEvt('wcr_btnfit', 'click', toggleConfFit);
