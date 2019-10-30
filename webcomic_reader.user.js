@@ -532,6 +532,8 @@ var defaultSettings = {
 // @include		http*://orgymania.net/*
 // @include		http*://homestuck.com/*
 // @include		http*://www.homestuck.com/*
+// @include		http*://homestuck2.com/*
+// @include		http*://www.homestuck2.com/*
 // @include		http*://mspfanventures.com/
 // @include		http*://www.mangatown.com/manga/*
 // @include		http*://www.legostargalactica.net/*
@@ -2627,11 +2629,11 @@ var paginas = [
 		style:	'.creator-comment{background:white}'
 		
 	},
-	{	url:	'homestuck.com/story',
+	{	url:	'homestuck.com/story|homestuck2.com/story/',
 		img:	['//img[contains(@class, "mar-x-auto disp-bl")]'],
         back:	['//li[@class="o_game-nav-item"]//a[contains(.,"Go Back")]'],
 		next:	['//div[contains(@class, "o_story-nav")]//div//a'],
-		extra:	['<div id="wcr-hs-extra">',['//div[@class="pad-t-md"]'],'</div><br>','<div id="wcr_HS_title">',['//h2[contains(@class, "type-hs-header")]'],'</div><br>',['//p[contains(@class, "o-story_text")]'],['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]']],
+		extra:	['<div id="wcr-hs-extra">',['//div[@class="pad-t-md"]'],'</div><br>','<div id="wcr_HS_title">',['//h2[contains(@class, "type-hs-header")]'],'</div><br>',['//div[@class="mar-x-auto disp-bl bg-hs-gray pad-t-lg"]'],['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]']],
 		style:	'.disp-n{'+
                 'display: inherit !important;}'+
                 
@@ -2641,9 +2643,8 @@ var paginas = [
                 '.o_chat-log-btn{'+
                 'display:none;}'+
                 
-                '#wcr_HS_title, .o_chat-container, .o-story_text, .o_story-nav{'+
+                '#wcr_HS_title, .o_chat-container, .o_story-nav, .pad-t-lg{'+
                 'background: #EFEFEF;'+
-                'background:#efefef;'+
                 'border: 1px dashed gray;}'+
                 
                 '.o_story-nav{'+
@@ -2666,8 +2667,7 @@ var paginas = [
                 
                 '#content_container > h2{display: none;height:0px;}'+
                 
-                '.pad-t-lg{'+
-                'display:none;}',
+                '.pad-t-lg{}',
 		js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('.o_story-nav, #wcr-hs-extra');
