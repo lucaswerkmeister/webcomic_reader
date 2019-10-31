@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.10.29c
+// @version		2019.10.30
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2580,7 +2580,8 @@ var paginas = [
 		back:	['(//span[@class="parsed_nav_links"]//a[contains(.,"PREV")]|//a[@class="auto_link named_url" and contains(.,"PREV")]|//a[@class="prev button-link"])[last()]'],
 		next:	['(//span[@class="parsed_nav_links"]//a[contains(.,"NEXT")]|//a[@class="auto_link named_url" and contains(.,"NEXT")]|//a[@class="next button-link"])[last()]'],
 		first:	['//span[@class="parsed_nav_links"]//a[contains(.,"FIRST")]|//a[@class="auto_link named_url" and contains(.,"FIRST")]'],
-		extra:	[['//div[@class="minigalleries"]'],'<br>',['//table[@class="maintable"]//tbody//tr//table[@class="maintable"]']]
+		extra:	['<div id="wcr-fa-extra">',['//div[@class="alt1 actions aligncenter"]'],'<br>',['//center[@class="flow thumb-size-100"]'],'<br>',['//table[@class="maintable"]//tbody//tr//table[@class="maintable"]'],'</div>'],
+        style:  '.alt1.actions.aligncenter{background: none;width: auto}'
 	},
 	{	url:	'dhscomix.com/comics', //Random Encounters
 		img:	['//div[@id="content"]//img'],
