@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.11.02
+// @version		2019.11.02a
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -530,6 +530,8 @@ var defaultSettings = {
 // @include		http*://www.feywinds.com/comic/*
 // @include		http*://www.omgbeaupeep.com/*
 // @include		http*://orgymania.net/*
+// @include		http*://mspaintadventures.com/*
+// @include		http*://www.mspaintadventures.com/*
 // @include		http*://homestuck.com/*
 // @include		http*://www.homestuck.com/*
 // @include		http*://homestuck2.com/*
@@ -2333,6 +2335,97 @@ var paginas = [
 		extra:	[[['article']],'<script>assignOnClicks()</script>'],
 		js:	function(dir){assignOnClicks();},
 		style:	'#wcr_imagen { display: none; }',
+	},
+{
+		url:	'mspaintadventures.com/test_index.php?s=1',
+		img:	'http://cdn.mspaintadventures.com/advimgs',
+		next:	[['font[size="5"]>a']],
+		extra:	[['//table[@width="600"]']],
+		js:	function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
+			
+			// Click on any img
+			var elemImagen=document.querySelectorAll('#wcr_extra img');
+			setEvt(elemImagen, 'click', imgClick);
+			setEvt(elemImagen, 'mousemove', imgCursor);},
+		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
+	},
+	{
+		url:	'mspaintadventures.com/extras',
+		img:	'http://www.mspaintadventures.com/extra',
+		back:	function(html, pos){var comicNr = parseInt(link[pos].match(/\d+/)[0]);
+			if (comicNr == 1) throw new Error("First comic");
+			comicNr--;
+			comicNr = ("000000" + comicNr).match(/0*(\d{6})$/)[1];
+			return link[pos].replace(/\d+/, comicNr);},
+		next:	function(html, pos){var comicNr = parseInt(link[pos].match(/\d+/)[0]);
+			comicNr++;
+			comicNr = ("000000" + comicNr).match(/0*(\d{6})/)[1];
+			return link[pos].replace(/\d+/, comicNr);},
+		extra:	[['//table[@width="800"]']],
+		js:	function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
+			
+			// Click on any img
+			var elemImagen=document.querySelectorAll('#wcr_extra img');
+			setEvt(elemImagen, 'click', imgClick);
+			setEvt(elemImagen, 'mousemove', imgCursor);},
+		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
+	},
+	{
+		url:	'mspaintadventures.com/test_index.php?s=4',
+		img:	'http://cdn.mspaintadventures.com/advimgs',
+		back:	'text()="Go Back"',
+		next:	[['font[size="5"]>a']],
+		extra:	[['//table[@width="600"]']],
+		js:	function(dir){
+			// Click on any img
+			var elemImagen=document.querySelectorAll('#wcr_extra img');
+			setEvt(elemImagen, 'click', imgClick);
+			setEvt(elemImagen, 'mousemove', imgCursor);},
+		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
+	},
+	{
+		url:	'mspaintadventures.com/test_index.php?s=6',
+		img:	'http://cdn.mspaintadventures.com/storyfiles/',
+		back:	'text()="Go Back"',
+		next:	function(html, pos){var x = selCss('font[size="5"]>a',html,true);
+			return x[x.length-1];},
+		extra:	[['//table[@width="600"]']],
+		xelem:	'//table[@width="600"]',
+		layelem:	'//table[@width="600"]',
+		js:	function(dir){
+			// Click on any img to switch page
+			var elemImagen=document.querySelectorAll('#wcr_extra img');
+			setEvt(elemImagen, 'click', imgClick);
+			setEvt(elemImagen, 'mousemove', imgCursor);
+			
+			// Show pesterlogs
+			var x = document.getElementsByClassName('spoiler');
+			for (var i = 0; i < x.length; i++) {x[i].previousSibling.firstChild.click();}
+			},
+		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
+	},
+	{
+		url:	'mspaintadventures.com/scratch.php?',
+		img:	'storyfiles/',
+		back:	'text()="Go Back"',
+		next:	function(html, pos){var x = selCss('font[size="5"]>a',html,true);
+			return x[x.length-1];},
+		extra:	[['//table[@width="600"]']],
+		xelem:	'//table[@width="600"]/tbody',
+		layelem:	'//table[@width="600"]',
+		js:	function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
+			
+			// Click on any img to switch page
+			var elemImagen=document.querySelectorAll('#wcr_extra img');
+			setEvt(elemImagen, 'click', imgClick);
+			setEvt(elemImagen, 'mousemove', imgCursor);
+			
+			// Show pesterlogs
+			var x = document.getElementsByClassName('spoiler');
+			for (var i = 0; i < x.length; i++) {x[i].previousSibling.firstChild.click();}
+			
+			typeof onChange == 'function' && onChange(dir);},
+		style:	'#wcr_imagena { display: none; }\np { font-size: large; }',
 	},
 	{
 		url:	'mangatown.com/manga/',
