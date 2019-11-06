@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.11.02a
+// @version		2019.11.06
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2737,7 +2737,7 @@ var paginas = [
                 '.o_chat-log-btn{'+
                 'display:none;}'+
                 
-                '#wcr_HS_title, .o_chat-container, .o_story-nav, .pad-t-lg{'+
+                '#wcr_HS_title, .o_chat-container, .o_story-nav, #o_no-flash, .pad-t-lg{'+
                 'background: #EFEFEF;'+
                 'border: 1px dashed gray;}'+
                 
@@ -2760,13 +2760,15 @@ var paginas = [
                 'padding: 0;}'+
                 
                 '#content_container > h2{display: none;height:0px;}'+
-                
                 '.mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg:nth-of-type(1){display:none}',
 		js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
-				var elemImagen = document.querySelectorAll('.o_story-nav, #wcr-hs-extra');
+				var elemImagen = document.querySelectorAll('#wcr-hs-extra');
 				setEvt(elemImagen, 'click', imgClick);
 				setEvt(elemImagen, 'mousemove', imgCursor);
+				var elemImagen2 = document.querySelectorAll('.o_story-nav');
+				setEvt(elemImagen2, 'click', btnnext);
+                elemImagen2[0].style.cursor = cursorUrl(cursores_custom[2]);
 				},
 	},
 	{	url:	'yoshsaga.com|artificialincident.com',
@@ -2798,8 +2800,8 @@ var paginas = [
 	//WIP - Applegeeks is being a pain to setup
 	{	url:	'applegeeks.com/comics',
 		img:	['//div[@id="castheader"]//img'],
-        back:	'..//div[@class="sidenotes"]/p[2]/a',
-        next:	'..//div[@class="sidenotes"]/p[1]/a'
+        back:	['//div[1]//div[4]//div//p[1]//a'],
+        next:	['//div[1]//div[4]//div//p[2]//a']
 	}
 	// End of sites
 	/*
