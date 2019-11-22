@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.11.06
+// @version		2019.11.21
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2727,12 +2727,15 @@ var paginas = [
 		img:	['//img[contains(@class, "mar-x-auto disp-bl")]'],
         back:	['//li[@class="o_game-nav-item"]//a[contains(.,"Go Back")]'],
 		next:	['//div[contains(@class, "o_story-nav")]//div//a'],
-		extra:	['<div id="wcr-hs-extra">',['//div[@id="content_container"]'],'</div><br>','<div id="wcr_HS_title">',['//h2[contains(@class, "type-hs-header")]'],'</div><br>',['//div[@class="mar-x-auto disp-bl bg-hs-gray pad-t-lg"]']],
+		extra:	['<div id="wcr-hs-extra">','<div id="wcr_HS_title">',['//h2[contains(@class, "type-hs-header")]'],'</div><br><div id="wcr_imagen" class="wcr_imagen_override">',['//div[@id="content_container"]'],'</div></div><br>',['//div[@class="mar-x-auto disp-bl bg-hs-gray pad-t-lg"]']],
 		style:	'.disp-n{'+
                 'display: inherit !important;}'+
                 
                 '#wcr_imagen{'+
                 'display: none;}'+
+                
+                '.wcr_imagen_override{'+
+                'display: block !important;}'+
                 
                 '.o_chat-log-btn{'+
                 'display:none;}'+
@@ -2756,8 +2759,13 @@ var paginas = [
                 'display: inline-block;'+
                 'margin-bottom: 16px;'+
                 'margin-top: 8px}'+
-                '.pad-t-md.pad-x-lg--md.type-center.type-hs-header.line-tight{'+
+                '.pad-t-md.pad-x-lg--md.type-center.type-hs-header.line-tight, .pad-t-md{'+
                 'padding: 0;}'+
+                
+                'span[style*="color: white"], span[style*="color: #ffffff"], span[style*="color:white"], span[style*="color:#ffffff"]{'+
+                ''+
+                'background: black;'+
+                '}'+
                 
                 '#content_container > h2{display: none;height:0px;}'+
                 '.mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg:nth-of-type(1){display:none}',
