@@ -119,8 +119,8 @@ var defaultSettings = {
 // @include		http://pennyandaggie.com/*
 // @include		http://www.darkbolt.com/*
 // @include		http://darkbolt.com/*
-// @include		http://egscomics.com/*
-// @include		http://www.egscomics.com/*
+// @match		*://egscomics.com/*
+// @match		*://www.egscomics.com/*
 // @include		http://www.the-gutters.com/*
 // @include		http://noneedforbushido.com/*
 // @include		http://www.teahousecomic.com/*
@@ -2295,10 +2295,10 @@ var paginas = [
 		next:	'text()="next >"',
 		first:	'text()="|<"',
 	},
-    //Needed Two Seperate EGS entries to handle the www and non-www URLs
-    //--[
+	// Needed two separate EGS entries to handle the www and non-www URLs
+	//--[
 	{
-		url:	'http://www.egscomics.com',
+		url:	'www.egscomics.com',
 		img:	[['#cc-comic']],
 		back:   [['.cc-prev']],
 		next:   [['.cc-next']],
@@ -2306,12 +2306,12 @@ var paginas = [
 		last:	[['.cc-last']],
 		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>'],
 		fixurl:	function(url, img, link){
-        if(link) return url.replace('http://egscomics', 'http://www.egscomics');
+		if(link) return url.replace('://egscomics', '://www.egscomics');
 		return url;
 		}
 	},
-    {
-		url:	'http://egscomics.com',
+	{
+		url:	'egscomics.com',
 		img:	[['#cc-comic']],
 		back:   [['.cc-prev']],
 		next:   [['.cc-next']],
@@ -2319,7 +2319,7 @@ var paginas = [
 		last:	[['.cc-last']],
 		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>']
 	},
-    //]--
+	//]--
 	{
 		url:	'http://mspfanventures.com/',
 		img:	[['article img']],
