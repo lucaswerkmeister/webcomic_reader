@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.11.30
+// @version		2019.11.30b
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2727,7 +2727,7 @@ var paginas = [
 		img:	['//img[contains(@class, "mar-x-auto disp-bl")]'],
         back:	['//li[@class="o_game-nav-item"]//a[contains(.,"Go Back")]'],
 		next:	['(//div[contains(@class, "o_story-nav")]//div//a)[last()]'],
-		extra:	['<div id="wcr-hs-extra">',['//img[contains(@src, "/scratch/")]'],'<div id="wcr_HS_title">',['//h2[contains(@class, "type-hs-header")]'],'</div><br><div id="wcr_imagen" class="wcr_imagen_override">',['//div[@id="content_container"]'],'</div></div><br>',['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]'],['(//div[@class=" mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg"])']],
+		extra:	['<div id="wcr-hs-extra">',['//img[contains(@src, "/scratch/")]'],'<div id="wcr_HS_title">',['//h2[contains(@class, "type-hs-header")]'],'</div><br><div id="wcr_imagen" class="wcr_imagen_override">',['//div[@id="content_container"]'],'</div></div><br>',['//div[@class="mar-x-auto disp-bl bg-scratch-mid-green pad-t-lg"]'],['//p[contains(@class, "o-story_text")]'],['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]'],['(//div[@class=" mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg"])']],
 		style:	'.disp-n{'+
                 'display: inherit !important;}'+
                 
@@ -2740,8 +2740,8 @@ var paginas = [
                 '.o_chat-log-btn{'+
                 'display:none;}'+
                 
-                '#wcr_HS_title, .o_chat-container, .o_story-nav, #o_no-flash, .pad-t-lg{'+
-                'background: #EFEFEF;'+
+                '#wcr_HS_title, .o_chat-container, .o_story-nav, .o-story_text, #o_no-flash, .pad-t-lg{'+
+                'background: initial;'+
                 'border: 1px dashed gray;}'+
                 
                 '.o_story-nav{'+
@@ -2762,11 +2762,15 @@ var paginas = [
                 '.pad-t-md.pad-x-lg--md.type-center.type-hs-header.line-tight, .pad-t-md{'+
                 'padding: 0;}'+
                 
-                'span[style*="color: white"], span[style*="color: #ffffff"], span[style*="color:white"], span[style*="color:#ffffff"]{'+
+                'span[style*="color: white"], span[style*="color: #ffffff"], span[style*="color:white"], span[style*="color:#ffffff"], body.scratch {'+
                 ''+
                 'background: black;'+
                 '}'+
                 
+                'div.pad-t-md, div.pad-t-md > div, #wcr_div, #wcr_extra{'+
+                'background: inherit;'+
+                ''+
+                '}'+
                 '#content_container > h2{display: none;height:0px;}'+
                 '.mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg:nth-of-type(1){display:block}',
 		js:	function(dir){ //Copied from whoever did Webtoon's entry
