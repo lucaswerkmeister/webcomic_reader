@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.11.21
+// @version		2019.11.30
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2726,8 +2726,8 @@ var paginas = [
 	{	url:	'homestuck.com/story|homestuck2.com/story/',
 		img:	['//img[contains(@class, "mar-x-auto disp-bl")]'],
         back:	['//li[@class="o_game-nav-item"]//a[contains(.,"Go Back")]'],
-		next:	['//div[contains(@class, "o_story-nav")]//div//a'],
-		extra:	['<div id="wcr-hs-extra">','<div id="wcr_HS_title">',['//h2[contains(@class, "type-hs-header")]'],'</div><br><div id="wcr_imagen" class="wcr_imagen_override">',['//div[@id="content_container"]'],'</div></div><br>',['//div[@class="mar-x-auto disp-bl bg-hs-gray pad-t-lg"]']],
+		next:	['(//div[contains(@class, "o_story-nav")]//div//a)[last()]'],
+		extra:	['<div id="wcr-hs-extra">',['//img[contains(@src, "/scratch/")]'],'<div id="wcr_HS_title">',['//h2[contains(@class, "type-hs-header")]'],'</div><br><div id="wcr_imagen" class="wcr_imagen_override">',['//div[@id="content_container"]'],'</div></div><br>',['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]'],['(//div[@class=" mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg"])']],
 		style:	'.disp-n{'+
                 'display: inherit !important;}'+
                 
@@ -2768,7 +2768,7 @@ var paginas = [
                 '}'+
                 
                 '#content_container > h2{display: none;height:0px;}'+
-                '.mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg:nth-of-type(1){display:none}',
+                '.mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg:nth-of-type(1){display:block}',
 		js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('#wcr-hs-extra');
@@ -2904,7 +2904,7 @@ var layoutDefault =
         '#wcr_pages option{'+
             'background-color: #222;}'+
         '</style>'+
-		'<img id="wcr_imagen"/><br/>' +
+		'<img id="wcr_imagen" style=""/><br/>' +
 		'<div id="wcr_title"></div>' +
 		'<div id="wcr_extra"></div>' +
 		'<div id="wcr_botones">'+
@@ -2933,7 +2933,7 @@ var layoutDefault =
 			'</div>'+
 		'</div>'+
 		'<div id="wcr_imagenes" style="display:none"></div>'+
-		'<div id="wcr_links_imgs" style="display:none"></div>'+
+		'<div id="wcr_links_imgs" style="display:none;"></div>'+
 	'</div>';
 
 //en vez de reemplazar el body.innerHTML, meter el layoutdefault donde estaba la imagen y dejar el resto de la pagina intacta
@@ -3638,6 +3638,8 @@ function imgsize(){
 function cambiarPorte(wi, hi){
 	get('wcr_imagen').style.width = wi+'px';
 	get('wcr_imagen').style.height = hi+'px';
+    get('wcr_imagen').style.maxWidth = wi+'px';
+	get('wcr_imagen').style.maxHeight = hi+'px';
 }
 
 //scrollea al punto inicial de la imagen
