@@ -2073,7 +2073,8 @@ var paginas = [
 		next:	'@rel="next"'
 	},
 	{	url:	'thedevilspanties.com',
-		extra:	[['//div[@class="entry"]']],
+        img:    ['//div[@id="comic-1"]//img'],
+		extra:	[['//div[@id="comic-2"]//img'],['//div[@id="comic-3"]//img'],['//div[@id="comic-4"]//img'],['//div[@id="comic-5"]//img'],['//div[@id="comic-6"]//img'],['//div[@id="comic-7"]//img'],['//div[@id="comic-8"]//img'],['//div[@id="comic-9"]//img'],['//div[@id="comic-10"]//img'],['//div[@class="entry"]']],
 	},
 	{	url:	'bradcolbow.com',
 		img:	[['.entry img']],
