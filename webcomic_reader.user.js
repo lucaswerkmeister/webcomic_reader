@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.02.19-170700
+// @version		2020.02.19-171300
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -57,10 +57,10 @@ var defaultSettings = {
 // @grant			GM_xmlhttpRequest
 // @grant			GM_registerMenuCommand
 // @grant			GM_openInTab
-// @exclude     *.jpg
-// @exclude     *.jpeg
-// @exclude     *.png
-// @exclude     *.gif
+// @exclude		*.jpg
+// @exclude		*.jpeg
+// @exclude		*.png
+// @exclude		*.gif
 // @include		http*://www.sluggy.com/*
 // @include		http*://sluggy.com/*
 // @include		http*://www.penny-arcade.com/comic*
@@ -1117,7 +1117,7 @@ var paginas = [
 		first:	'@title="First Strip"',
 		last:	'@href="/"',
 		back:	'@title="Previous Strip"',
-        next:	'@title="Next Strip"',
+		next:	'@title="Next Strip"',
 		style:	'.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px;}'
 	},
 	{	url:	'mycardboardlife.com',
@@ -2077,7 +2077,7 @@ var paginas = [
 		next:	'@rel="next"'
 	},
 	{	url:	'thedevilspanties.com',
-        img:    ['//div[@id="comic-1"]//img'],
+		img:	['//div[@id="comic-1"]//img'],
 		extra:	[['//div[@id="comic-2"]//img'],['//div[@id="comic-3"]//img'],['//div[@id="comic-4"]//img'],['//div[@id="comic-5"]//img'],['//div[@id="comic-6"]//img'],['//div[@id="comic-7"]//img'],['//div[@id="comic-8"]//img'],['//div[@id="comic-9"]//img'],['//div[@id="comic-10"]//img'],['//div[@class="entry"]']],
 	},
 	{	url:	'bradcolbow.com',
@@ -2541,17 +2541,17 @@ var paginas = [
 		img:	['//img[contains(@src, "/strips")][1]'],
 		back:	[['#bottomprev']],
 		next:	[['#bottomnext']],
-        extra:  [
-        ['//img[contains(@src, "/strips")][2]'],
-        ['//img[contains(@src, "/strips")][3]'],
-        ['//img[contains(@src, "/strips")][4]'],
-        ['//img[contains(@src, "/strips")][5]'],
-        ['//img[contains(@src, "/strips")][6]'],
-        ['//img[contains(@src, "/strips")][7]'],
-        ['//img[contains(@src, "/strips")][8]'],
-        ['//img[contains(@src, "/strips")][9]'],
-        ['//img[contains(@src, "/strips")][10]']
-        ],
+		extra:  [
+		['//img[contains(@src, "/strips")][2]'],
+		['//img[contains(@src, "/strips")][3]'],
+		['//img[contains(@src, "/strips")][4]'],
+		['//img[contains(@src, "/strips")][5]'],
+		['//img[contains(@src, "/strips")][6]'],
+		['//img[contains(@src, "/strips")][7]'],
+		['//img[contains(@src, "/strips")][8]'],
+		['//img[contains(@src, "/strips")][9]'],
+		['//img[contains(@src, "/strips")][10]']
+		],
 		js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('#wcr_extra');
@@ -2689,7 +2689,7 @@ var paginas = [
 		next:	['(//span[@class="parsed_nav_links"]//a[contains(.,"NEXT")]|//a[@class="auto_link named_url" and contains(.,"NEXT")]|//a[@class="next button-link"])[last()]'],
 		first:	['//span[@class="parsed_nav_links"]//a[contains(.,"FIRST")]|//a[@class="auto_link named_url" and contains(.,"FIRST")]'],
 		extra:	['<div id="wcr-fa-extra">',['//div[@class="alt1 actions aligncenter"]'],'<br>',['//center[@class="flow thumb-size-100"]'],'<br>',['//table[@class="maintable"]//tbody//tr//table[@class="maintable"]'],'</div>'],
-        style:  '.alt1.actions.aligncenter{background: none;width: auto}'
+		style:  '.alt1.actions.aligncenter{background: none;width: auto}'
 	},
 	{	url:	'dhscomix.com/comics', //Random Encounters
 		img:	['//div[@id="content"]//img'],
@@ -2740,66 +2740,66 @@ var paginas = [
 	},
 	{	url:	'homestuck.com/story|homestuck2.com/story/',
 		img:	['//img[contains(@class, "mar-x-auto disp-bl")]'],
-        back:	['//li[@class="o_game-nav-item"]//a[contains(.,"Go Back")]'],
+		back:	['//li[@class="o_game-nav-item"]//a[contains(.,"Go Back")]'],
 		next:	['(//div[contains(@class, "o_story-nav")]//div//a)[last()]'],
 		extra:	[
-        '<div id="wcr-hs-extra">',
-        ['//img[contains(@src, "/scratch/")]'],
-        '<div id="wcr_HS_title">',
-        ['//h2[contains(@class, "type-hs-header")]'],
-        '</div><br><div id="wcr_imagen" class="wcr_imagen_override">',
-        ['//div[@id="content_container"]'],'</div></div><br>',
-        ['//div[@class="mar-x-auto disp-bl bg-scratch-mid-green pad-t-lg"]'], //Scratch
-        ['//p[contains(@class, "o-story_text")]'],
-        ['//div[contains(@class, "o_chat-container")]'], //Main Capture
-        '<br>',
-        ['//div[contains(@class, "o_story-nav")]'], //Main
-        ['(//div[@class=" mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg"])']
-        ],
+		'<div id="wcr-hs-extra">',
+		['//img[contains(@src, "/scratch/")]'],
+		'<div id="wcr_HS_title">',
+		['//h2[contains(@class, "type-hs-header")]'],
+		'</div><br><div id="wcr_imagen" class="wcr_imagen_override">',
+		['//div[@id="content_container"]'],'</div></div><br>',
+		['//div[@class="mar-x-auto disp-bl bg-scratch-mid-green pad-t-lg"]'], //Scratch
+		['//p[contains(@class, "o-story_text")]'],
+		['//div[contains(@class, "o_chat-container")]'], //Main Capture
+		'<br>',
+		['//div[contains(@class, "o_story-nav")]'], //Main
+		['(//div[@class=" mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg"])']
+		],
 		style:	'.disp-n{'+
-                'display: inherit !important;}'+
-                
-                '#wcr_imagen{'+
-                'display: none;}'+
-                
-                '.wcr_imagen_override{'+
-                'display: block !important;}'+
-                
-                '.o_chat-log-btn{'+
-                'display:none;}'+
-                
-                '#wcr_HS_title, .o_chat-container, .o_story-nav, .o-story_text, #o_no-flash, .pad-t-lg{'+
-                'border: 1px dashed gray;}'+
-                
-                '.o_story-nav{'+
-                'margin-right: 25px;'+
-                'margin-left: 25px;'+
-                'padding-top: 25px;'+
-                'padding-bottom:25px;}'+
-                
-                '.type-hs-header{'+
-                'font-size: 20px;'+
-                'white-space: nowrap;'+
-                'font-weight:bold;}'+
-                
-                '#wcr_HS_title{'+
-                'display: inline-block;'+
-                'margin-bottom: 16px;'+
-                'margin-top: 8px}'+
-                '.pad-t-md.pad-x-lg--md.type-center.type-hs-header.line-tight, .pad-t-md{'+
-                'padding: 0;}'+
-                
-                'span[style*="color: white"], span[style*="color: #ffffff"], span[style*="color:white"], span[style*="color:#ffffff"], body.scratch {'+
-                ''+
-                'background: black;'+
-                '}'+
-                
-                'div.pad-t-md, div.pad-t-md > div, #wcr_div, #wcr_extra{'+
-                'background: inherit;'+
-                ''+
-                '}'+
-                '#content_container > h2{display: none;height:0px;}'+
-                '.mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg:nth-of-type(1){display:block}',
+				'display: inherit !important;}'+
+				
+				'#wcr_imagen{'+
+				'display: none;}'+
+				
+				'.wcr_imagen_override{'+
+				'display: block !important;}'+
+				
+				'.o_chat-log-btn{'+
+				'display:none;}'+
+				
+				'#wcr_HS_title, .o_chat-container, .o_story-nav, .o-story_text, #o_no-flash, .pad-t-lg{'+
+				'border: 1px dashed gray;}'+
+				
+				'.o_story-nav{'+
+				'margin-right: 25px;'+
+				'margin-left: 25px;'+
+				'padding-top: 25px;'+
+				'padding-bottom:25px;}'+
+				
+				'.type-hs-header{'+
+				'font-size: 20px;'+
+				'white-space: nowrap;'+
+				'font-weight:bold;}'+
+				
+				'#wcr_HS_title{'+
+				'display: inline-block;'+
+				'margin-bottom: 16px;'+
+				'margin-top: 8px}'+
+				'.pad-t-md.pad-x-lg--md.type-center.type-hs-header.line-tight, .pad-t-md{'+
+				'padding: 0;}'+
+				
+				'span[style*="color: white"], span[style*="color: #ffffff"], span[style*="color:white"], span[style*="color:#ffffff"], body.scratch {'+
+				''+
+				'background: black;'+
+				'}'+
+				
+				'div.pad-t-md, div.pad-t-md > div, #wcr_div, #wcr_extra{'+
+				'background: inherit;'+
+				''+
+				'}'+
+				'#content_container > h2{display: none;height:0px;}'+
+				'.mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg:nth-of-type(1){display:block}',
 		js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('#wcr-hs-extra');
@@ -2807,7 +2807,7 @@ var paginas = [
 				setEvt(elemImagen, 'mousemove', imgCursor);
 				var elemImagen2 = document.querySelectorAll('.o_story-nav');
 				setEvt(elemImagen2, 'click', btnnext);
-                elemImagen2[0].style.cursor = cursorUrl(cursores_custom[2]);
+				elemImagen2[0].style.cursor = cursorUrl(cursores_custom[2]);
 				},
 	},
 	{	url:	'yoshsaga.com|artificialincident.com',
@@ -2826,9 +2826,9 @@ var paginas = [
 				},
 	},
 	{	url:	'bobandgeorge.com/archives',
-        img:    ['//img[@id="comic_0"]|//img[contains(@src, "comics/")]'],
+		img:	['//img[@id="comic_0"]|//img[contains(@src, "comics/")]'],
 		extra:  [['//img[@id="comic_1"]'],['//img[@id="comic_2"]'],['//img[@id="comic_3"]'],['//img[@id="comic_4"]'],['//img[@id="comic_5"]'],['//img[@id="comic_6"]'],['//img[@id="comic_7"]'],['//img[@id="comic_8"]'],['//img[@id="comic_9"]'],['//img[@id="comic_10"]'],'<br><br>',['//table[@class="table-bottom"]']],
-        style:  '#comic_0, #comic_1, #comic_2, #comic_3, #comic_4, #comic_5, #comic_6, #comic_7, #comic_8, #comic_9, #comic_10{display: inline !important; top:auto !important; left: auto !important; position: relative !important;}',
+		style:  '#comic_0, #comic_1, #comic_2, #comic_3, #comic_4, #comic_5, #comic_6, #comic_7, #comic_8, #comic_9, #comic_10{display: inline !important; top:auto !important; left: auto !important; position: relative !important;}',
 		js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('#wcr_extra');
@@ -2839,8 +2839,8 @@ var paginas = [
 	//WIP - Applegeeks is being a pain to setup
 	{	url:	'applegeeks.com/comics',
 		img:	['//div[@id="castheader"]//img'],
-        back:	['//div[1]//div[4]//div//p[1]//a'],
-        next:	['//div[1]//div[4]//div//p[2]//a']
+		back:	['//div[1]//div[4]//div//p[1]//a'],
+		next:	['//div[1]//div[4]//div//p[2]//a']
 	}
 	// End of sites
 	/*
@@ -2911,30 +2911,30 @@ var layoutDefault =
 	'<div id="wcr_div" style="text-align:center">'+
 		//Default styling for the buttons
 		'<style id="wcr_style" type="text/css">'+
-        '#wcr_div button,button[id^="wcr_set_btn"],button[id^="wcr_btn"]{'+
-            'font-weight: 100;'+
-            'letter-spacing: 0;'+
-            'text-transform: none;'+
-            'line-height: 20px;'+
-            'font-size: 16px;'+
-            'padding: 0px 8px 0px 8px;'+
-            'float:none;'+
-            'text-align: center;'+
-            'color: #222;'+
-            'background-color: #ccc;'+
-            'border: 2px solid rgba(22,22,22,0.3);'+
-            'font-family: "Lucida Grande", sans-serif !important;}'+
-        '#wcr_pages{'+
-            'font-size: 14px;'+
-            'padding: 0px 8px 0px 8px;'+
-            'background: #222;'+
-            'color: #ccc;'+
-            'font-family: "Lucida Grande", sans-serif !important;}'+
-        '#wcr_pages optgroup{'+
-            'background-color: #030;}'+
-        '#wcr_pages option{'+
-            'background-color: #222;}'+
-        '</style>'+
+		'#wcr_div button,button[id^="wcr_set_btn"],button[id^="wcr_btn"]{'+
+			'font-weight: 100;'+
+			'letter-spacing: 0;'+
+			'text-transform: none;'+
+			'line-height: 20px;'+
+			'font-size: 16px;'+
+			'padding: 0px 8px 0px 8px;'+
+			'float:none;'+
+			'text-align: center;'+
+			'color: #222;'+
+			'background-color: #ccc;'+
+			'border: 2px solid rgba(22,22,22,0.3);'+
+			'font-family: "Lucida Grande", sans-serif !important;}'+
+		'#wcr_pages{'+
+			'font-size: 14px;'+
+			'padding: 0px 8px 0px 8px;'+
+			'background: #222;'+
+			'color: #ccc;'+
+			'font-family: "Lucida Grande", sans-serif !important;}'+
+		'#wcr_pages optgroup{'+
+			'background-color: #030;}'+
+		'#wcr_pages option{'+
+			'background-color: #222;}'+
+		'</style>'+
 		'<img id="wcr_imagen" style=""/><br/>' +
 		'<div id="wcr_title"></div>' +
 		'<div id="wcr_extra"></div>' +
@@ -3189,7 +3189,7 @@ function run_script(){
 						redirect(link[posActual]);
 					}
 				});
-                ifMobile();
+				ifMobile();
 			}
 		}
 		else if(GM_registerMenuCommand){
@@ -3197,7 +3197,7 @@ function run_script(){
 				delData('confpag');
 				redirect(link[posActual]);
 			});
-            ifMobileNDisabled();
+			ifMobileNDisabled();
 		}
 	}catch(e){ error('loadpag: ', e); }
 }
@@ -3669,7 +3669,7 @@ function imgsize(){
 function cambiarPorte(wi, hi){
 	get('wcr_imagen').style.width = wi+'px';
 	get('wcr_imagen').style.height = hi+'px';
-    get('wcr_imagen').style.maxWidth = wi+'px';
+	get('wcr_imagen').style.maxWidth = wi+'px';
 	get('wcr_imagen').style.maxHeight = hi+'px';
 }
 
@@ -6188,164 +6188,164 @@ function isFirefox(){
 
 //If Mobile Device
 function ifMobile(){
-    
-    //https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device/3540295#3540295
-    
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-    
-    var GM_CMD_Buttons = document.createElement('div');
+	
+	//https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device/3540295#3540295
+	
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+	
+	var GM_CMD_Buttons = document.createElement('div');
 		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
 		GM_CMD_Buttons.style.textAlign = 'center';
 		
-    
-    //Detect if GreaseMonkey
-        //https://stackoverflow.com/questions/27487828/how-to-detect-if-a-userscript-is-installed-from-the-chrome-store/27494812#27494812
+	
+	//Detect if GreaseMonkey
+		//https://stackoverflow.com/questions/27487828/how-to-detect-if-a-userscript-is-installed-from-the-chrome-store/27494812#27494812
 
-        var scriptEngine;
+		var scriptEngine;
 
-        if (typeof GM_info === "undefined") {
-            scriptEngine = "N/A";
-            
-        } else {
-            
-            scriptEngine = GM_info.scriptHandler  ||  "Greasemonkey";
-            
-        }
-        
-        if (scriptEngine === "Greasemonkey"){
-            GM_CMD_Buttons.innerHTML =
+		if (typeof GM_info === "undefined") {
+			scriptEngine = "N/A";
+			
+		} else {
+			
+			scriptEngine = GM_info.scriptHandler  ||  "Greasemonkey";
+			
+		}
+		
+		if (scriptEngine === "Greasemonkey"){
+			GM_CMD_Buttons.innerHTML =
 			'<style id="wcr_style" type="text/css">'+
-                'body > button:nth-last-of-type(1){'+
-                'display: block;'+
-                'margin: 20px auto auto auto;'+
-                'width: 50%;'+
-                'height: 64px;'+
-                'font-weight: 100;'+
-                'letter-spacing: 0;'+
-                'text-transform: none;'+
-                'line-height: 20px !important;'+
-                'font-size: 24px !important;'+
-                'padding: 0px 8px 0px 8px;'+
-                'float:none;'+
-                'text-align: center;'+
-                'color: #222;'+
-                'background-color: #ccc !important;'+
-                'border: 2px solid rgba(22,22,22,0.3);'+
-                'font-family: "Lucida Grande", sans-serif !important;}'+
-            '</style>';
-        } else if (scriptEngine === "Tampermonkey"){
-        GM_CMD_Buttons.innerHTML =
+				'body > button:nth-last-of-type(1){'+
+				'display: block;'+
+				'margin: 20px auto auto auto;'+
+				'width: 50%;'+
+				'height: 64px;'+
+				'font-weight: 100;'+
+				'letter-spacing: 0;'+
+				'text-transform: none;'+
+				'line-height: 20px !important;'+
+				'font-size: 24px !important;'+
+				'padding: 0px 8px 0px 8px;'+
+				'float:none;'+
+				'text-align: center;'+
+				'color: #222;'+
+				'background-color: #ccc !important;'+
+				'border: 2px solid rgba(22,22,22,0.3);'+
+				'font-family: "Lucida Grande", sans-serif !important;}'+
+			'</style>';
+		} else if (scriptEngine === "Tampermonkey"){
+		GM_CMD_Buttons.innerHTML =
 			'<button id="wcr_set_btn_disable_mobile">Disable script for this site</button>'+
-            '<style id="wcr_style" type="text/css">'+
-                '#wcr_set_btn_disable_mobile{'+
-                'display: block;'+
-                'margin: 20px auto auto auto;'+
-                'width: 50%;'+
-                'height: 64px;'+
-                'font-weight: 100;'+
-                'letter-spacing: 0;'+
-                'text-transform: none;'+
-                'line-height: 20px !important;'+
-                'font-size: 24px !important;'+
-                'padding: 0px 8px 0px 8px;'+
-                'float:none;'+
-                'text-align: center;'+
-                'color: #222;'+
-                'background-color: #ccc !important;'+
-                'border: 2px solid rgba(22,22,22,0.3);'+
-                'font-family: "Lucida Grande", sans-serif !important;}'+
-            '</style>';
-        }
-        document.body.appendChild(GM_CMD_Buttons);
-        setEvt('wcr_set_btn_disable_mobile', 'click', function(){
+			'<style id="wcr_style" type="text/css">'+
+				'#wcr_set_btn_disable_mobile{'+
+				'display: block;'+
+				'margin: 20px auto auto auto;'+
+				'width: 50%;'+
+				'height: 64px;'+
+				'font-weight: 100;'+
+				'letter-spacing: 0;'+
+				'text-transform: none;'+
+				'line-height: 20px !important;'+
+				'font-size: 24px !important;'+
+				'padding: 0px 8px 0px 8px;'+
+				'float:none;'+
+				'text-align: center;'+
+				'color: #222;'+
+				'background-color: #ccc !important;'+
+				'border: 2px solid rgba(22,22,22,0.3);'+
+				'font-family: "Lucida Grande", sans-serif !important;}'+
+			'</style>';
+		}
+		document.body.appendChild(GM_CMD_Buttons);
+		setEvt('wcr_set_btn_disable_mobile', 'click', function(){
 					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
 						'(It can be re-enabled later with this button)')){
 						setData('confpag', 'dis');
 						redirect(link[posActual]);
-            }
-        });
-    }
+			}
+		});
+	}
 
 
 }
 
 function ifMobileNDisabled(){
-    //Function specifically for when script is set internally to be disabled
-    //Not meant for additional code related to how the script runs
-    //This is for adding/stylizing buttons at the bottom of the page
-    //to enable the script if it is set to be disabled for the site
-    
-    //For adding functionality for mobile, check the previous function ifMobile();
-    
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-    
-    var GM_CMD_Buttons = document.createElement('div');
+	//Function specifically for when script is set internally to be disabled
+	//Not meant for additional code related to how the script runs
+	//This is for adding/stylizing buttons at the bottom of the page
+	//to enable the script if it is set to be disabled for the site
+	
+	//For adding functionality for mobile, check the previous function ifMobile();
+	
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+	
+	var GM_CMD_Buttons = document.createElement('div');
 		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
 		GM_CMD_Buttons.style.textAlign = 'center';
 		
    
 
-        var scriptEngine;
+		var scriptEngine;
 
-        if (typeof GM_info === "undefined") {
-            scriptEngine = "N/A";
-            
-        } else {
-            
-            scriptEngine = GM_info.scriptHandler  ||  "Greasemonkey";
-            
-        }
-        
-        if (scriptEngine === "Greasemonkey"){
-            GM_CMD_Buttons.innerHTML =
+		if (typeof GM_info === "undefined") {
+			scriptEngine = "N/A";
+			
+		} else {
+			
+			scriptEngine = GM_info.scriptHandler  ||  "Greasemonkey";
+			
+		}
+		
+		if (scriptEngine === "Greasemonkey"){
+			GM_CMD_Buttons.innerHTML =
 			'<style id="wcr_style" type="text/css">'+
-                'body > button:nth-last-of-type(1){'+
-                'display: block;'+
-                'margin: 20px auto auto auto;'+
-                'width: 50%;'+
-                'height: 64px;'+
-                'font-weight: 100;'+
-                'letter-spacing: 0;'+
-                'text-transform: none;'+
-                'line-height: 20px !important;'+
-                'font-size: 24px !important;'+
-                'padding: 0px 8px 0px 8px;'+
-                'float:none;'+
-                'text-align: center;'+
-                'color: #222;'+
-                'background-color: #ccc !important;'+
-                'border: 2px solid rgba(22,22,22,0.3);'+
-                'font-family: "Lucida Grande", sans-serif !important;}'+
-            '</style>';
-        } else if (scriptEngine === "Tampermonkey"){
-        GM_CMD_Buttons.innerHTML =
+				'body > button:nth-last-of-type(1){'+
+				'display: block;'+
+				'margin: 20px auto auto auto;'+
+				'width: 50%;'+
+				'height: 64px;'+
+				'font-weight: 100;'+
+				'letter-spacing: 0;'+
+				'text-transform: none;'+
+				'line-height: 20px !important;'+
+				'font-size: 24px !important;'+
+				'padding: 0px 8px 0px 8px;'+
+				'float:none;'+
+				'text-align: center;'+
+				'color: #222;'+
+				'background-color: #ccc !important;'+
+				'border: 2px solid rgba(22,22,22,0.3);'+
+				'font-family: "Lucida Grande", sans-serif !important;}'+
+			'</style>';
+		} else if (scriptEngine === "Tampermonkey"){
+		GM_CMD_Buttons.innerHTML =
 			'<button id="wcr_set_btn_enable_mobile">Enable script for this site</button>'+
-            '<style id="wcr_style" type="text/css">'+
-                '#wcr_set_btn_enable_mobile{'+
-                'display: block;'+
-                'margin: 20px auto auto auto;'+
-                'width: 50%;'+
-                'height: 64px;'+
-                'font-weight: 100;'+
-                'letter-spacing: 0;'+
-                'text-transform: none;'+
-                'line-height: 20px !important;'+
-                'font-size: 24px !important;'+
-                'padding: 0px 8px 0px 8px;'+
-                'float:none;'+
-                'text-align: center;'+
-                'color: #222;'+
-                'background-color: #ccc !important;'+
-                'border: 2px solid rgba(22,22,22,0.3);'+
-                'font-family: "Lucida Grande", sans-serif !important;}'+
-            '</style>';
-        }
-        document.body.appendChild(GM_CMD_Buttons);
-        setEvt('wcr_set_btn_enable_mobile', 'click', function(){
+			'<style id="wcr_style" type="text/css">'+
+				'#wcr_set_btn_enable_mobile{'+
+				'display: block;'+
+				'margin: 20px auto auto auto;'+
+				'width: 50%;'+
+				'height: 64px;'+
+				'font-weight: 100;'+
+				'letter-spacing: 0;'+
+				'text-transform: none;'+
+				'line-height: 20px !important;'+
+				'font-size: 24px !important;'+
+				'padding: 0px 8px 0px 8px;'+
+				'float:none;'+
+				'text-align: center;'+
+				'color: #222;'+
+				'background-color: #ccc !important;'+
+				'border: 2px solid rgba(22,22,22,0.3);'+
+				'font-family: "Lucida Grande", sans-serif !important;}'+
+			'</style>';
+		}
+		document.body.appendChild(GM_CMD_Buttons);
+		setEvt('wcr_set_btn_enable_mobile', 'click', function(){
 				delData('confpag');
 				redirect(link[posActual]);
 			});
-    }
+	}
 
 
 }
