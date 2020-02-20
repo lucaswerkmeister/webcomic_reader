@@ -43,13 +43,13 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.02.19-171300
+// @version		2020.02.19-172000
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
 // @homepageURL	https://github.com/anka-213/webcomic_reader#readme
 // @supportURL	 https://github.com/anka-213/webcomic_reader/issues
-// @updateURL		https://github.com/SoraHjort/webcomic_reader/raw/Fixes-and-Additions/webcomic_reader.user.js
+// @updateURL		https://raw.githubusercontent.com/anka-213/webcomic_reader/master/webcomic_reader.user.js
 // @updatetype	 24
 // @grant			GM_getValue
 // @grant			GM_setValue
