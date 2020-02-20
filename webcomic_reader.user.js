@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.02.19-172000
+// @version		2020.02.20-022700
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2744,17 +2744,24 @@ var paginas = [
 		next:	['(//div[contains(@class, "o_story-nav")]//div//a)[last()]'],
 		extra:	[
 		'<div id="wcr-hs-extra">',
-		['//img[contains(@src, "/scratch/")]'],
-		'<div id="wcr_HS_title">',
-		['//h2[contains(@class, "type-hs-header")]'],
-		'</div><br><div id="wcr_imagen" class="wcr_imagen_override">',
-		['//div[@id="content_container"]'],'</div></div><br>',
-		['//div[@class="mar-x-auto disp-bl bg-scratch-mid-green pad-t-lg"]'], //Scratch
-		['//p[contains(@class, "o-story_text")]'],
-		['//div[contains(@class, "o_chat-container")]'], //Main Capture
-		'<br>',
-		['//div[contains(@class, "o_story-nav")]'], //Main
-		['(//div[@class=" mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg"])']
+            ['//img[contains(@src, "/scratch/")]'],
+            '<div id="wcr_HS_title">',
+                ['//h2[contains(@class, "type-hs-header")]'],
+            '</div>',
+            '<br>',
+            '<div id="wcr_imagen" class="wcr_imagen_override">',
+                ['//div[@id="content_container"]'],
+            '</div>',
+        '</div>',
+        '<br>',
+        '<div id="wcr-hs-extra-2">',
+            ['//div[@class="mar-x-auto disp-bl bg-scratch-mid-green pad-t-lg"]'], //Scratch
+            ['//p[contains(@class, "o-story_text")]'],
+            ['//div[contains(@class, "o_chat-container")]'], //Main Capture
+            '<br>',
+            ['//div[contains(@class, "o_story-nav")]'], //Main
+            ['(//div[@class=" mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg"])'],
+        '</div>',
 		],
 		style:	'.disp-n{'+
 				'display: inherit !important;}'+
@@ -2766,10 +2773,12 @@ var paginas = [
 				'display: block !important;}'+
 				
 				'.o_chat-log-btn{'+
-				'display:none;}'+
+				'display:none;'+
+                '}'+
 				
 				'#wcr_HS_title, .o_chat-container, .o_story-nav, .o-story_text, #o_no-flash, .pad-t-lg{'+
-				'border: 1px dashed gray;}'+
+				'border: 1px dashed gray;'+
+                '}'+
 				
 				'.o_story-nav{'+
 				'margin-right: 25px;'+
@@ -2782,6 +2791,12 @@ var paginas = [
 				'white-space: nowrap;'+
 				'font-weight:bold;}'+
 				
+                '#wcr-hs-extra-2{'+
+                'background: #EFEFEF;'+
+                'max-width: 650px;'+
+                'margin-left: auto;'+
+                'margin-right: auto;}'+
+                
 				'#wcr_HS_title{'+
 				'display: inline-block;'+
 				'margin-bottom: 16px;'+
