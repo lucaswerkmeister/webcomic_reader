@@ -43,13 +43,13 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2019.11.30b
+// @version		2020.02.19
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
 // @homepageURL	https://github.com/anka-213/webcomic_reader#readme
 // @supportURL	 https://github.com/anka-213/webcomic_reader/issues
-// @updateURL		https://raw.githubusercontent.com/anka-213/webcomic_reader/master/webcomic_reader.user.js
+// @updateURL		https://github.com/SoraHjort/webcomic_reader/raw/Fixes-and-Additions/webcomic_reader.user.js
 // @updatetype	 24
 // @grant			GM_getValue
 // @grant			GM_setValue
@@ -57,6 +57,10 @@ var defaultSettings = {
 // @grant			GM_xmlhttpRequest
 // @grant			GM_registerMenuCommand
 // @grant			GM_openInTab
+// @exclude     *.jpg
+// @exclude     *.jpeg
+// @exclude     *.png
+// @exclude     *.gif
 // @include		http*://www.sluggy.com/*
 // @include		http*://sluggy.com/*
 // @include		http*://www.penny-arcade.com/comic*
@@ -2307,7 +2311,7 @@ var paginas = [
 	//Needed Two Seperate EGS entries to handle the www and non-www URLs
 	//--[
 	{
-		url:	'http://www.egscomics.com',
+		url:	'www.egscomics.com',
 		img:	[['#cc-comic']],
 		back:	[['.cc-prev']],
 		next:	[['.cc-next']],
@@ -2315,12 +2319,12 @@ var paginas = [
 		last:	[['.cc-last']],
 		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>'],
 		fixurl:	function(url, img, link){
-		if(link) return url.replace('http://egscomics', 'http://www.egscomics');
+		if(link) return url.replace('://egscomics', '://www.egscomics');
 		return url;
 		}
 	},
 	{
-		url:	'http://egscomics.com',
+		url:	'egscomics.com',
 		img:	[['#cc-comic']],
 		back:	[['.cc-prev']],
 		next:	[['.cc-next']],
@@ -2534,10 +2538,20 @@ var paginas = [
 	},
 	{
 		url:	'girlgeniusonline.com/comic.php',
-		img:	'http://www.girlgeniusonline.com/ggmain/strips/',
+		img:	['//img[contains(@src, "/strips")][1]'],
 		back:	[['#bottomprev']],
 		next:	[['#bottomnext']],
-        extra:  [['//img[contains(@src, "/strips/")][2]'],['//img[contains(@src, "/strips/")][3]'],['//img[contains(@src, "/strips/")][4]'],['//img[contains(@src, "/strips/")][5]'],['//img[contains(@src, "/strips/")][6]'],['//img[contains(@src, "/strips/")][7]'],['//img[contains(@src, "/strips/")][8]'],['//img[contains(@src, "/strips/")][9]'],['//img[contains(@src, "/strips/")][10]']],
+        extra:  [
+        ['//img[contains(@src, "/strips")][2]'],
+        ['//img[contains(@src, "/strips")][3]'],
+        ['//img[contains(@src, "/strips")][4]'],
+        ['//img[contains(@src, "/strips")][5]'],
+        ['//img[contains(@src, "/strips")][6]'],
+        ['//img[contains(@src, "/strips")][7]'],
+        ['//img[contains(@src, "/strips")][8]'],
+        ['//img[contains(@src, "/strips")][9]'],
+        ['//img[contains(@src, "/strips")][10]']
+        ],
 		js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('#wcr_extra');
@@ -2728,7 +2742,20 @@ var paginas = [
 		img:	['//img[contains(@class, "mar-x-auto disp-bl")]'],
         back:	['//li[@class="o_game-nav-item"]//a[contains(.,"Go Back")]'],
 		next:	['(//div[contains(@class, "o_story-nav")]//div//a)[last()]'],
-		extra:	['<div id="wcr-hs-extra">',['//img[contains(@src, "/scratch/")]'],'<div id="wcr_HS_title">',['//h2[contains(@class, "type-hs-header")]'],'</div><br><div id="wcr_imagen" class="wcr_imagen_override">',['//div[@id="content_container"]'],'</div></div><br>',['//div[@class="mar-x-auto disp-bl bg-scratch-mid-green pad-t-lg"]'],['//p[contains(@class, "o-story_text")]'],['//div[contains(@class, "o_chat-container")]'],'<br>',['//div[contains(@class, "o_story-nav")]'],['(//div[@class=" mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg"])']],
+		extra:	[
+        '<div id="wcr-hs-extra">',
+        ['//img[contains(@src, "/scratch/")]'],
+        '<div id="wcr_HS_title">',
+        ['//h2[contains(@class, "type-hs-header")]'],
+        '</div><br><div id="wcr_imagen" class="wcr_imagen_override">',
+        ['//div[@id="content_container"]'],'</div></div><br>',
+        ['//div[@class="mar-x-auto disp-bl bg-scratch-mid-green pad-t-lg"]'], //Scratch
+        ['//p[contains(@class, "o-story_text")]'],
+        ['//div[contains(@class, "o_chat-container")]'], //Main Capture
+        '<br>',
+        ['//div[contains(@class, "o_story-nav")]'], //Main
+        ['(//div[@class=" mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg"])']
+        ],
 		style:	'.disp-n{'+
                 'display: inherit !important;}'+
                 
@@ -2742,7 +2769,6 @@ var paginas = [
                 'display:none;}'+
                 
                 '#wcr_HS_title, .o_chat-container, .o_story-nav, .o-story_text, #o_no-flash, .pad-t-lg{'+
-                'background: initial;'+
                 'border: 1px dashed gray;}'+
                 
                 '.o_story-nav{'+
