@@ -5501,8 +5501,8 @@ function trExtraConfSitio(p, prop){
 	var tdsConf = tdsConfSitio(p, prop);
 	tds[0].innerHTML =
 		'<div style="float:right">'+
-			'<button id="wcr_btn_up_'+p+'">/\\</button>'+
-			'<button id="wcr_btn_down_'+p+'">\\/</button>'+
+			'<button id="wcr_btn_up_'+p+'">&#8593;</button>'+
+			'<button id="wcr_btn_down_'+p+'">&#8595;</button>'+
 			'<button id="wcr_btn_del_'+p+'">Delete</button>'+
 		'</div>';
 	tds[1].innerHTML = tdsConf[0];
