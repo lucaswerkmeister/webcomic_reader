@@ -299,7 +299,8 @@ var defaultSettings = {
 // @include		http*://straysonline.com/comic/*
 // @include		http*://www.dragonball-multiverse.com/*
 // @include		http*://insanesoft.org/fanfyria/*
-// @include		http*://*.snafu-comics.com/*
+// @include		http*://snafu-comics.com/*
+// @include		http*://www.snafu-comics.com/*
 // @include		http*://www.wayfarersmoon.com/*
 // @include		http*://wayfarersmoon.com/*
 // @include		http*://*.smackjeeves.com/*
@@ -2851,6 +2852,14 @@ var paginas = [
 				setEvt(elemImagen, 'mousemove', imgCursor);
 				},
 	},
+	{	url:	'snafu-comics.com/',
+		back:	'@class="next"',
+		next:	'@class="previous"',
+        first:	'@class="first"',
+		last:	'@class="latest"',
+        style:  '.headerarea{position: relative !important;}'
+	},
+    
 	//WIP - Applegeeks is being a pain to setup
 	{	url:	'applegeeks.com/comics',
 		img:	['//div[@id="castheader"]//img'],
