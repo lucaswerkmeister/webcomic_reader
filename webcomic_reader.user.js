@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.02.20-022700
+// @version		2020.03.18-170200
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2853,11 +2853,12 @@ var paginas = [
 				},
 	},
 	{	url:	'snafu-comics.com/',
+        img:    ['//img[@class="bs"]'],
 		back:	'@class="next"',
 		next:	'@class="previous"',
         first:	'@class="first"',
 		last:	'@class="latest"',
-        style:  '.headerarea{position: relative !important;}'
+        style:  '.headerarea{position: relative !important;}*{transition: none !important;-webkit-transform: none !important;}'
 	},
     
 	//WIP - Applegeeks is being a pain to setup
