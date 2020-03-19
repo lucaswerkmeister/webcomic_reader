@@ -2853,7 +2853,6 @@ var paginas = [
 				},
 	},
 	{	url:	'snafu-comics.com/',
-        img:    ['//img[@class="bs"]'],
 		back:	'@class="next"',
 		next:	'@class="previous"',
         first:	'@class="first"',
