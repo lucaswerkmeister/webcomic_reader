@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.03.18-170200
+// @version		2020.03.24-035000
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -582,6 +582,7 @@ var defaultSettings = {
 // @include		http*://*.kemono.cafe/*
 // @include		http*://www.yoshsaga.com/*
 // @include		http*://www.artificialincident.com/*
+// @include     http*://narbonic.com/comic/*
 
 // ==/UserScript==
 
@@ -2750,7 +2751,7 @@ var paginas = [
                 ['//h2[contains(@class, "type-hs-header")]'],
             '</div>',
             '<br>',
-            '<div id="wcr_imagen" class="wcr_imagen_override">',
+            '<div id="  " class="wcr_imagen_override">',
                 ['//div[@id="content_container"]'],
             '</div>',
         '</div>',
@@ -2858,6 +2859,39 @@ var paginas = [
         first:	'@class="first"',
 		last:	'@class="latest"',
         style:  '.headerarea{position: relative !important;}*{transition: none !important;-webkit-transform: none !important;}'
+	},
+	{	url:	'narbonic.com/',
+        img:    ['//div[@id="comic-strip-image-1"]//img'],
+        extra:  ['<div id="wcr_imagen">',
+        ['//div[@id="comic-strip-container-1"]'],
+        ['//div[@id="comic-strip-container-2"]'],
+        ['//div[@id="comic-strip-container-3"]'],
+        ['//div[@id="comic-strip-container-4"]'],
+        ['//div[@id="comic-strip-container-5"]'],
+        ['//div[@id="comic-strip-container-6"]'],
+        ['//div[@id="comic-strip-container-7"]'],
+        ['//div[@id="comic-strip-container-8"]'],
+        ['//div[@id="comic-strip-container-9"]'],
+        ['//div[@id="comic-strip-container-10"]'],
+        ['//div[@id="comic-strip-container-11"]'],
+        ['//div[@id="comic-strip-container-12"]'],
+        ['//div[@id="comic-strip-container-13"]'],
+        ['//div[@id="comic-strip-container-14"]'],
+        ['//div[@id="comic-strip-container-15"]'],
+        ['//div[@id="comic-strip-container-16"]'],
+        ['//div[@id="comic-strip-container-17"]'],
+        ['//div[@id="comic-strip-container-18"]'],
+        ['//div[@id="comic-strip-container-19"]'],
+        ['//div[@id="comic-strip-container-20"]'],
+        '</div>',
+        ],
+        style:  '#comic-strip-image, .entry-comic img, img{margin: 0 0 0 0 !important; max-width: none;}#wcr_extra > div#wcr_imagen > div#comic-strip-container-1 > div#comic-strip-image-1 > img{display: none !important;}',
+        js:	function(dir){ //Copied from whoever did Webtoon's entry
+				// Makes it so anything within extra will be nav-clickable
+				var elemImagen = document.querySelectorAll('#wcr_extra');
+				setEvt(elemImagen, 'click', imgClick);
+				setEvt(elemImagen, 'mousemove', imgCursor);
+				},
 	},
     
 	//WIP - Applegeeks is being a pain to setup
