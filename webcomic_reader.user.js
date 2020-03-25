@@ -654,9 +654,9 @@ var usarb64 = confBool('b64_images', false);
 		next:
 			//get the href of the back and next links
 			//if not present, defaults to links containing "back"|"prev" / "next" in the <a> element's innerHTML
-			//'string' means "the href of the <a> element that satisfies 'string' (as an xpath expression)
+			//'string' means "the href of the <a> element that satisfies 'string' (as an XPath expression)
 		extra:
-			//optional array of additional content, as a 'literal string' or taken from the html by either ['xpath'] or [/regexp/, group number]
+			//optional array of additional content, as a 'literal string' or taken from the HTML with, ['XPath'], [['CSS']], [/regexp/, group number], or other possibilities as documented below
 		bgcol:
 		txtcol:
 			//override the default colors of the page for readability or aesthetics
@@ -671,17 +671,18 @@ var usarb64 = confBool('b64_images', false);
 		layout:
 			//forces the default behaviour for the layout (true=keep the original, false=clean it)
 		xelem:
-			//string with an xpath expression to get the element to be used as placeholder for the extra content
+			//string with an XPath expression to get the element to be used as placeholder for the extra content
 			//used only when keeping the original layout
 	}
 
 	img/back/next/extra[i] can be either:
 		'string',
-		['xpath expression that returns the first element found'],
-		['xpath expression that returns an array of elements', 'string to put between each element', ?first_index, ?last_index],
+		['XPath expression that returns the first element found'],
+		['XPath expression that returns an array of elements', 'string to put between each element', ?first_index, ?last_index],
+		[['CSS selector that returns the first element found']],
 		[/regular expression/, group number to get the desired content]
 		function(html_of_requested_page, position_relative_to_the_starting_page){ return content; }
-	a 'string' is interpreted as part of a default xpath expression for img/back/next, or a literal string for extra[i]
+	a 'string' is interpreted as part of a default XPath expression for img/back/next, or a literal string for extra[i]
 */
 
 var paginas = [
