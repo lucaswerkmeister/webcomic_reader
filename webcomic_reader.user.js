@@ -205,8 +205,8 @@ var defaultSettings = {
 // @include		http://*.comicgenesis.com/*
 // @include		http://www.beanleafpress.com/*
 // @include		http://www.theoswaldchronicles.com/*
-// @include		http://www.awkwardzombie.com/*
-// @include		http://awkwardzombie.com/*
+// @include		*://www.awkwardzombie.com/*
+// @include		*://awkwardzombie.com/*
 // @include		http://*.seraph-inn.com/*
 // @include		https://www.fakku.net/manga/*
 // @include		https://www.fakku.net/doujinshi/*
@@ -1178,10 +1178,17 @@ var paginas = [
 		next:	'@rel="next"'
 	},
 	{	url:	'awkwardzombie.com',
-		img:	['//div[@id="comic"]/img'],
-		back:	'img[@alt="Previous Comic"]',
-		next:	'img[@alt="Next Comic"]',
-		extra:	[['//div[@id="comic"]/img', '<br/>', 1], ['//div[@id="blarg"]']]
+		img:	[['#cc-comic']],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+		first:	[['.cc-first']],
+		last:	[['.cc-last']],
+		extra:	['<div style="background: white; margin-top: 0.5em; padding-left: 0.3em; padding-right: 0.3em;">',[['.cc-newsarea']],'</div>'],
+		// FIXME The name of the comic’s game/category is missing from the news section within `extra`.
+		// That game name can always be seen within the normal news section in the bottom left. So the workaround is refreshing the page to load the current comic’s news section.
+		// JavaScript that runs when the document is ready adds the game name to that bottom left news section.
+		// That JavaScript is written inline within the HTML of the loaded page. The <script> tag is written in the same place in the HTML as the element it inserts: after `.cc-publishtime`.
+		// Thus, a method for adding the game name when loading a new comic would be to extract just the element string literal from the JS within the loaded HTML, then use jQuery to insert that element in the right place inside the `.cc-newsarea`.
 	},
 	{	url:	'*.seraph-inn.com',
 		img:	'pages/'
