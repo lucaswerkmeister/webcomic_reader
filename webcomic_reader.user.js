@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.03.24-035000
+// @version		2020.03.27-014700
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2862,6 +2862,10 @@ var paginas = [
 	},
 	{	url:	'narbonic.com/',
         img:    ['//div[@id="comic-strip-image-1"]//img'],
+        next:   '@rel="next"',
+        back:   '@rel="prev"',
+        first:  '//div[@class="nav-first"]//a',
+        last:   '//div[@class="nav-last"]//a',
         extra:  ['<div id="wcr_imagen">',
         ['//div[@id="comic-strip-container-1"]'],
         ['//div[@id="comic-strip-container-2"]'],
