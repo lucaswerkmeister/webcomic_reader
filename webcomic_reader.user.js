@@ -133,6 +133,7 @@ var defaultSettings = {
 // @include		http://www.duelinganalogs.com/*
 // @include		http://www.myextralife.com/*
 // @include		http://notinventedhe.re/*
+// @include     *://mangaseeonline.us/*
 // @include		http://www.unshelved.com/*
 // @include		https://www.eviscerati.org/comics*
 // @include		http://buttersafe.com/*
@@ -1309,6 +1310,45 @@ var paginas = [
 					try{ return xpath('//a[contains(@href, "page='+(page+1)+'")]/@href', html); }
 					catch(e){ return xpath('//li[@class="right"]/a/@href', html); }
 				}
+	},
+	{
+		url:	'mangaseeonline.us/read-online',
+		img: 	[['img.CurImage']],
+		layout:	true,
+		back:	function(html, pos) {
+					var cS = selCss('.ChapterSelect', html);
+					var pS = selCss('.PageSelect', html);
+					var indexName = selCss('input.IndexName', html).getAttribute('value');
+					var chapter = cS.selectedIndex;
+					var page = pS.selectedIndex;
+					if (page < 1) {
+						chapter--;
+						var request = new XMLHttpRequest();
+						request.open('POST', 'request.chapter.php', false);
+						request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+						request.send('IndexName=' + indexName + '&ChapterValue=' + cS[chapter].value + '&MaxPage=yes');
+						if (request.responseText) { 
+                        	var res = JSON.parse(request.responseText);
+                        	page = res.CurPage - 1;
+                        }
+					}
+					var newChapter = cS[chapter].innerHTML.split(' ');
+					return document.location.href.replace(/(chapter-).+?(-.+?)\d+(.html)/, "$1" + newChapter[1] + "$2" + page + "$3");
+				},
+		next:	function(html, pos) {
+					var cS = selCss('.ChapterSelect', html);
+					var pS = selCss('.PageSelect', html);
+					var chapter = cS.selectedIndex;
+					var page = pS.selectedIndex + 1;
+					if (page >= pS.length) { page = 0; chapter++; }
+					var newChapter = cS[chapter].innerHTML.split(' ');
+					return document.location.href.replace(/(chapter-).+?(-.+?)\d+(.html)/, "$1" + newChapter[1] + "$2" + (page + 1) + "$3");
+				},
+		js:		function(dir){
+					document.querySelector('.navbar').className = "navbar navbar-default";
+					var mWrapper = document.getElementsByClassName('mainWrapper');
+					if (mWrapper && mWrapper.length > 0) mWrapper[0].style.marginTop = '0px';
+				},
 	},
 	{	url:	'sakanacomic.com',
 		img:	'/img/com/',
