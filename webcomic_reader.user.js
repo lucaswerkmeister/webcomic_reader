@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.03.27-014900
+// @version		2020.04.04-030700
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -584,6 +584,7 @@ var defaultSettings = {
 // @include		http*://www.artificialincident.com/*
 // @include     http*://narbonic.com/comic/*
 // @include     http*://www.thedreamlandchronicles.com/*
+// @include     http*://*.xepher.net/*
 
 // ==/UserScript==
 
@@ -1966,7 +1967,7 @@ var paginas = [
 	},
 	{	url:	'grrlpowercomic.com',
 		img:	[['#comic img']],
-		extra:	[[['.post-content']],'<br>',[['#comment-wrapper']]],
+		extra:	[[['.post-content']]],
 		style:	'#content{display:none}.post-content,#comment-wrapper{width: 766px;margin: auto;}'
 	},
 	{	url:	'the-whiteboard.com',
@@ -2890,7 +2891,7 @@ var paginas = [
         ['//div[@id="comic-strip-container-20"]'],
         '</div>',
         ],
-        style:  '#comic-strip-image, .entry-comic img, img{margin: 0 0 0 0 !important; max-width: none;}#wcr_extra > div#wcr_imagen > div#comic-strip-container-1 > div#comic-strip-image-1 > img{display: none !important;}',
+        style:  '#comic-strip-image, .entry-comic img, img{margin: 0 0 0 0 !important; max-width: none;}#wcr_extra > div#wcr_imagen > div#comic-strip-container-1 > div#comic-strip-image-1 > img{display: none !important;} img{ background: white !important;}',
         js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('#wcr_extra');
@@ -2901,6 +2902,9 @@ var paginas = [
     {	url:	'thedreamlandchronicles.com/',
 		img:	['//div[@id="comic"]//a//img'],
 	},
+    {   url:    'w0lfmare.xepher.net/',
+        img:    ['//div[@id="comic"]//img'],
+    },
 	//WIP - Applegeeks is being a pain to setup
 	{	url:	'applegeeks.com/comics',
 		img:	['//div[@id="castheader"]//img'],
