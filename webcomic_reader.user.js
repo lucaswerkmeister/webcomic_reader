@@ -1887,8 +1887,15 @@ var paginas = [
 	},
 	{	url:	'freefall.purrsia.com',
 		img:	['//img[@height>="200"]'],
+        extra:  ['<br>',['//a[2]//img[@height>="200"]'],['//a[3]//img[@height>="200"]'],['//a[4]//img[@height>="200"]'],['//a[5]//img[@height>="200"]'],['//a[6]//img[@height>="200"]'],['//a[7]//img[@height>="200"]'],['//a[8]//img[@height>="200"]'],['//a[9]//img[@height>="200"]'],['//a[10]//img[@height>="200"]']],
 		back:	'contains(.,"Previous")',
-		next:	'contains(.,"Next")'
+		next:	'contains(.,"Next")',
+        js:	function(dir){ //Copied from Webtoon's entry. Thanks to who ever did that
+				// Makes it so anything within extra will be nav-clickable
+				var elemImagen = document.querySelectorAll('#wcr_extra');
+				setEvt(elemImagen, 'click', imgClick);
+				setEvt(elemImagen, 'mousemove', imgCursor);
+				},
 	},
 	{	url:	'shd-wk.com',
 		style:	'#wcr_div{text-align:left !important;} #wcr_listabm{padding-top:100px;}'
