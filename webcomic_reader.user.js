@@ -2928,6 +2928,9 @@ var paginas = [
     {   url:    'w0lfmare.xepher.net/',
         img:    ['//div[@id="comic"]//img'],
     },
+    {   url:    'project-future.xepher.net/',
+        back:   ['//img[@alt="Previous"]/..']
+    },
     {   url:    'sailorsun.org/|jeaniebottle.com/',
         img:    ['//div[@id="comic"]//img'],
         back:   'contains(@class, "comic-nav-previous")',
