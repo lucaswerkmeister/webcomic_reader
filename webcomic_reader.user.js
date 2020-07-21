@@ -1376,9 +1376,12 @@ var paginas = [
 		next:	'.="Next"'
 	},
 	{	url:	'twokinds.keenspot.com',
-		img:	[['#cg_img img']],
-		back:	'@id="cg_back"',
-		next:	'@id="cg_next"'
+		img:	['//main[@id="content"]//article[@class="comic"]//a//img'],
+		back:	'contains(@class, "navprev")',
+		next:	'contains(@class, "navnext")',
+        first:	'contains(@class, "navnbegin")',
+        last:	'contains(@class, "navend")',
+        extra:  ['<img src="',['//main[@id="content"]//article[@class="comic"]//a/@href'],'">',['//aside[@class="transcript"]']]
 	},
 	{	url:	'roadwaffles.keenspot.com',
 		img:	'comics/',
