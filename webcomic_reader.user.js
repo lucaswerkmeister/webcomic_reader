@@ -671,9 +671,9 @@ var usarb64 = confBool('b64_images', false);
 		next:
 			//get the href of the back and next links
 			//if not present, defaults to links containing "back"|"prev" / "next" in the <a> element's innerHTML
-			//'string' means "the href of the <a> element that satisfies 'string' (as an xpath expression)
+			//'string' means "the href of the <a> element that satisfies 'string' (as an XPath expression)
 		extra:
-			//optional array of additional content, as a 'literal string' or taken from the html by either ['xpath'] or [/regexp/, group number]
+			//optional array of additional content, as a 'literal string' or taken from the HTML with, ['XPath'], [['CSS']], [/regexp/, group number], or other possibilities as documented below
 		bgcol:
 		txtcol:
 			//override the default colors of the page for readability or aesthetics
@@ -688,7 +688,7 @@ var usarb64 = confBool('b64_images', false);
 		layout:
 			//forces the default behaviour for the layout (true=keep the original, false=clean it)
 		xelem:
-			//string with an xpath expression to get the element to be used as placeholder for the extra content
+			//string with an XPath expression to get the element to be used as placeholder for the extra content
 			//used only when keeping the original layout
 	}
 
@@ -698,7 +698,7 @@ var usarb64 = confBool('b64_images', false);
 		['xpath expression that returns an array of elements', 'string to put between each element', ?first_index, ?last_index],
 		[/regular expression/, group number to get the desired content]
 		function(html_of_requested_page, position_relative_to_the_starting_page){ return content; }
-	a 'string' is interpreted as part of a default xpath expression for img/back/next, or a literal string for extra[i]
+	a 'string' is interpreted as part of a default XPath expression for img/back/next, or a literal string for extra[i]
 */
 
 var paginas = [
@@ -1198,10 +1198,17 @@ var paginas = [
 		next:	'@rel="next"'
 	},
 	{	url:	'awkwardzombie.com',
-		img:	['//div[@id="comic"]/img'],
-		back:	'img[@alt="Previous Comic"]',
-		next:	'img[@alt="Next Comic"]',
-		extra:	[['//div[@id="comic"]/img', '<br/>', 1], ['//div[@id="blarg"]']]
+		img:	[['#cc-comic']],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+		first:	[['.cc-first']],
+		last:	[['.cc-last']],
+		extra:	['<div style="background: white; margin-top: 0.5em; padding-left: 0.3em; padding-right: 0.3em;">',[['.cc-newsarea']],'</div>'],
+		// FIXME The name of the comic’s game/category is missing from the news section within `extra`.
+		// That game name can always be seen within the normal news section in the bottom left. So the workaround is refreshing the page to load the current comic’s news section.
+		// JavaScript that runs when the document is ready adds the game name to that bottom left news section.
+		// That JavaScript is written inline within the HTML of the loaded page. The <script> tag is written in the same place in the HTML as the element it inserts: after `.cc-publishtime`.
+		// Thus, a method for adding the game name when loading a new comic would be to extract just the element string literal from the JS within the loaded HTML, then use jQuery to insert that element in the right place inside the `.cc-newsarea`.
 	},
 	{	url:	'*.seraph-inn.com',
 		img:	'pages/'
@@ -2507,7 +2514,7 @@ var paginas = [
 		extra:	[[['.pages-list']]],
 		layelem:'//*[@id="image"]',
 	},
-	{
+		{
 		url:	'mangaseeonline.us/read-online',
 		img: 	[['img.CurImage']],
 		layout:	true,
@@ -2523,7 +2530,10 @@ var paginas = [
 						request.open('POST', 'request.chapter.php', false);
 						request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 						request.send('IndexName=' + indexName + '&ChapterValue=' + cS[chapter].value + '&MaxPage=yes');
-						if (request.responseText) { page = JSON.parse(request.responseText).CurPage;}
+						if (request.responseText) { 
+                        	var res = JSON.parse(request.responseText);
+                        	page = res.CurPage - 1;
+                        }
 					}
 					var newChapter = cS[chapter].innerHTML.split(' ');
 					return document.location.href.replace(/(chapter-).+?(-.+?)\d+(.html)/, "$1" + newChapter[1] + "$2" + page + "$3");
@@ -5833,8 +5843,8 @@ function trExtraConfSitio(p, prop){
 	var tdsConf = tdsConfSitio(p, prop);
 	tds[0].innerHTML =
 		'<div style="float:right">'+
-			'<button id="wcr_btn_up_'+p+'">/\\</button>'+
-			'<button id="wcr_btn_down_'+p+'">\\/</button>'+
+			'<button id="wcr_btn_up_'+p+'">&#8593;</button>'+
+			'<button id="wcr_btn_down_'+p+'">&#8595;</button>'+
 			'<button id="wcr_btn_del_'+p+'">Delete</button>'+
 		'</div>';
 	tds[1].innerHTML = tdsConf[0];
