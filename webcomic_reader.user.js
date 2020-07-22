@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.07.21-150200
+// @version		2020.07.21-170900
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -5146,14 +5146,14 @@ function mostrarSettings(){
 					'1':'Enabled'
 				}
 			},
-			click_img_izq:{ desc:'Click left half of<br/>image to go back', title:'If enabled, clicking the left half of the image will take you to the previous page, and the right half to the next one. Otherwise, clicking anywhere will always take you to the next page',
+			click_img_izq:{ desc:'Click left half of image to go back', title:'If enabled, clicking the left half of the image will take you to the previous page, and the right half to the next one. Otherwise, clicking anywhere will always take you to the next page',
 				def: defaultSettings.clikLeftHalfGoesBack ? '1' : '0',
 				vals:{
 					'0':'Disabled',
 					'1':'Enabled'
 				}
 			},
-			flipControlsManga:{ desc:'Flip controls<br/>for mangas', title:'If enabled, flips the controls (L/R arrows, L/R image click, back/next buttons) for mangas or other right-to-left content',
+			flipControlsManga:{ desc:'Flip controls for mangas', title:'If enabled, flips the controls (L/R arrows, L/R image click, back/next buttons) for mangas or other right-to-left content',
 				def: defaultSettings.flipControlsManga ? '1' : '0',
 				vals:{
 					'0':'Disabled',
@@ -5343,7 +5343,7 @@ function mostrarSettings(){
 		divsets.style.textAlign = 'center';
 		divsets.innerHTML =
 			'<div style="position:fixed; z-index:232322; background:#000; top:0; left:0; right:0; bottom:0; opacity:0.8;"></div>'+
-			'<div id="wcr_settings_popup" style="position:absolute; left:50%; z-index:232323; background-color:#fff; color:#000; padding: 20px;max-width:900px">'+
+			'<div id="wcr_settings_popup" style="position:absolute; left:50%; z-index:232323; background-color:#fff; color:#000; padding: 20px;max-width: 800px; min-width: 800px;">'+
 				'<div id="wcr_settings_links">'+
 					'<span class="wcr_general">General</span> | '+
 					'<span class="wcr_layout">Graphic settings</span> | '+
@@ -5379,7 +5379,10 @@ function mostrarSettings(){
 				'</div>'+
 			'</div>'+
 			'<style>'+
-				'#wcr_settings_popup *{color:#000;}'+
+				'#wcr_settings_popup *{color:#000; font-size: 12px !important; font-family: Verdana, Arial, Helvetica, sans-serif !important;}'+
+                '.wcr_tr_vert_group{height: 25px; width: 210px !important;}'+
+                '.wcr_td_vert_group{height: 25px; width: 210px !important;}'+
+                '#wcr_general_tabla, #wcr_layout_tabla{width: 100%}'+
 				'#wcr_settings_popup input, #wcr_settings_popup select, #wcr_settings_popup textarea{background-color:#fff;}'+
 				'#wcr_settings_links span{cursor:pointer; text-decoration:underline;}'+
 				'div{position:static; float:none;}'+
@@ -5776,8 +5779,8 @@ function htmlLayout(ops, nombre){
 			}
 
 			html +=
-				'<tr>'+
-					'<td title="'+(op.title || '')+'">'+op.desc+'</td>'+
+				'<tr class="wcr_tr_vert_group">'+
+					'<td class="wcr_td_vert_group" title="'+(op.title || '')+'">'+op.desc+'</td>'+
 					'<td>'+ (op.vals ?
 						('<select id="wcr_sel_layout_'+o+'_def">'+opts+'</select>') :
 						('<input id="wcr_sel_layout_'+o+'_def"/>')
@@ -6478,7 +6481,7 @@ function mostrarSettingsZoom(){
 		divsets.style.textAlign = 'center';
 		divsets.innerHTML =
 			'<div style="position:fixed; z-index:232322; background:#000; top:0; left:0; right:0; bottom:0; opacity:0.8;"></div>'+
-			'<div id="wcr_settings_popup" style="position:absolute; left:50%; z-index:232323; background-color:#fff; color:#000; padding: 20px;max-width: 900px;">'+
+			'<div id="wcr_settings_popup" style="position:absolute; left:50%; z-index:232323; background-color:#fff; color:#000; padding: 20px;max-width: 900px; min-width: 800px">'+
 				'<div>How do you want the images to be fitted?</div><hr/>'+
 				'<div id="wcr_settings_content" style="text-align:left">'+html+'</div><br/>'+
 				'These (and more) settings can be changed later by clicking the "Settings" button<hr/>'+
