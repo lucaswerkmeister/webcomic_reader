@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.07.21-170900
+// @version		2020.07.21-221300
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -1376,12 +1376,21 @@ var paginas = [
 		next:	'.="Next"'
 	},
 	{	url:	'twokinds.keenspot.com',
-		img:	['//main[@id="content"]//article[@class="comic"]//a//img'],
+		img:	['//main[@id="content"]//article[@class="comic"]/a/img|//main[@id="content"]/article[@class="comic"]/img'],
 		back:	'contains(@class, "navprev")',
 		next:	'contains(@class, "navnext")',
         first:	'contains(@class, "navnbegin")',
         last:	'contains(@class, "navend")',
-        extra:  ['<img src="',['//main[@id="content"]//article[@class="comic"]//a/@href'],'">',['//aside[@class="transcript"]']]
+        extra:  [
+                '<object data="',
+                    [
+                    '//main[@id="content"]/article[@class="comic"]/a/@href'
+                    ],
+                    '" type="image"></object>',
+                    [
+                    '//aside[@class="transcript"]'
+                    ]
+                ]
 	},
 	{	url:	'roadwaffles.keenspot.com',
 		img:	'comics/',
