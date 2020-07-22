@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.07.21.230600
+// @version		2020.07.22.135700
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -5358,13 +5358,13 @@ function mostrarSettings(){
 					'<span class="wcr_layout">Graphic settings</span> | '+
 					'<span class="wcr_sitio">Site settings</span> | '+
 					'<span class="wcr_teclas">Keyboard shortcuts</span>'+
-				'</div><hr/>'+
+				'</div><hr class="wcr_settings_hr" />'+
 				'<div id="wcr_settings_content" style="text-align:left">'+
 					'<div class="wcr_general">'+htmlLayout(opsGeneral, 'general')+'</div>'+
 					'<div class="wcr_layout">'+htmlLayout(opsLayout, 'layout')+'</div>'+
 					'<div class="wcr_sitio">'+htmlSitio(propsSitio)+'</div>'+
 					'<div class="wcr_teclas">'+htmlTeclas(teclas)+'</div>'+
-				'</div><hr/>'+
+				'</div><hr class="wcr_settings_hr" />'+
 				'<div>'+
 					'Import / Export '+
 					'<select id="wcr_set_sel_impexp">'+
@@ -5389,10 +5389,12 @@ function mostrarSettings(){
 			'</div>'+
 			'<style>'+
 				'#wcr_settings_popup *{color:#000; font-size: 12px !important; font-family: Verdana, Arial, Helvetica, sans-serif !important;}'+
-                '.wcr_tr_vert_group{height: 25px; width: 210px !important;}'+
-                '.wcr_td_vert_group{height: 25px; width: 210px !important;}'+
-                '#wcr_general_tabla, #wcr_layout_tabla{width: 100%}'+
-				'#wcr_settings_popup input, #wcr_settings_popup select, #wcr_settings_popup textarea{background-color:#fff;}'+
+                '.wcr_tr_vert_group, .wcr_td_hori_group{height: 25px; padding: 0px;}'+
+                '.wcr_td_vert_group{height: 25px; width: 224px !important; padding: 0px;}'+
+                '.wcr_settings_td_label{text-align: center;height: 24px; padding: 0px;}'+
+                '.wcr_settings_hr{margin: 4px 2px 4px}'+
+                '#wcr_general_tabla, #wcr_layout_tabla{width: 100%; border-spacing: 2px}'+
+				'#wcr_settings_popup input, #wcr_settings_popup select, #wcr_settings_popup textarea{background-color:#fff; width: 95%;}'+
 				'#wcr_settings_links span{cursor:pointer; text-decoration:underline;}'+
 				'div{position:static; float:none;}'+
 				'#wcr_settings [title]{cursor:help;}'+
@@ -5767,16 +5769,16 @@ function htmlLayout(ops, nombre){
 	var html =
 		'<table id="wcr_'+nombre+'_tabla">'+
 			'<tr class="wcr_settings_group">'+
-				'<td></td>'+
-				'<td>Default settings</td>'+
-				'<td>Settings for '+document.location.host.replace(/^www\./, '')+'</td>'+
+				'<td class="wcr_td_vert_group"></td>'+
+				'<td class="wcr_settings_td_label">Default settings</td>'+
+				'<td class="wcr_settings_td_label">Settings for '+document.location.host.replace(/^www\./, '')+'</td>'+
 			'</tr>';
 	for(var o in ops){
 		var op = ops[o];
 		if(!o.indexOf('_grp_')){
 			html +=
 				'<tr class="wcr_settings_group">'+
-					'<td colspan="3" title="'+(op.title || '')+'">'+op.desc+'</td>'+
+					'<td class="wcr_settings_td_label" colspan="3" title="'+(op.title || '')+'">'+op.desc+'</td>'+
 				'</tr>';
 		}
 		else{
@@ -5790,11 +5792,11 @@ function htmlLayout(ops, nombre){
 			html +=
 				'<tr class="wcr_tr_vert_group">'+
 					'<td class="wcr_td_vert_group" title="'+(op.title || '')+'">'+op.desc+'</td>'+
-					'<td>'+ (op.vals ?
+					'<td class="wcr_td_hori_group">'+ (op.vals ?
 						('<select id="wcr_sel_layout_'+o+'_def">'+opts+'</select>') :
 						('<input id="wcr_sel_layout_'+o+'_def"/>')
 					)+'</td>'+
-					'<td>'+ (op.vals ?
+					'<td class="wcr_td_hori_group">'+ (op.vals ?
 						('<select id="wcr_sel_layout_'+o+'">'+
 							'<option value="">Use default settings</option>'+opts+
 						'</select>') :
