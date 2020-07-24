@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.07.22.135700
+// @version		2020.07.24.151400
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -124,8 +124,6 @@ var defaultSettings = {
 // @include		http*://www.the-gutters.com/*
 // @include		http*://noneedforbushido.com/*
 // @include		http*://www.teahousecomic.com/*
-// @include		http*://www.applegeeks.com/*
-// @include		http*://applegeeks.com/*
 // @include		http*://www.nettserier.no/*
 // @include		http*://nettserier.no/*
 // @include		http*://www.nerfnow.com/*
@@ -2945,11 +2943,8 @@ var paginas = [
         back:   'contains(@class, "comic-nav-previous")',
         next:   'contains(@class, "comic-nav-next")',
     },
-	//WIP - Applegeeks is being a pain to setup
-	{	url:	'applegeeks.com/comics',
-		img:	['//div[@id="castheader"]//img'],
-		back:	['//div[1]//div[4]//div//p[1]//a'],
-		next:	['//div[1]//div[4]//div//p[2]//a']
+	{	url:	'lfg.co/page',
+		style:  '#header{position:relative;}'
 	}
 	// End of sites
 	/*
@@ -3033,6 +3028,8 @@ var layoutDefault =
 			'background-color: #ccc;'+
 			'border: 2px solid rgba(22,22,22,0.3);'+
 			'font-family: "Lucida Grande", sans-serif !important;}'+
+        '#wcr_div button:Active,button[id^="wcr_set_btn"],button[id^="wcr_btn"]:Active{'+
+            'background-color: #555;+}'+
 		'#wcr_pages{'+
 			'font-size: 14px;'+
 			'padding: 0px 8px 0px 8px;'+
@@ -3075,6 +3072,26 @@ var layoutDefault =
 		'<div id="wcr_imagenes" style="display:none"></div>'+
 		'<div id="wcr_links_imgs" style="display:none;"></div>'+
 	'</div>';
+
+var wcr_set_btn_disable_mobile_css = 
+    'display: block;'+
+    'position: relative;'+
+    'z-index: 2323;'+
+	'margin: 20px auto auto auto;'+
+	'width: 50%;'+
+	'height: 64px;'+
+	'font-weight: 100;'+
+	'letter-spacing: 0;'+
+	'text-transform: none;'+
+	'line-height: 20px !important;'+
+	'font-size: 24px !important;'+
+	'padding: 0px 8px 0px 8px;'+
+	'float:none;'+
+	'text-align: center;'+
+	'color: #222;'+
+	'background-color: #ccc !important;'+
+	'border: 2px solid rgba(22,22,22,0.3);'+
+	'font-family: "Lucida Grande", sans-serif !important;';
 
 //en vez de reemplazar el body.innerHTML, meter el layoutdefault donde estaba la imagen y dejar el resto de la pagina intacta
 function layoutIntacto(){
@@ -5372,7 +5389,7 @@ function mostrarSettings(){
 						'<option value="default">default settings</option>'+
 						'<option value="all">ALL data</option>'+
 					'</select> '+
-					'<button id="wcr_set_btn_impexp">GO</button> - '+
+					'<button id="wcr_set_btn_impexp">GO</button><br>'+
 					'Reset '+
 					'<select id="wcr_set_sel_reset">'+
 						'<option value="">data for '+dominioData()+'</option>'+
@@ -5393,6 +5410,7 @@ function mostrarSettings(){
                 '.wcr_td_vert_group{height: 25px; width: 224px !important; padding: 0px;}'+
                 '.wcr_settings_td_label{text-align: center;height: 24px; padding: 0px;}'+
                 '.wcr_settings_hr{margin: 4px 2px 4px}'+
+                '#wcr_sel_confpag, #wcr_set_sel_impexp, #wcr_set_sel_reset{width: 50% !important}'+
                 '#wcr_general_tabla, #wcr_layout_tabla{width: 100%; border-spacing: 2px}'+
 				'#wcr_settings_popup input, #wcr_settings_popup select, #wcr_settings_popup textarea{background-color:#fff; width: 95%;}'+
 				'#wcr_settings_links span{cursor:pointer; text-decoration:underline;}'+
@@ -6330,44 +6348,16 @@ function ifMobile(){
 			GM_CMD_Buttons.innerHTML =
 			'<style id="wcr_style" type="text/css">'+
 				'body > button:nth-last-of-type(1){'+
-				'display: block;'+
-				'margin: 20px auto auto auto;'+
-				'width: 50%;'+
-				'height: 64px;'+
-				'font-weight: 100;'+
-				'letter-spacing: 0;'+
-				'text-transform: none;'+
-				'line-height: 20px !important;'+
-				'font-size: 24px !important;'+
-				'padding: 0px 8px 0px 8px;'+
-				'float:none;'+
-				'text-align: center;'+
-				'color: #222;'+
-				'background-color: #ccc !important;'+
-				'border: 2px solid rgba(22,22,22,0.3);'+
-				'font-family: "Lucida Grande", sans-serif !important;}'+
+                wcr_set_btn_disable_mobile_css+
+                '}'+
 			'</style>';
-		} else if (scriptEngine === "Tampermonkey"){
+		} else {
 		GM_CMD_Buttons.innerHTML =
 			'<button id="wcr_set_btn_disable_mobile">Disable script for this site</button>'+
 			'<style id="wcr_style" type="text/css">'+
 				'#wcr_set_btn_disable_mobile{'+
-				'display: block;'+
-				'margin: 20px auto auto auto;'+
-				'width: 50%;'+
-				'height: 64px;'+
-				'font-weight: 100;'+
-				'letter-spacing: 0;'+
-				'text-transform: none;'+
-				'line-height: 20px !important;'+
-				'font-size: 24px !important;'+
-				'padding: 0px 8px 0px 8px;'+
-				'float:none;'+
-				'text-align: center;'+
-				'color: #222;'+
-				'background-color: #ccc !important;'+
-				'border: 2px solid rgba(22,22,22,0.3);'+
-				'font-family: "Lucida Grande", sans-serif !important;}'+
+                wcr_set_btn_disable_mobile_css+
+                '}'+
 			'</style>';
 		}
 		document.body.appendChild(GM_CMD_Buttons);
@@ -6414,44 +6404,16 @@ function ifMobileNDisabled(){
 			GM_CMD_Buttons.innerHTML =
 			'<style id="wcr_style" type="text/css">'+
 				'body > button:nth-last-of-type(1){'+
-				'display: block;'+
-				'margin: 20px auto auto auto;'+
-				'width: 50%;'+
-				'height: 64px;'+
-				'font-weight: 100;'+
-				'letter-spacing: 0;'+
-				'text-transform: none;'+
-				'line-height: 20px !important;'+
-				'font-size: 24px !important;'+
-				'padding: 0px 8px 0px 8px;'+
-				'float:none;'+
-				'text-align: center;'+
-				'color: #222;'+
-				'background-color: #ccc !important;'+
-				'border: 2px solid rgba(22,22,22,0.3);'+
-				'font-family: "Lucida Grande", sans-serif !important;}'+
+                wcr_set_btn_disable_mobile_css+
+                '}'+
 			'</style>';
-		} else if (scriptEngine === "Tampermonkey"){
+		} else {
 		GM_CMD_Buttons.innerHTML =
 			'<button id="wcr_set_btn_enable_mobile">Enable script for this site</button>'+
 			'<style id="wcr_style" type="text/css">'+
 				'#wcr_set_btn_enable_mobile{'+
-				'display: block;'+
-				'margin: 20px auto auto auto;'+
-				'width: 50%;'+
-				'height: 64px;'+
-				'font-weight: 100;'+
-				'letter-spacing: 0;'+
-				'text-transform: none;'+
-				'line-height: 20px !important;'+
-				'font-size: 24px !important;'+
-				'padding: 0px 8px 0px 8px;'+
-				'float:none;'+
-				'text-align: center;'+
-				'color: #222;'+
-				'background-color: #ccc !important;'+
-				'border: 2px solid rgba(22,22,22,0.3);'+
-				'font-family: "Lucida Grande", sans-serif !important;}'+
+                wcr_set_btn_disable_mobile_css+
+                '}'+
 			'</style>';
 		}
 		document.body.appendChild(GM_CMD_Buttons);
