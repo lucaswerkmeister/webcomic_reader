@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.07.27.144900
+// @version		2020.07.27.154800
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2573,17 +2573,21 @@ var paginas = [
 		back:	[['#bottomprev']],
 		next:	[['#bottomnext']],
 		extra:	[
-		['//img[contains(@src, "/strips")][2]'],
-		['//img[contains(@src, "/strips")][3]'],
-		['//img[contains(@src, "/strips")][4]'],
-		['//img[contains(@src, "/strips")][5]'],
-		['//img[contains(@src, "/strips")][6]'],
-		['//img[contains(@src, "/strips")][7]'],
-		['//img[contains(@src, "/strips")][8]'],
-		['//img[contains(@src, "/strips")][9]'],
-		['//img[contains(@src, "/strips")][10]']
+        ['//div[@id="comicbody"]/a/img[@alt="Comic"]'],
+        ['//div[@id="comicbody"]/img[@alt="Comic"][1]'],
+		['//div[@id="comicbody"]/img[@alt="Comic"][2]'],
+		['//div[@id="comicbody"]/img[@alt="Comic"][3]'],
+		['//div[@id="comicbody"]/img[@alt="Comic"][4]'],
+		['//div[@id="comicbody"]/img[@alt="Comic"][5]'],
+		['//div[@id="comicbody"]/img[@alt="Comic"][6]'],
+		['//div[@id="comicbody"]/img[@alt="Comic"][7]'],
+		['//div[@id="comicbody"]/img[@alt="Comic"][8]'],
+		['//div[@id="comicbody"]/img[@alt="Comic"][9]'],
+		['//div[@id="comicbody"]/img[@alt="Comic"][10]'],
+        ['//div[@id="comicbody"]/table'],
 		],
-		js:	wcr_ext_navi_ctrls
+		js:	wcr_ext_navi_ctrls,
+        style:	'#wcr_imagen{display: none;}'
 	},
 	{
 		url:	'http://incase.buttsmithy.com/comic/',
@@ -6488,8 +6492,11 @@ function mostrarSettingsZoom(){
 }
 
 function wcr_ext_navi_ctrls(dir){ 
-//Copied from Webtoon's entry. Thanks to who ever did that
+// Edited from Webtoon's entry. Thanks to who ever did that
 // Makes it so anything within extra will be nav-clickable
+//
+// js:	wcr_ext_navi_ctrls
+//
 	var elemImagen = document.querySelectorAll('#wcr_extra');
 	setEvt(elemImagen, 'click', imgClick);
 	setEvt(elemImagen, 'mousemove', imgCursor);
