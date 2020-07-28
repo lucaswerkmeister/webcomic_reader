@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.07.27.154800
+// @version		2020.07.27.160900
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -4725,6 +4725,23 @@ function toggleFullscreen(){
 		fullScreened = false;
 		document.getElementById('wcr_btnfullscreen').innerText = 'Enable Fullscreen';
 	}
+}
+
+// https://stackoverflow.com/a/25876513
+// To change the Fullscreen button and variable if left fullscreen via other methods than the button
+
+if (document.addEventListener){
+    document.addEventListener('fullscreenchange', exitHandler, false);
+    document.addEventListener('mozfullscreenchange', exitHandler, false);
+    document.addEventListener('MSFullscreenChange', exitHandler, false);
+    document.addEventListener('webkitfullscreenchange', exitHandler, false);
+}
+function exitHandler(){
+if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement)
+    {
+    fullScreened = false;
+    document.getElementById('wcr_btnfullscreen').innerText = 'Enable Fullscreen';
+    }
 }
 
 //alterna una conf booleana para esta pag
