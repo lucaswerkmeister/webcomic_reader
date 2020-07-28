@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name			Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.07.28.110700
+// @version		2020.07.28.113600
 // @license		MIT
 // @namespace		http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -692,8 +692,9 @@ var usarb64 = confBool('b64_images', false);
 
 	img/back/next/extra[i] can be either:
 		'string',
-		['xpath expression that returns the first element found'],
-		['xpath expression that returns an array of elements', 'string to put between each element', ?first_index, ?last_index],
+		['XPath expression that returns the first element found'],
+		['XPath expression that returns an array of elements', 'string to put between each element', ?first_index, ?last_index],
+		[['CSS selector that returns the first element found']],
 		[/regular expression/, group number to get the desired content]
 		function(html_of_requested_page, position_relative_to_the_starting_page){ return content; }
 	a 'string' is interpreted as part of a default XPath expression for img/back/next, or a literal string for extra[i]
@@ -701,17 +702,17 @@ var usarb64 = confBool('b64_images', false);
 
 var paginas = [
 
-	{	url:  'penny-arcade.com',
-		img:  [['#comicFrame img']],
-		fixurl:  function(url, img, link, pos){return url.replace("http:","");},
-		extra:  [[['.title h2']]],
-		style:  '#bb,#header{position:relative;}'
+	{	url:	'penny-arcade.com',
+		img:	[['#comicFrame img']],
+		fixurl:	function(url, img, link, pos){return url.replace("http:","");},
+		extra:	[[['.title h2']]],
+		style:	'#bb,#header{position:relative;}'
 	},
-	{	url:  'xkcd.',
-		img:  ['//div[@id="comic"]//img'],
-		first:  '.="|<"',
-		last:  '.=">|"',
-		extra:  ['<br/>', ['//div[@id="ctitle"]'], function(html, pos) {
+	{	url:	'xkcd.',
+		img:	['//div[@id="comic"]//img'],
+		first:	'.="|<"',
+		last:	'.=">|"',
+		extra:	['<br/>', ['//div[@id="ctitle"]'], function(html, pos) {
 					var href = xpath('//div[@id="comic"]//a/@href', html);
 					return '<br/><a href=' + href + '>' +
 						(href.indexOf('xkcd') >= 0 ? 'Large version' : 'Bonus Link!') +
@@ -726,102 +727,102 @@ var paginas = [
 					var url = 'http://www.explainxkcd.com/wiki/index.php/' + nr;
 					return '<a target=\"_blank\" href=\"' + url + '\">Explain Xkcd</a>';
 				}],
-		bgcol:  '#fff'
+		bgcol:	'#fff'
 	},
-	{	url:  'dilbert.com',
-		img:  [['.img-comic']],
-		back:  '@title="Older Strip"',
-		next:  '@title="Next Strip"'
+	{	url:	'dilbert.com',
+		img:	[['.img-comic']],
+		back:	'@title="Older Strip"',
+		next:	'@title="Next Strip"'
 	},
-	{	url:  'explosm.net/comics',
-		img:  [['#main-comic']],
-		extra:  [['//small[@class="author-credit-name"]/../../..'], [/<img id="main-comic" .+?\/([^"\/]+)\.\w+"/i, 1], function(html, pos){
+	{	url:	'explosm.net/comics',
+		img:	[['#main-comic']],
+		extra:	[['//small[@class="author-credit-name"]/../../..'], [/<img id="main-comic" .+?\/([^"\/]+)\.\w+"/i, 1], function(html, pos){
 					var url = selCss('#main-comic', html).parentNode.getAttribute('href');
 					if(!url) return '';
 					var htmlVideo = syncRequest(url, pos);
 					return selCss('.flex-video', htmlVideo);
 				}],
-		style:  '#wcr_imagen{max-width:none;}'
+		style:	'#wcr_imagen{max-width:none;}'
 	},
-	{	url:  'pvponline.com',
-		img:  [['.comic-art img']],
-		extra:  [[['.comic header']]],
-		style:  '.nav-locked .main-nav{display: none;}'
+	{	url:	'pvponline.com',
+		img:	[['.comic-art img']],
+		extra:	[[['.comic header']]],
+		style:	'.nav-locked .main-nav{display: none;}'
 	},
-	{	url:  'brawlinthefamily.keenspot.com',
-		extra:  [['//div[@class="post-comic"]']],
-		xelem:  '//div[@class="post-comic"]'
+	{	url:	'brawlinthefamily.keenspot.com',
+		extra:	[['//div[@class="post-comic"]']],
+		xelem:	'//div[@class="post-comic"]'
 	},
-	{	url:  'vgcats.com',
-		img:  'images/'
+	{	url:	'vgcats.com',
+		img:	'images/'
 	},
-	{	url:  'phdcomics.com/comics',
-		img:  'http://www.phdcomics.com/comics/archive/',
-		extra:  [['//title/text()'], ' - ', ['//td/font/i/b/text()'], ['//img[contains(@src, "/comics/archive/")]/following-sibling::table']]
+	{	url:	'phdcomics.com/comics',
+		img:	'http://www.phdcomics.com/comics/archive/',
+		extra:	[['//title/text()'], ' - ', ['//td/font/i/b/text()'], ['//img[contains(@src, "/comics/archive/")]/following-sibling::table']]
 	},
-	{	url:  'smbc-comics.com',
-		img:  [['#cc-comicbody img']],
-		back:  '@rel="prev"',
-		next:  '@rel="next"',
-		first:  '@rel="first"',
-		last:  '@rel="last"',
-		extra:  [['//div[@id="aftercomic"]/img[contains(@src,"/")]'], [['.cc-newscontent:first-of-type']]],
-		style:  '#wcr_extra .date, #wcr_extra .blogtext{text-align: center;}'
+	{	url:	'smbc-comics.com',
+		img:	[['#cc-comicbody img']],
+		back:	'@rel="prev"',
+		next:	'@rel="next"',
+		first:	'@rel="first"',
+		last:	'@rel="last"',
+		extra:	[['//div[@id="aftercomic"]/img[contains(@src,"/")]'], [['.cc-newscontent:first-of-type']]],
+		style:	'#wcr_extra .date, #wcr_extra .blogtext{text-align: center;}'
 	},
-	{	url:  'abstrusegoose.com',
-		img:  'http://abstrusegoose.com/strips/',
-		extra:  ['<br/>[', ['//h3/*/text()'], ']<br/><br/>', [/"storycontent"[\s\S]+?<img [\s\S]+?>([\s\S]+?)<\/div>/i, 1]]
+	{	url:	'abstrusegoose.com',
+		img:	'http://abstrusegoose.com/strips/',
+		extra:	['<br/>[', ['//h3/*/text()'], ']<br/><br/>', [/"storycontent"[\s\S]+?<img [\s\S]+?>([\s\S]+?)<\/div>/i, 1]]
 	},
-	{	url:  'thedoghousediaries.com',
-		img:  [['#imgdiv img']],
-		back:  [['#previouslink']],
-		next:  [['#nextlink']],
-		extra:  [[['#title-signoff-share']]]
+	{	url:	'thedoghousediaries.com',
+		img:	[['#imgdiv img']],
+		back:	[['#previouslink']],
+		next:	[['#nextlink']],
+		extra:	[[['#title-signoff-share']]]
 	},
-	{	url:  /erfworld\.com\/(page\/|$)/,
-		img:  ['//div[@class="entry"]//img'],
-		back:  'contains(.,"Older")',
-		next:  'contains(.,"Newer")',
-		extra:  [['//div[@class="post"]/*', '', 0, 2], ['//div[@class="post"][1]//div[@class="entry"]/p[not(.//img)]', ''], '</div>']
+	{	url:	/erfworld\.com\/(page\/|$)/,
+		img:	['//div[@class="entry"]//img'],
+		back:	'contains(.,"Older")',
+		next:	'contains(.,"Newer")',
+		extra:	[['//div[@class="post"]/*', '', 0, 2], ['//div[@class="post"][1]//div[@class="entry"]/p[not(.//img)]', ''], '</div>']
 	},
-	{	url:  'erfworld.com',
-		extra:  [[['.post>h2']], ['//table[@class="PxgGalleryTable"]//p[not(img)]', '']]
+	{	url:	'erfworld.com',
+		extra:	[[['.post>h2']], ['//table[@class="PxgGalleryTable"]//p[not(img)]', '']]
 	},
-	{	url:  'es.juanelo.net/archivo',
-		img:  'http://es.juanelo.net/tiras/',
-		back:  '.="« Anterior"',
-		next:  '.="Siguiente »"',
-		style:  '#page{width:1210px;} .narrowcolumn{width:810px;}'
+	{	url:	'es.juanelo.net/archivo',
+		img:	'http://es.juanelo.net/tiras/',
+		back:	'.="« Anterior"',
+		next:	'.="Siguiente »"',
+		style:	'#page{width:1210px;} .narrowcolumn{width:810px;}'
 	},
-	{	url:  'es.juanelo.net/show',
-		img:  ['//div[@id="tirashow"]//img[starts-with(@src, "http://es.juanelo.net/tiras/")]'],
-		back:  ['//div[@id="tirashow"]//a[.="« Anterior"]/@href'],
-		next:  ['//div[@id="tirashow"]//a[.="Siguiente »"]/@href'],
-		style:  '#page{width:1210px;} .narrowcolumn{width:810px;}'
+	{	url:	'es.juanelo.net/show',
+		img:	['//div[@id="tirashow"]//img[starts-with(@src, "http://es.juanelo.net/tiras/")]'],
+		back:	['//div[@id="tirashow"]//a[.="« Anterior"]/@href'],
+		next:	['//div[@id="tirashow"]//a[.="Siguiente »"]/@href'],
+		style:	'#page{width:1210px;} .narrowcolumn{width:810px;}'
 	},
-	{	url:  'es.juanelo.net/20',
-		img:  'http://es.juanelo.net/tiras/',
-		back:  'contains(.,"«")',
-		next:  'contains(.,"»")',
-		extra:  [[['img[src*="/tiras/"]', '<br/>', 1]], [['.post>h2']], [['.entry>p']]],
-		style:  '#page{width:1210px;} .narrowcolumn{width:810px;}',
-		bgcol:  '#334255'
+	{	url:	'es.juanelo.net/20',
+		img:	'http://es.juanelo.net/tiras/',
+		back:	'contains(.,"«")',
+		next:	'contains(.,"»")',
+		extra:	[[['img[src*="/tiras/"]', '<br/>', 1]], [['.post>h2']], [['.entry>p']]],
+		style:	'#page{width:1210px;} .narrowcolumn{width:810px;}',
+		bgcol:	'#334255'
 	},
-	{	url:  'readms.net',
-		img:  [['#manga-page']],
-		back:  [['.previous a']],
-		next:  [['.next a']],
-		style:  '.subnav[style*="fixed"]{display: none;}#wcr_imagen{max-width:none;}#reader-sky{z-index:-1;}',
+	{	url:	'readms.net',
+		img:	[['#manga-page']],
+		back:	[['.previous a']],
+		next:	[['.next a']],
+		style:	'.subnav[style*="fixed"]{display: none;}#wcr_imagen{max-width:none;}#reader-sky{z-index:-1;}',
 		scrollx:'R',
-		layout:  true
+		layout:	true
 	},
-	{	url:  'terrorisland.net',
-		extra:  [['//div[@class="commentary"]', '']]
+	{	url:	'terrorisland.net',
+		extra:	[['//div[@class="commentary"]', '']]
 	},
-	{	url:  'drmcninja.com',
-		img:  'http://drmcninja.com/comics/',
-		extra:  ['<br/>', ['//select[@id="series_select"]'], ['//select[@id="page_select"]'], [['.post-comic .entry']]],
-		js:  	function(dir){
+	{	url:	'drmcninja.com',
+		img:	'http://drmcninja.com/comics/',
+		extra:	['<br/>', ['//select[@id="series_select"]'], ['//select[@id="page_select"]'], [['.post-comic .entry']]],
+		js:		function(dir){
 					var selSer = xpath('//div[@id="wcr_div"]//*[@id="series_select"]');
 					setEvt(selSer, 'change', function(){
 						exec("document.location.href = '/archives/comic/'+series_arr["+selSer.selectedIndex+"].posts[0];");
@@ -835,57 +836,57 @@ var paginas = [
 					});
 				}
 	},
-	{	url:  'gpf-comics.com',
-		img:  '/comics/',
-		back:  './img[@alt="Previous Comic"]',
-		next:  './img[@alt="Next Comic"]'
+	{	url:	'gpf-comics.com',
+		img:	'/comics/',
+		back:	'./img[@alt="Previous Comic"]',
+		next:	'./img[@alt="Next Comic"]'
 	},
-	{	url:  'daisyowl.com',
-		img:  ['//div[@align="center"]//img[starts-with(@src,"/comic_images/")]']
+	{	url:	'daisyowl.com',
+		img:	['//div[@align="center"]//img[starts-with(@src,"/comic_images/")]']
 	},
-	{	url:  'hyperdeathbabies.com',
-		img:  'anomaly/'
+	{	url:	'hyperdeathbabies.com',
+		img:	'anomaly/'
 	},
-	{	url:  'amultiverse.com',
-		img:  [['#comic img']],
-		extra:  [['//div[@class="post-content"]']],
-		js:  	function(){ if(keepLayout) get('comic').style.height = get('wcr_div').offsetHeight + 'px'; },
-		xelem:  '//div[@id="content"]//div[@class="post-content"]',
-		style:  '#comic button{float:none;}'
+	{	url:	'amultiverse.com',
+		img:	[['#comic img']],
+		extra:	[['//div[@class="post-content"]']],
+		js:		function(){ if(keepLayout) get('comic').style.height = get('wcr_div').offsetHeight + 'px'; },
+		xelem:	'//div[@id="content"]//div[@class="post-content"]',
+		style:	'#comic button{float:none;}'
 	},
-	{	url:  'wondermark.com',
-		img:  'http://wondermark.com/c/',
-		back:  '@rel="prev"',
-		next:  '@rel="next"',
-		txtcol:  '#fff'
+	{	url:	'wondermark.com',
+		img:	'http://wondermark.com/c/',
+		back:	'@rel="prev"',
+		next:	'@rel="next"',
+		txtcol:	'#fff'
 	},
-	{	url:  'amazingsuperpowers.com',
-		img:  function(html, pos){
+	{	url:	'amazingsuperpowers.com',
+		img:	function(html, pos){
 					try{ return selCss('#comic-1 img', html); }
 					catch(e){
 						if(selCss('#comic-1 #comic-short', html)) return selCss('img', html);
 					}
 				},
-		extra:  [[['#comic-1 #comic-short']],
+		extra:	[[['#comic-1 #comic-short']],
 				function(html, pos){
 					var href = selCss('#question a', html).href;
 					var htmlHidden = syncRequest(href, pos);
 					return contenido(htmlHidden, [['#comic > *', '']]);
 				}, [['.post']]],
-		style:  '#page,#header{width:auto;}',
+		style:	'#page,#header{width:auto;}',
 		layelem:'//div[@id="comic-1"]'
 	},
 	{
-		url:  'm.fanfox.net',
-		img:  ['//img[@id="image"]'],
-		back:  ['//select/option[@selected]/preceding-sibling::*[1]'],
-		next:  ['//div[@id="viewer"]/a'],
+		url:	'm.fanfox.net',
+		img:	['//img[@id="image"]'],
+		back:	['//select/option[@selected]/preceding-sibling::*[1]'],
+		next:	['//div[@id="viewer"]/a'],
 		scrollx:'R'
 
 	},
-	{	url:  'fanfox.net',
-		img:  ['//img[@id="image"]'],
-		back:  function(html, pos){
+	{	url:	'fanfox.net',
+		img:	['//img[@id="image"]'],
+		back:	function(html, pos){
 					var href = contenido(html, ['//a[contains(@class, "prev_page")]/@href'], pos);
 					if(href.indexOf('javascript')<0){
 						if(href.indexOf('/')<0) return link[pos].replace(/[^\/]*$/, href);
@@ -893,7 +894,7 @@ var paginas = [
 					}
 					return contenido(html, ['//span[contains(., "Previous Chapter")]/../a/@href'], pos).replace(/\d+\.html/, '999.html');
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					var current_page = parseInt(html.match(/var current_page=(\d+);/)[1]);
 					var final_page_of_chapter = parseInt(html.match(/var total_pages=(\d+);/)[1]);
 					if(current_page < final_page_of_chapter){
@@ -904,7 +905,7 @@ var paginas = [
 					}
 					return contenido(html, ['//span[contains(., "Next Chapter")]/../a/@href'], pos);
 				},
-		extra:  [function(html, pos){
+		extra:	[function(html, pos){
 					if(extra[0]) return extra[0].replace(/(<\/select>)[\s\S]*/i, '$1');
 					return contenido(html, ['//select[@id="bottom_chapter_list"]'], pos);
 				}, ' ', [['select.m']], '<select id="top_chapter_list" style="display:none"></select>',
@@ -912,7 +913,7 @@ var paginas = [
 					var alt = xpath('//img[@id="image"]/@onerror', html).replace(/^.+?'|'$/g, '');
 					return '<a id="alt_img" style="display:none" href="'+alt+'"/>';
 				}],
-		js:  	function(dir){
+		js:		function(dir){
 					if(!dir){
 						exec('(function unbindear(){'+
 							'try{ $(function(){$(document).unbind();}); }'+
@@ -947,160 +948,160 @@ var paginas = [
 							return selcaps.selectedIndex = i;
 					return 0;
 				},
-		onerr:  function(url, img, num, pos){
+		onerr:	function(url, img, num, pos){
 					if(num) return null;
 					return xpath('//a[@id="alt_img"]/@href', extra[pos]);
 				},
 		scrollx:'R'
 	},
-	{	url:  'sinfest.net',
-		back:  'img[@alt="Previous"]',
-		next:  'img[@alt="Next"]',
-		fixurl:  function(url, img, link){
+	{	url:	'sinfest.net',
+		back:	'img[@alt="Previous"]',
+		next:	'img[@alt="Next"]',
+		fixurl:	function(url, img, link){
 					return url.replace('http://sinfest', 'http://www.sinfest');
 				}
 	},
-	{	url:  'crfh.net',
-		img:  ['//img[contains(@src, "/crfh")]']
+	{	url:	'crfh.net',
+		img:	['//img[contains(@src, "/crfh")]']
 	},
-	{	url:  'nuklearpower.com',
-		img:  ['//img[contains(@src, "/comics/")]'],
-		back:  '@rel="prev"',
-		next:  '@rel="next"'
+	{	url:	'nuklearpower.com',
+		img:	['//img[contains(@src, "/comics/")]'],
+		back:	'@rel="prev"',
+		next:	'@rel="next"'
 	},
-	{	url:  'questionablecontent.net/',
-		extra:  [['//div[@id="news"]']],
-		xelem:  '//div[@id="news"]'
+	{	url:	'questionablecontent.net/',
+		extra:	[['//div[@id="news"]']],
+		xelem:	'//div[@id="news"]'
 	},
-	{	url:  /nettserier.no\/./,
-		img:  '/_striper/',
-		back:  'starts-with(., "F") and contains(., "rre ")',
-		next:  'starts-with(., "Neste ")'
+	{	url:	/nettserier.no\/./,
+		img:	'/_striper/',
+		back:	'starts-with(., "F") and contains(., "rre ")',
+		next:	'starts-with(., "Neste ")'
 	},
-	{	url:  'qwantz.com',
-		back:  [['[rel="prev"]']],
-		next:  [['[rel="next"]']],
-		extra:  ['<br/>', [/<span class="rss-title">(.*?)<\/span>/, 1], '<br/><br/>',
+	{	url:	'qwantz.com',
+		back:	[['[rel="prev"]']],
+		next:	[['[rel="next"]']],
+		extra:	['<br/>', [/<span class="rss-title">(.*?)<\/span>/, 1], '<br/><br/>',
 					function(html, pos){
 						return unescape(contenido(html, [/mailto:.+?subject=(.*?)\""?/, 1]));
 					}] //original: http://userscripts.org/scripts/show/51520
 	},
-	{	url:  'notinventedhe.re',
-		img:  'h',
-		style:  'button{display:inline;color:#000;float:none;} #comic-nav{margin:0;}'
+	{	url:	'notinventedhe.re',
+		img:	'h',
+		style:	'button{display:inline;color:#000;float:none;} #comic-nav{margin:0;}'
 	},
-	{	url:  'unshelved.com',
-		style:  'button{display:inline;color:#000;float:none;}'
+	{	url:	'unshelved.com',
+		style:	'button{display:inline;color:#000;float:none;}'
 	},
-	{	url:  'eviscerati.org',
-		img:  [['.field-name-field-comic-image img']],
-		back:  [['.previous a']],
-		next:  [['.next a']]
+	{	url:	'eviscerati.org',
+		img:	[['.field-name-field-comic-image img']],
+		back:	[['.previous a']],
+		next:	[['.next a']]
 	},
-	{	url:  'buttersafe.com',
-		extra:  [['//div[@class="post-comic"]']]
+	{	url:	'buttersafe.com',
+		extra:	[['//div[@class="post-comic"]']]
 	},
-	{	url:  'romanticallyapocalyptic.com',
-		img:  [['.comicmid img']],
-		back:  'span[@class="spritePrevious"]',
-		next:  'span[@class="spriteNext"]',
-		first:  'span[@class="spriteStart"]'
+	{	url:	'romanticallyapocalyptic.com',
+		img:	[['.comicmid img']],
+		back:	'span[@class="spritePrevious"]',
+		next:	'span[@class="spriteNext"]',
+		first:	'span[@class="spriteStart"]'
 	},
-	{	url:  'somethingpositive.net',
-		img:  'arch/|/arch/|sp',
-		txtcol:  '#888'
+	{	url:	'somethingpositive.net',
+		img:	'arch/|/arch/|sp',
+		txtcol:	'#888'
 	},
-	{	url:  'rhymes-with-witch.com',
-		img:  'images/rww|images/lwr|images/rippy'
+	{	url:	'rhymes-with-witch.com',
+		img:	'images/rww|images/lwr|images/rippy'
 	},
-	{	url:  'superstupor.com',
-		img:  'sust|http://www.superstupor.com/sust',
-		back:  'img[@src="last.gif"]',
-		txtcol:  '#888'
+	{	url:	'superstupor.com',
+		img:	'sust|http://www.superstupor.com/sust',
+		back:	'img[@src="last.gif"]',
+		txtcol:	'#888'
 	},
-	{	url:  'misfile.com',
-		img:  'comics/'
+	{	url:	'misfile.com',
+		img:	'comics/'
 	},
-	{	url:  'sluggy.com',
-		img:  '/images/comics/',
-		back:  '.="Prev."',
-		next:  '.="Next"',
-		extra:  [['//img[starts-with(@src, "/images/comics/")]', '', 1], ['//div[@class="comic_popup"]']]
+	{	url:	'sluggy.com',
+		img:	'/images/comics/',
+		back:	'.="Prev."',
+		next:	'.="Next"',
+		extra:	[['//img[starts-with(@src, "/images/comics/")]', '', 1], ['//div[@class="comic_popup"]']]
 	},
-	{	url:  'asofterworld.com',
-		img:  'clean/',
-		bgcol:  '#fff'
+	{	url:	'asofterworld.com',
+		img:	'clean/',
+		bgcol:	'#fff'
 	},
-	{	url:  'achewood.com',
-		img:  '/comic.php?date='
+	{	url:	'achewood.com',
+		img:	'/comic.php?date='
 	},
-	{	url:  'biggercheese.com',
-		img:  'comics/'
+	{	url:	'biggercheese.com',
+		img:	'comics/'
 	},
-	{	url:  'gwscomic.com',
-		img:  'images/gws/',
-		back:  'img[@src="images/gwsmenu/back_off.jpg"]'
+	{	url:	'gwscomic.com',
+		img:	'images/gws/',
+		back:	'img[@src="images/gwsmenu/back_off.jpg"]'
 	},
-	{	url:  'fonflatter.de',
-		img:  ['//p/a/img[@title]'],
-		next:  '..[@id="next"]',
-		back:  '..[@id="prev"]'
+	{	url:	'fonflatter.de',
+		img:	['//p/a/img[@title]'],
+		next:	'..[@id="next"]',
+		back:	'..[@id="prev"]'
 	},
-	{	url:  'ruthe.de',
-		img:  ['//div[@id="cartoon"]//img'],
-		back:  '@id="b_back"',
-		next:  '@id="b_next"'
+	{	url:	'ruthe.de',
+		img:	['//div[@id="cartoon"]//img'],
+		back:	'@id="b_back"',
+		next:	'@id="b_next"'
 	},
-	{	url:  'daybydaycartoon.com',
-		img:  ['//div/p/img']
+	{	url:	'daybydaycartoon.com',
+		img:	['//div/p/img']
 	},
-	{	url:  'dieselsweeties.com',
-		img:  '/hstrips/'
+	{	url:	'dieselsweeties.com',
+		img:	'/hstrips/'
 	},
-	{	url:  'foxtrot.com',
-		bgcol:  '#fff'
+	{	url:	'foxtrot.com',
+		bgcol:	'#fff'
 	},
-	{	url:  'csectioncomics.com',
-		img:  ['//div[@class="post-body entry-content"]/p//img']
+	{	url:	'csectioncomics.com',
+		img:	['//div[@class="post-body entry-content"]/p//img']
 	},
-	{	url:  'garfieldminusgarfield.net/post',
-		img:  ['//div[@class="photo"]//img']
+	{	url:	'garfieldminusgarfield.net/post',
+		img:	['//div[@class="photo"]//img']
 	},
-	{	url:  'gocomics.com',
-		img:  function(html, pos){
+	{	url:	'gocomics.com',
+		img:	function(html, pos){
 					try{ return selCss('div > .strip', html); }
 					catch(e){ return selCss('.strip', html); }
 				},
-		back:  ['//ul[@class="feature-nav"]//a[@class="prev"]/@href'],
-		next:  ['//ul[@class="feature-nav"]//a[@class="next"]/@href'],
-		last:  [['.newest']],
-		style:  '.feature_item, .feature, #content {width: auto !important;} .zoom_link{display:none !important;}',
+		back:	['//ul[@class="feature-nav"]//a[@class="prev"]/@href'],
+		next:	['//ul[@class="feature-nav"]//a[@class="next"]/@href'],
+		last:	[['.newest']],
+		style:	'.feature_item, .feature, #content {width: auto !important;} .zoom_link{display:none !important;}',
 		layelem:'//p[@class="feature_item"]//img',
-		fixurl:  function(url, img, link){
+		fixurl:	function(url, img, link){
 					if (img && url.indexOf('width=') > 0) {
 						url = url.replace(/width=[^&]*/, '');
 					}
 					return url;
 				}
 	},
-	{	url:  'threepanelsoul.com',
-		img:  [['#cc-comic']],
-		next:  '@rel="next"',
-		back:  '@rel="prev"',
+	{	url:	'threepanelsoul.com',
+		img:	[['#cc-comic']],
+		next:	'@rel="next"',
+		back:	'@rel="prev"',
 	},
-	{	url:  'oglaf.com',
-		img:  [['#strip']],
-		back:  'div[@id="pv" or @id="pvs"]',
-		next:  'div[@id="nx" or @id="ns"]',
-		first:  'div[@id="st"]',
-		last:  function(html){
+	{	url:	'oglaf.com',
+		img:	[['#strip']],
+		back:	'div[@id="pv" or @id="pvs"]',
+		next:	'div[@id="nx" or @id="ns"]',
+		first:	'div[@id="st"]',
+		last:	function(html){
 					if (window.location.pathname !== "/") {
 						return window.location.protocol + "//" + window.location.hostname;
 					} else {
 						return "";
 					}
 				},
-		extra:  [function(html, pos){
+		extra:	[function(html, pos){
 					var ret = "";
 					try {
 						var alt = xpath('//img[@id="strip"]/@alt', html);
@@ -1115,104 +1116,104 @@ var paginas = [
 						return ret + img.outerHTML;
 					} catch (e) {return ret;}
 					}],
-		style:  'b>div{float:left;}\n.content{height:1%;}\n.content:after{clear:both;}\n.content:before,.content:after{content:" ";display:table;}',
-		bgcol:  '#ccc',
+		style:	'b>div{float:left;}\n.content{height:1%;}\n.content:after{clear:both;}\n.content:before,.content:after{content:" ";display:table;}',
+		bgcol:	'#ccc',
 	},
-	{	url:  'kevinandkell.com',
-		first:  '@title="First Strip"',
-		last:  '@href="/"',
-		back:  '@title="Previous Strip"',
-		next:  '@title="Next Strip"',
-		style:  '.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px;}'
+	{	url:	'kevinandkell.com',
+		first:	'@title="First Strip"',
+		last:	'@href="/"',
+		back:	'@title="Previous Strip"',
+		next:	'@title="Next Strip"',
+		style:	'.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px;}'
 	},
-	{	url:  'mycardboardlife.com',
-		img:  'http://mycardboardlife.com/comics/',
-		extra:  [['//div[@class="entry"]']]
+	{	url:	'mycardboardlife.com',
+		img:	'http://mycardboardlife.com/comics/',
+		extra:	[['//div[@class="entry"]']]
 	},
-	{	url:  'megatokyo.',
-		back:  [['.prev a']],
-		next:  [['.next a']],
-		style:  '#wcr_div{margin-bottom:50px;}#wcr_div *{float:none; text-align:center;}'
+	{	url:	'megatokyo.',
+		back:	[['.prev a']],
+		next:	[['.next a']],
+		style:	'#wcr_div{margin-bottom:50px;}#wcr_div *{float:none; text-align:center;}'
 	},
-	{	url:  'noreasoncomics.com',
-		img:  ['//div[@id="comic"]/img'],
-		extra:  [['//div[@id="column"]']],
-		xelem:  '//div[@id="column"]'
+	{	url:	'noreasoncomics.com',
+		img:	['//div[@id="comic"]/img'],
+		extra:	[['//div[@id="column"]']],
+		xelem:	'//div[@id="column"]'
 	},
-	{	url:  'pixelcomic.net',
-		img:  ['//font/img'],
-		extra:  [['//font/font', '']]
+	{	url:	'pixelcomic.net',
+		img:	['//font/img'],
+		extra:	[['//font/font', '']]
 	},
-	{	url:  'redmeat.com',
-		img:  ['//div[@id="weeklyStrip"]/img'],
-		extra:  [['//div[@class="moreRedMeat"]', '', 1]]
+	{	url:	'redmeat.com',
+		img:	['//div[@id="weeklyStrip"]/img'],
+		extra:	[['//div[@class="moreRedMeat"]', '', 1]]
 	},
-	{	url:  'sexylosers.com',
-		back:  '.="<<" and font[@color="#ffaaaa"]',
-		next:  '.=">>" and font[@color="#ffaaaa"]'
+	{	url:	'sexylosers.com',
+		back:	'.="<<" and font[@color="#ffaaaa"]',
+		next:	'.=">>" and font[@color="#ffaaaa"]'
 	},
-	{	url:  'perveden.com',
-		img:  ['//img[@id="mainImg"]'],
+	{	url:	'perveden.com',
+		img:	['//img[@id="mainImg"]'],
 		scrollx:'R'
 	},
-	{	url:  'pbfcomics.com',
-		img:  '/archive',
-		back:  'img[contains(@src,"Older")]',
-		next:  'img[contains(@src,"Newer")]',
-		extra:  [['//center/span/b[1]']]
+	{	url:	'pbfcomics.com',
+		img:	'/archive',
+		back:	'img[contains(@src,"Older")]',
+		next:	'img[contains(@src,"Newer")]',
+		extra:	[['//center/span/b[1]']]
 	},
-	{	url:  'tjandamal.com',
-		img:  'http://tjandamal.com/comic/img/comic/',
-		back:  '.="<"',
-		next:  '.=">"'
+	{	url:	'tjandamal.com',
+		img:	'http://tjandamal.com/comic/img/comic/',
+		back:	'.="<"',
+		next:	'.=">"'
 	},
-	{	url:  'sfeertheory.littlefoolery.com',
-		img:  'art/'
+	{	url:	'sfeertheory.littlefoolery.com',
+		img:	'art/'
 	},
-	{	url:  'wanderingones.com',
-		img:  ['//img[@alt="comic strip"]'],
-		extra:  [['//img[@alt="comic strip"]', '<br/>', 1]]
+	{	url:	'wanderingones.com',
+		img:	['//img[@alt="comic strip"]'],
+		extra:	[['//img[@alt="comic strip"]', '<br/>', 1]]
 	},
-	{	url:  'big-big-truck.com/ayiw/*.html',
-		img:  ['//img'],
-		extra:  [['//tr[2]//strong'], ['//td/p', '']]
+	{	url:	'big-big-truck.com/ayiw/*.html',
+		img:	['//img'],
+		extra:	[['//tr[2]//strong'], ['//td/p', '']]
 	},
-	{	url:  'wastedtalent.ca',
-		img:  'http://www.wastedtalent.ca/sites/default/files/imagecache/comic_full/comics/'
+	{	url:	'wastedtalent.ca',
+		img:	'http://www.wastedtalent.ca/sites/default/files/imagecache/comic_full/comics/'
 	},
-	{	url:  'wulffmorgenthaler.com',
-		img:  'striphandler.ashx?stripid='
+	{	url:	'wulffmorgenthaler.com',
+		img:	'striphandler.ashx?stripid='
 	},
-	{	url:  'weregeek.com',
-		img:  ['//div[@id="comic"]/img']
+	{	url:	'weregeek.com',
+		img:	['//div[@id="comic"]/img']
 	},
-	{	url:  '*.katbox.net',
-		img:  [['.webcomic-image img']],
-		style:  '#wcr_imagen{height:auto !important;width:auto !important;}'
+	{	url:	'*.katbox.net',
+		img:	[['.webcomic-image img']],
+		style:	'#wcr_imagen{height:auto !important;width:auto !important;}'
 	},
-	{	url:  'theoswaldchronicles.com',
-		img:  'http://www.theoswaldchronicles.com/wp-content/webcomic/',
-		back:  '@rel="previous"',
-		next:  '@rel="next"'
+	{	url:	'theoswaldchronicles.com',
+		img:	'http://www.theoswaldchronicles.com/wp-content/webcomic/',
+		back:	'@rel="previous"',
+		next:	'@rel="next"'
 	},
-	{	url:  'awkwardzombie.com',
-		img:  [['#cc-comic']],
-		back:  [['.cc-prev']],
-		next:  [['.cc-next']],
-		first:  [['.cc-first']],
-		last:  [['.cc-last']],
-		extra:  ['<div style="background: white; margin-top: 0.5em; padding-left: 0.3em; padding-right: 0.3em;">',[['.cc-newsarea']],'</div>'],
+	{	url:	'awkwardzombie.com',
+		img:	[['#cc-comic']],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+		first:	[['.cc-first']],
+		last:	[['.cc-last']],
+		extra:	['<div style="background: white; margin-top: 0.5em; padding-left: 0.3em; padding-right: 0.3em;">',[['.cc-newsarea']],'</div>'],
 		// FIXME The name of the comic’s game/category is missing from the news section within `extra`.
 		// That game name can always be seen within the normal news section in the bottom left. So the workaround is refreshing the page to load the current comic’s news section.
 		// JavaScript that runs when the document is ready adds the game name to that bottom left news section.
 		// That JavaScript is written inline within the HTML of the loaded page. The <script> tag is written in the same place in the HTML as the element it inserts: after `.cc-publishtime`.
 		// Thus, a method for adding the game name when loading a new comic would be to extract just the element string literal from the JS within the loaded HTML, then use jQuery to insert that element in the right place inside the `.cc-newsarea`.
 	},
-	{	url:  '*.seraph-inn.com',
-		img:  'pages/'
+	{	url:	'*.seraph-inn.com',
+		img:	'pages/'
 	},
-	{	url:  'fakku.net',
-		img:  function(html, pos){
+	{	url:	'fakku.net',
+		img:	function(html, pos){
 					var thumbs = JSON.parse(match(html, /params\.thumbs\s*=\s*(.+);/, 1));
 					var x = link[0].match(/page=(\d+)/);
 					x = Number(x ? x[1] : 0)+pos;
@@ -1222,21 +1223,21 @@ var paginas = [
 					while(x.length<3) x='0'+x;
 					return html.match(/'([^']+\/images\/manga\/[^']+)'/)[1] + x + '.jpg'; 
 				},
-		back:  function(html, pos){
+		back:	function(html, pos){
 					var thumbs = JSON.parse(match(html, /params\.thumbs\s*=\s*(.+);/, 1));
 					var x = link[0].match(/page=(\d+)/);
 					x = Number(x ? x[1] : 0)+pos-1;
 					if(x<0 || x>thumbs.length) throw new Error('fail');
 					return link[0].replace(/#.+/, '')+'##page='+x;
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					var thumbs = JSON.parse(match(html, /params\.thumbs\s*=\s*(.+);/, 1));
 					var x = link[0].match(/page=(\d+)/);
 					x = Number(x ? x[1] : 0)+pos+1;
 					if(x<0 || x>thumbs.length) throw new Error('fail');
 					return link[0].replace(/#.+/, '')+'##page='+x;
 				},
-		js:  	function(dir){
+		js:		function(dir){
 					if(!dir){
 						exec(
 							"$(function(){"+ //cambio los links de los thumbs
@@ -1255,131 +1256,131 @@ var paginas = [
 					x = Number(x ? x[1] : 0)+posActual;
 					get('thumbs').style.display = x ? 'none' : '';
 				},
-		style:  'header{position:absolute;}',
+		style:	'header{position:absolute;}',
 		scrollx:'R',
 		layelem:'//div[@id="image"]'
 	},
-	{	url:  'earthsongsaga.com',
-		img:  '../images/vol',
-		back:  function(html, pos){
+	{	url:	'earthsongsaga.com',
+		img:	'../images/vol',
+		back:	function(html, pos){
 					try{ return selCss('#previous a', html); }
 					catch(e){ return xpath('//table[2]//td[2]//a/@href', html); }
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					try{ return selCss('#next a', html); }
 					catch(e){ return xpath('//table[2]//td[3]//a/@href', html); }
 				},
-		extra:  [function(html, pos){
+		extra:	[function(html, pos){
 					return '<img src="'+xpath('//a[starts-with(@href, "../images/vol")]/@href', html)+'"/>';
 				}],
-		style:  '#wcr_div{background:#d1be8b;}'
+		style:	'#wcr_div{background:#d1be8b;}'
 	},
-	{	url:  'goblinscomic.com',
-		style:  '#comic{overflow:visible;}' //ugly but works...
+	{	url:	'goblinscomic.com',
+		style:	'#comic{overflow:visible;}' //ugly but works...
 	},
-	{	url:  'precociouscomic.com',
-		back:  '.="Previous"',
-		next:  '.="Next"'
+	{	url:	'precociouscomic.com',
+		back:	'.="Previous"',
+		next:	'.="Next"'
 	},
-	{	url:  '*.spiderforest.com',
-		img:  ['//img[contains(@src, "comics/")]']
+	{	url:	'*.spiderforest.com',
+		img:	['//img[contains(@src, "comics/")]']
 	},
-	{	url:  'sevensmith.net/chirault',
-		img:  'images/'
+	{	url:	'sevensmith.net/chirault',
+		img:	'images/'
 	},
-	{	url:  'junglestudio.com/roza',
-		img:  'pages/',
-		back:  'img[contains(@src, "navtable_09.gif")]',
-		next:  'img[contains(@src, "navtable_11.gif")]'
+	{	url:	'junglestudio.com/roza',
+		img:	'pages/',
+		back:	'img[contains(@src, "navtable_09.gif")]',
+		next:	'img[contains(@src, "navtable_11.gif")]'
 	},
-	{	url:  'dream-scar.net',
-		img:  'files/'
+	{	url:	'dream-scar.net',
+		img:	'files/'
 	},
-	{	url:  'tryinghuman.com',
-		back:  'img[@alt="Previous comic"]',
-		next:  'img[@alt="Next comic"]'
+	{	url:	'tryinghuman.com',
+		back:	'img[@alt="Previous comic"]',
+		next:	'img[@alt="Next comic"]'
 	},
-	{	url:  'thedreamercomic.com',
-		img:  'issues/'
+	{	url:	'thedreamercomic.com',
+		img:	'issues/'
 	},
-	{	url:  'sandraandwoo.com/gaia/',
-		img:  ['//div[@id="comic"]/a/img'],
-		extra:  [['//div[@class="post-comic"]/*','',3],[['#comment-main-none']],[['#comment-main-1']]],
-		style:  '#wcr_extra{text-align:left;}\n#wcr_title{display:none;}\n#column>.post-comic>br~*{display:none;}\n#column>#comment-main-none{display:none;}'
+	{	url:	'sandraandwoo.com/gaia/',
+		img:	['//div[@id="comic"]/a/img'],
+		extra:	[['//div[@class="post-comic"]/*','',3],[['#comment-main-none']],[['#comment-main-1']]],
+		style:	'#wcr_extra{text-align:left;}\n#wcr_title{display:none;}\n#column>.post-comic>br~*{display:none;}\n#column>#comment-main-none{display:none;}'
 	},
-	{	url:  'sandraandwoo.com',
-		img:  ['//div[@id="comic"]/a/img'],
-		extra:  [[['#column']]],
-		xelem:  '//div[@id="column"]'
+	{	url:	'sandraandwoo.com',
+		img:	['//div[@id="comic"]/a/img'],
+		extra:	[[['#column']]],
+		xelem:	'//div[@id="column"]'
 	},
-	{	url:  'freakangels.com',
-		img:  'http://www.freakangels.com/comics/',
-		back:  function(html, pos){
+	{	url:	'freakangels.com',
+		img:	'http://www.freakangels.com/comics/',
+		back:	function(html, pos){
 					var page = link[pos].match(/page=(\d+)/);
 					if(page) page = page[1];
 					if(!page || page==1) return xpath('//li[@class="left"]/a/@href', html);
 					return link[pos].replace(/page=\d+/, 'page='+(page-1));
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					var page = link[pos].match(/page=(\d+)/);
 					page = page ? Number(page[1]) : 1;
 					try{ return xpath('//a[contains(@href, "page='+(page+1)+'")]/@href', html); }
 					catch(e){ return xpath('//li[@class="right"]/a/@href', html); }
 				}
 	},
-	{	url:  'sakanacomic.com',
-		img:  '/img/com/',
-		style:  '#comic-outer{height:auto;}'
+	{	url:	'sakanacomic.com',
+		img:	'/img/com/',
+		style:	'#comic-outer{height:auto;}'
 	},
-	{	url:  'keychain.patternspider.net',
-		next:  'img[@alt="forward"]',
-		extra:  [['//div[@class="style3"]']]
+	{	url:	'keychain.patternspider.net',
+		next:	'img[@alt="forward"]',
+		extra:	[['//div[@class="style3"]']]
 	},
-	{	url:  'collectedcurios.com/sequentialart.php',
-		img:  ['//img[@id="strip"]'],
-		back:  'img[@title="Back one"]',
-		next:  'img[@title="Forward one"]'
+	{	url:	'collectedcurios.com/sequentialart.php',
+		img:	['//img[@id="strip"]'],
+		back:	'img[@title="Back one"]',
+		next:	'img[@title="Forward one"]'
 	},
-	{	url:  'waywardsons.keenspot.com',
-		img:  [['img[src*="/comics"]']],
-		back:  'img[@id="p_bot_nav"]',
-		next:  'img[@id="n_bot_nav"]'
+	{	url:	'waywardsons.keenspot.com',
+		img:	[['img[src*="/comics"]']],
+		back:	'img[@id="p_bot_nav"]',
+		next:	'img[@id="n_bot_nav"]'
 	},
-	{	url:  'lastblood.keenspot.com',
-		img:  ['//div[@id="comic"]/img'],
-		back:  '(preceding-sibling::small | preceding-sibling::*/small)[.="Previous Comic:"]',
-		next:  '(preceding-sibling::small | preceding-sibling::*/small)[.="Next Comic:"]',
-		fixurl:  function(url, img, link){
+	{	url:	'lastblood.keenspot.com',
+		img:	['//div[@id="comic"]/img'],
+		back:	'(preceding-sibling::small | preceding-sibling::*/small)[.="Previous Comic:"]',
+		next:	'(preceding-sibling::small | preceding-sibling::*/small)[.="Next Comic:"]',
+		fixurl:	function(url, img, link){
 					if(img) return url.replace(/http:\/\/.+?\//, 'http://'+document.location.host+'/');
 					return url;
 				}
 	},
-	{	url:  'marryme.keenspot.com',
-		img:  ['//div[@id="comicspot"]/img'],
-		back:  [['*[rel="prev"]']],
-		next:  [['*[rel="next"]']],
-		fixurl:  function(url, img, link){
+	{	url:	'marryme.keenspot.com',
+		img:	['//div[@id="comicspot"]/img'],
+		back:	[['*[rel="prev"]']],
+		next:	[['*[rel="next"]']],
+		fixurl:	function(url, img, link){
 					if(img) return url.replace(/http:\/\/.+?\//, 'http://'+document.location.host+'/');
 					return url;
 				}
 	},
-	{	url:  'exposure.keenspot.com',
-		img:  [['img[src*="/comics"]']],
-		back:  'img[@id="exp46"]',
-		next:  'img[@id="exp48"]'
+	{	url:	'exposure.keenspot.com',
+		img:	[['img[src*="/comics"]']],
+		back:	'img[@id="exp46"]',
+		next:	'img[@id="exp48"]'
 	},
-	{	url:  'yirmumah.keenspot.com',
-		img:  [['img[src*="/comics"]']],
-		back:  '.="Previous"',
-		next:  '.="Next"'
+	{	url:	'yirmumah.keenspot.com',
+		img:	[['img[src*="/comics"]']],
+		back:	'.="Previous"',
+		next:	'.="Next"'
 	},
-	{	url:  'twokinds.keenspot.com',
-		img:  ['//main[@id="content"]//article[@class="comic"]/a/img|//main[@id="content"]/article[@class="comic"]/img'],
-		back:  'contains(@class, "navprev")',
-		next:  'contains(@class, "navnext")',
-		first:  'contains(@class, "navnbegin")',
-		last:  'contains(@class, "navend")',
-		extra:  [
+	{	url:	'twokinds.keenspot.com',
+		img:	['//main[@id="content"]//article[@class="comic"]/a/img|//main[@id="content"]/article[@class="comic"]/img'],
+		back:	'contains(@class, "navprev")',
+		next:	'contains(@class, "navnext")',
+		first:	'contains(@class, "navnbegin")',
+		last:	'contains(@class, "navend")',
+		extra:	[
 				'<object data="',
 					[
 					'//main[@id="content"]/article[@class="comic"]/a/@href'
@@ -1389,79 +1390,79 @@ var paginas = [
 					'//aside[@class="transcript"]'
 					]
 				],
-        js:  wcr_ext_navi_ctrls
+		js:	wcr_ext_navi_ctrls
 	},
-	{	url:  'roadwaffles.keenspot.com',
-		img:  'comics/',
-		back:  '.="previous"',
-		next:  '.="next"'
+	{	url:	'roadwaffles.keenspot.com',
+		img:	'comics/',
+		back:	'.="previous"',
+		next:	'.="next"'
 	},
-	{	url:  'plusev.keenspot.com',
-		img:  [['img[src*="/comics"]']],
-		back:  'img[@id="Previous_Day"]',
-		next:  'img[@id="Next"]'
+	{	url:	'plusev.keenspot.com',
+		img:	[['img[src*="/comics"]']],
+		back:	'img[@id="Previous_Day"]',
+		next:	'img[@id="Next"]'
 	},
-	{	url:  'countyoursheep.keenspot.com',
-		img:  [['img[src*="/comics"]']],
-		extra:  [['//center/h2'],['//center/p/font']],
-		style:  'center>h2{display:none;}\ncenter>p>font{display: none;}',
+	{	url:	'countyoursheep.keenspot.com',
+		img:	[['img[src*="/comics"]']],
+		extra:	[['//center/h2'],['//center/p/font']],
+		style:	'center>h2{display:none;}\ncenter>p>font{display: none;}',
 	},
-	{	url:  'adis.keenspot.com',
-		img:  [['img[src*="/comics"]']],
-		extra:  [['//center/table/tbody/tr[2]/td/h2']],
-		style:  'center>table>tbody>tr>td>h2{display:none;}',
+	{	url:	'adis.keenspot.com',
+		img:	[['img[src*="/comics"]']],
+		extra:	[['//center/table/tbody/tr[2]/td/h2']],
+		style:	'center>table>tbody>tr>td>h2{display:none;}',
 	},
-	{	url:  '*.keenspot.com',
-		img:  [['img[src*="/comics"]']],
-		back:  '(img/@alt | .)="Previous Comic" or @rel = "prev"',
-		next:  '(img/@alt | .)="Next Comic" or @rel = "next"'
+	{	url:	'*.keenspot.com',
+		img:	[['img[src*="/comics"]']],
+		back:	'(img/@alt | .)="Previous Comic" or @rel = "prev"',
+		next:	'(img/@alt | .)="Next Comic" or @rel = "next"'
 	},
-	{	url:  'sylvanmigdal.com',
-		img:  '/c/',
-		back:  'img[starts-with(@alt,"Antecedent")]',
-		next:  'img[starts-with(@alt,"Subsequent")]'
+	{	url:	'sylvanmigdal.com',
+		img:	'/c/',
+		back:	'img[starts-with(@alt,"Antecedent")]',
+		next:	'img[starts-with(@alt,"Subsequent")]'
 	},
-	{	url:  '*.c.urvy.org',
-		img:  '/c/',
-		back:  'img[@alt="Previous page"]',
-		next:  'img[@alt="Next page"]'
+	{	url:	'*.c.urvy.org',
+		img:	'/c/',
+		back:	'img[@alt="Previous page"]',
+		next:	'img[@alt="Next page"]'
 	},
-	{	url:  'survivingtheworld.net',
-		img:  'Lesson|Recitation|GuestLecture',
-		back:  [['.previous a']],
-		next:  [['.next a']],
-		extra:  [[['.comiccontainer > p[align="justify"]', '']]]
+	{	url:	'survivingtheworld.net',
+		img:	'Lesson|Recitation|GuestLecture',
+		back:	[['.previous a']],
+		next:	[['.next a']],
+		extra:	[[['.comiccontainer > p[align="justify"]', '']]]
 	},
-	{	url:  'nonadventures.com',
-		extra:  [['//div[@class="post"]']]
+	{	url:	'nonadventures.com',
+		extra:	[['//div[@class="post"]']]
 	},
-	{	url:  'beardfluff.com',
-		img:  'http://beardfluff.com/wp-content/webcomic/'
+	{	url:	'beardfluff.com',
+		img:	'http://beardfluff.com/wp-content/webcomic/'
 	},
-	{	url:  'lawlscomic.com',
-		img:  'http://lawlscomic.com/comics/',
-		back:  '@class="navi navi-prev"',
-		next:  '@class="navi navi-next"'
+	{	url:	'lawlscomic.com',
+		img:	'http://lawlscomic.com/comics/',
+		back:	'@class="navi navi-prev"',
+		next:	'@class="navi navi-next"'
 	},
-	{	url:  'maakies.com',
-		img:  ['//a[@rel="attachment"]/img'],
-		back:  '..[@class="nav-previous"]',
-		next:  '..[@class="nav-next"]'
+	{	url:	'maakies.com',
+		img:	['//a[@rel="attachment"]/img'],
+		back:	'..[@class="nav-previous"]',
+		next:	'..[@class="nav-next"]'
 	},
-	{	url:  'lefthandedtoons.com',
-		img:  'http://www.lefthandedtoons.com/toons/'
+	{	url:	'lefthandedtoons.com',
+		img:	'http://www.lefthandedtoons.com/toons/'
 	},
-	{	url:  'trollscience.com',
-		img:  '/image/',
-		extra:  [['//h2'], ['//div[@id="troll-rate"]'], ['//div[@id="troll-comments"]']]
+	{	url:	'trollscience.com',
+		img:	'/image/',
+		extra:	[['//h2'], ['//div[@id="troll-rate"]'], ['//div[@id="troll-comments"]']]
 	},
-	{	url:  'giantitp.com',
-		back:  'img[@alt="Previous Comic"]',
-		next:  'img[@alt="Next Comic"]'
+	{	url:	'giantitp.com',
+		back:	'img[@alt="Previous Comic"]',
+		next:	'img[@alt="Next Comic"]'
 	},
-	{	url:  'e-hentai.org|exhentai.org',
-		img:  [['#i3 a img, iframe + a img, .sni > a img']],
-		back:  function(html, pos){
+	{	url:	'e-hentai.org|exhentai.org',
+		img:	[['#i3 a img, iframe + a img, .sni > a img']],
+		back:	function(html, pos){
 					var num = Number(link[pos].match(/-(\d+)(\?.+)?$/)[1]);
 					var as = xpath('//a[img]', html, true);
 					for(var i=0; i<as.length; i++)
@@ -1469,7 +1470,7 @@ var paginas = [
 							return as[i].href;
 					throw new Error('fail');
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					var num = Number(link[pos].match(/-(\d+)(\?.+)?$/)[1]);
 					var as = xpath('//a[img]', html, true);
 					for(var i=0; i<as.length; i++)
@@ -1477,9 +1478,9 @@ var paginas = [
 							return as[i].href;
 					throw new Error('fail');
 				},
-		extra:  [['//div[span]'], '<span style="display:none">', ['//a[@onclick[contains(., "nl")]]'], '</span>'],
+		extra:	[['//div[span]'], '<span style="display:none">', ['//a[@onclick[contains(., "nl")]]'], '</span>'],
 		scrollx:'R',
-		onerr:  function(url, img, num, pos){
+		onerr:	function(url, img, num, pos){
 					if(num >= 4) return null;
 					var nl = extra[pos].innerHTML.match(/nl\((\d+)\)/)[1];
 					var u = url.split('?nl=');
@@ -1487,165 +1488,165 @@ var paginas = [
 					return {url: u[1] + '?nl=' + nl };
 				}
 	},
-	{	url:  'ekkifu.com',
-		img:  'http://img',
-		back:  [/value="previous page" onclick="javascript:window.location='(.+)';"/i, 1],
-		next:  [/value="next page" onclick="javascript:window.location='(.+)';"/i, 1],
-		extra:  [[['.chapter-navigation select', ' Page ']]],
+	{	url:	'ekkifu.com',
+		img:	'http://img',
+		back:	[/value="previous page" onclick="javascript:window.location='(.+)';"/i, 1],
+		next:	[/value="next page" onclick="javascript:window.location='(.+)';"/i, 1],
+		extra:	[[['.chapter-navigation select', ' Page ']]],
 		scrollx:'R'
 	},
-	{	url:  'bittersweetcandybowl.com',
-		img:  [['#page_img']],
-		back:  '@rel="prev"',
-		next:  '@rel="next"',
-		extra:  [[['#authorcommentary']], [['#comicselect']]],
-		style:  '.pagenavlink{display:none;} #content #wcr_div *{text-align:center;}'
+	{	url:	'bittersweetcandybowl.com',
+		img:	[['#page_img']],
+		back:	'@rel="prev"',
+		next:	'@rel="next"',
+		extra:	[[['#authorcommentary']], [['#comicselect']]],
+		style:	'.pagenavlink{display:none;} #content #wcr_div *{text-align:center;}'
 	},
-	{	url:  'imagebam.com',
-		img:  ['//img[@alt="loading"]']
+	{	url:	'imagebam.com',
+		img:	['//img[@alt="loading"]']
 	},
-	{	url:  'basicinstructions.net',
-		img:  [['.full-image-block img']],
-		back:  '@class="journal-entry-navigation-next"',
-		next:  '@class="journal-entry-navigation-prev"'
+	{	url:	'basicinstructions.net',
+		img:	[['.full-image-block img']],
+		back:	'@class="journal-entry-navigation-next"',
+		next:	'@class="journal-entry-navigation-prev"'
 	},
-	{	url:  'missmab.com',
-		img:  ['//center/img | //p/img'],
-		extra:  [['//i']]
+	{	url:	'missmab.com',
+		img:	['//center/img | //p/img'],
+		extra:	[['//i']]
 	},
-	{	url:  'darthsanddroids.net',
-		extra:  [[['.center b']], [['.text']]],
-		style:  '.text{text-align:left;}'
+	{	url:	'darthsanddroids.net',
+		extra:	[[['.center b']], [['.text']]],
+		style:	'.text{text-align:left;}'
 	},
-	{	url:  'harkavagrant.com',
-		img:  [['.rss-content img']],
-		extra:  [[['.black11']]]
+	{	url:	'harkavagrant.com',
+		img:	[['.rss-content img']],
+		extra:	[[['.black11']]]
 	},
 	{
-		url:  'dresdencodak.com',
-		img:  [['section.entry-content>p>img']],
+		url:	'dresdencodak.com',
+		img:	[['section.entry-content>p>img']],
 	},
-	{	url:  'straysonline.com',
-		img:  [['td[align="center"]>a>img']]
+	{	url:	'straysonline.com',
+		img:	[['td[align="center"]>a>img']]
 	},
-	{	url:  'dragonball-multiverse.com',
-		img:  [['#balloonsimg>img']],
-		layout:  false
+	{	url:	'dragonball-multiverse.com',
+		img:	[['#balloonsimg>img']],
+		layout:	false
 	},
-	{	url:  'wayfarersmoon.com',
-		img:  '/admin/uploads/wm',
-		back:  'img[@alt="back button"]',
-		next:  'img[@alt="forward button"]',
-		first:  'img[@alt="begin button"]',
-		last:  'img[@alt="end button"]'
+	{	url:	'wayfarersmoon.com',
+		img:	'/admin/uploads/wm',
+		back:	'img[@alt="back button"]',
+		next:	'img[@alt="forward button"]',
+		first:	'img[@alt="begin button"]',
+		last:	'img[@alt="end button"]'
 	},
-	{	url:  '*.smackjeeves.com',
-		img:  [['#comic_image']]
+	{	url:	'*.smackjeeves.com',
+		img:	[['#comic_image']]
 	},
-	{	url:  '10kcommotion.com',
-		img:  function(html, pos){
+	{	url:	'10kcommotion.com',
+		img:	function(html, pos){
 					var num = Number(link[0].match(/\?(\d+)$/)[1])+pos;
 					return match(html, new RegExp('image\\['+num+'\\]="(.+?)"'), 1);
 				},
-		back:  function(html, pos){
+		back:	function(html, pos){
 					var url = link[0].match(/^(.+\?)(\d+)$/);
 					var num = Number(url[2])+pos-1;
 					return num ? url[1]+num : null;
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					var url = link[0].match(/^(.+\?)(\d+)$/);
 					var num = Number(url[2])+pos+1;
 					return match(html, new RegExp('image\\['+num+'\\]="(.+?)"'), 1) ? url[1]+num : null;
 				}
 	},
-	{	url:  'multiplexcomic.com',
-		back:  '.="Previous"',
-		next:  '.="Next"'
+	{	url:	'multiplexcomic.com',
+		back:	'.="Previous"',
+		next:	'.="Next"'
 	},
-	{	url:  'johnandjohn.nl',
-		img:  '../write/',
-		back:  '@id="pointleft"',
-		next:  '@id="pointright"',
-		extra:  [function(html, pos){
+	{	url:	'johnandjohn.nl',
+		img:	'../write/',
+		back:	'@id="pointleft"',
+		next:	'@id="pointright"',
+		extra:	[function(html, pos){
 					var link = xpath('//a[img[@id="comicimg"]]/@href', html);
 					return '<a href="'+link+'">'+link+'</a>';
 				}],
-		txtcol:  'orange',
-		layout:  false
+		txtcol:	'orange',
+		layout:	false
 	},
-	{	url:  'sorcery101.net',
-		img:  [['.comic img']]
+	{	url:	'sorcery101.net',
+		img:	[['.comic img']]
 	},
-	{	url:  'treadingground.com',
-		extra:  [[['.entry']]]
+	{	url:	'treadingground.com',
+		extra:	[[['.entry']]]
 	},
-	{	url:  'kiwiblitz.com',
-		img:  [['#cc-comic']],
-		extra:  [[['.cc-newsarea']]],
-		style:  '#cc-comicbody{position: relative !important;} #pixiestrip {visibility: hidden;}',
+	{	url:	'kiwiblitz.com',
+		img:	[['#cc-comic']],
+		extra:	[[['.cc-newsarea']]],
+		style:	'#cc-comicbody{position: relative !important;} #pixiestrip {visibility: hidden;}',
 	},
-	{	url:  'thepunchlineismachismo.com|zombieboycomics.com',
-		img:  [['#comic img']],
-		extra:  [[['.entry']]],
-		style:  '#wcr_div button{float:none;}',
+	{	url:	'thepunchlineismachismo.com|zombieboycomics.com',
+		img:	[['#comic img']],
+		extra:	[[['.entry']]],
+		style:	'#wcr_div button{float:none;}',
 	},
-	{	url:  'kafkaskoffee.com',
-		img:  [['.webcomic-object img']],
-		extra:  [[['.webcomic_post h1']], [['.content']]]
+	{	url:	'kafkaskoffee.com',
+		img:	[['.webcomic-object img']],
+		extra:	[[['.webcomic_post h1']], [['.content']]]
 	},
-	{	url:  'out-at-home.com',
-		extra:  [[['.comic']]],
-		txtcol:  '#fff'
+	{	url:	'out-at-home.com',
+		extra:	[[['.comic']]],
+		txtcol:	'#fff'
 	},
-	{	url:  'occasionalcomics.com|bearandtiger.com',
-		extra:  [[['.entry']]]
+	{	url:	'occasionalcomics.com|bearandtiger.com',
+		extra:	[[['.entry']]]
 	},
-	{	url:  'babyblues.com',
-		img:  [['.comic img']]
+	{	url:	'babyblues.com',
+		img:	[['.comic img']]
 	},
-	{	url:  'mankin-trad.net',
-		img:  'read/',
-		js:  	function(dir){
+	{	url:	'mankin-trad.net',
+		img:	'read/',
+		js:		function(dir){
 					if(!dir){
 						var hn = get('hoverNav');
 						hn.parentNode.removeChild(hn);
 					}
 				},
-		extra:  [[['.pagination']]],
+		extra:	[[['.pagination']]],
 		scrollx:'R'
 	},
-	{	url:  'spaceavalanche.com',
-		img:  [['.entry img']]
+	{	url:	'spaceavalanche.com',
+		img:	[['.entry img']]
 	},
-	{	url:  'schlockmercenary.com',
-		img:  [['#comic img']],
-		back:  '.="Previous Comic"',
-		next:  '.="Next Comic"',
-		extra:  [[['#comic img', '', 1]], [['div.footnote']]],
-		style:  '#wcr_extra{width:780px; margin:0 auto;}'
+	{	url:	'schlockmercenary.com',
+		img:	[['#comic img']],
+		back:	'.="Previous Comic"',
+		next:	'.="Next Comic"',
+		extra:	[[['#comic img', '', 1]], [['div.footnote']]],
+		style:	'#wcr_extra{width:780px; margin:0 auto;}'
 	},
-	{	url:  'warehousecomic.com',
-		extra:  [[['.newsBox p', '']]]
+	{	url:	'warehousecomic.com',
+		extra:	[[['.newsBox p', '']]]
 	},
-	{	url:  'nerfnow.com',
-		img:  [['#comic img']],
-		extra:  [[['.comment']]]
+	{	url:	'nerfnow.com',
+		img:	[['#comic img']],
+		extra:	[[['.comment']]]
 	},
-	{	url:  'zapcomic.com',
-		img:  'http://www.zapcomic.com?comic_object='
+	{	url:	'zapcomic.com',
+		img:	'http://www.zapcomic.com?comic_object='
 	},
-	{	url:  'shortpacked.com',
-		img:  'http://www.shortpacked.com/comics/'
+	{	url:	'shortpacked.com',
+		img:	'http://www.shortpacked.com/comics/'
 	},
-	{	url:  'axecop.com',
-		img:  [['#comic img']],
-		back:  '.="Prev"',
-		next:  '.="Next"',
-		extra:  [[['.entry-content']]],
-		txtcol:  '#fff'
+	{	url:	'axecop.com',
+		img:	[['#comic img']],
+		back:	'.="Prev"',
+		next:	'.="Next"',
+		extra:	[[['.entry-content']]],
+		txtcol:	'#fff'
 	},
-	{	url:  'reddit.com',
-		img:  function(html, pos){
+	{	url:	'reddit.com',
+		img:	function(html, pos){
 					var posts = selCss('#siteTable>.thing:not(.promoted)', html, true);
 					var post = posts[((pos%25)+25)%25];
 					var tit = selCss('a.title', post).href;
@@ -1661,96 +1662,96 @@ var paginas = [
 					try{ return selCss('img#header-img', html); }
 					catch(e){ return '/favicon.ico'; }
 				},
-		back:  function(html, pos){
+		back:	function(html, pos){
 					if(pos%25) return '##'+(pos-1);
 					return selCss('a[rel~="prev"]', html);
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					if((pos+1)%25) return '##'+(pos+1);
 					return selCss('a[rel~="next"]', html);
 				},
-		extra:  [function(html, pos){
+		extra:	[function(html, pos){
 					var posts = selCss('#siteTable>.thing:not(.promoted)', html, true);
 					return posts[((pos%25)+25)%25];
 				}],
-		js:  	function(dir){
+		js:		function(dir){
 					exec("expando_child($('.expando-button'))");
 				},
 		layelem:'//body/div[contains(@class,"content")]'
 	},
-	{	url:  'blankitcomics.com',
-		img:  'http://blankitcomics.com/bicomics/'
+	{	url:	'blankitcomics.com',
+		img:	'http://blankitcomics.com/bicomics/'
 	},
-	{	url:  'luscious.net',
-		img:  [['#single_picture']],
-		fixurl:  function(url, img, link){
+	{	url:	'luscious.net',
+		img:	[['#single_picture']],
+		fixurl:	function(url, img, link){
 					if(img) return url.replace(/(\.\d+x\d+)(\.\w+$)/, '$2');
 					return url;
 				},
-		style:  '#wcr_div button{display:inline;}',
+		style:	'#wcr_div button{display:inline;}',
 		scrollx:'R'
 	},
-	{	url:  'geekculture.com',
-		img:  [['p > img']]
+	{	url:	'geekculture.com',
+		img:	[['p > img']]
 	},
-	{	url:  'thedoujin.com',
-		img:  [['#image']],
-		back:  [['.previous > a']],
-		next:  [['.next > a']],
-		first:  [['.first > a']],
-		last:  [['.last > a']],
+	{	url:	'thedoujin.com',
+		img:	[['#image']],
+		back:	[['.previous > a']],
+		next:	[['.next > a']],
+		first:	[['.first > a']],
+		last:	[['.last > a']],
 		scrollx:'R'
 	},
-	{	url:  'oslevadosdabreca.com',
-		img:  'http://www.oslevadosdabreca.com/tiras/',
-		first:  [['.nav-first a']],
-		last:  [['.nav-last a']]
+	{	url:	'oslevadosdabreca.com',
+		img:	'http://www.oslevadosdabreca.com/tiras/',
+		first:	[['.nav-first a']],
+		last:	[['.nav-last a']]
 	},
-	{	url:  'faans.com',
-		back:  '@rel="prev"',
-		next:  '@rel="next"'
+	{	url:	'faans.com',
+		back:	'@rel="prev"',
+		next:	'@rel="next"'
 	},
-	{	url:  'cheer.sailorsun.org',
-		img:  [['#comic img']],
-		back:  [[['.comic-nav-previous']]],
-		next:  [[['.comic-nav-next']]]
+	{	url:	'cheer.sailorsun.org',
+		img:	[['#comic img']],
+		back:	[[['.comic-nav-previous']]],
+		next:	[[['.comic-nav-next']]]
 	},
-	{	url:  'drunkduck.com',
-		img:  [['#comic img']],
-		back:  'img[@class="arrow_prev"]',
-		next:  'img[@class="arrow_next"]',
-		first:  'img[@class="arrow_first"]',
-		last:  'img[@class="arrow_last"]',
-		extra:  [[['#author_note_holder']]],
-		style:  '#wcr_extra #author_note_holder{float:none;text-align:left;min-height:0;} #wcr_extra .thumbnailleft img{width:60px;} #wcr_extra .postcontent{width:auto;}'
+	{	url:	'drunkduck.com',
+		img:	[['#comic img']],
+		back:	'img[@class="arrow_prev"]',
+		next:	'img[@class="arrow_next"]',
+		first:	'img[@class="arrow_first"]',
+		last:	'img[@class="arrow_last"]',
+		extra:	[[['#author_note_holder']]],
+		style:	'#wcr_extra #author_note_holder{float:none;text-align:left;min-height:0;} #wcr_extra .thumbnailleft img{width:60px;} #wcr_extra .postcontent{width:auto;}'
 	},
-	{	url:  'ephralon.de',
-		img:  '/seekers/'
+	{	url:	'ephralon.de',
+		img:	'/seekers/'
 	},
-	{	url:  'http://www.montrose.is/sgvy/',
-		img:  [['#comic']]
+	{	url:	'http://www.montrose.is/sgvy/',
+		img:	[['#comic']]
 	},
-	{	url:  'truefork.org',
-		extra:  [[['.plaintext']]]
+	{	url:	'truefork.org',
+		extra:	[[['.plaintext']]]
 	},
-	{	url:  /anelnoath\.com\/\w+\d+\.htm/,
-		img:  [['img']]
+	{	url:	/anelnoath\.com\/\w+\d+\.htm/,
+		img:	[['img']]
 	},
-	{	url:  'nsfw-comix.com',
-		img:  'comix/',
-		extra:  [[['img[src^="comix/"]', '<br/>', 1]]]
+	{	url:	'nsfw-comix.com',
+		img:	'comix/',
+		extra:	[[['img[src^="comix/"]', '<br/>', 1]]]
 	},
-	{	url:  'thewotch.com',
-		back:  [[['.comic-nav-previous']]],
-		next:  [[['.comic-nav-next']]],
-		extra:  [[['.comments']]],
-		style:  '#wcr_imagen{max-height:100% !important;max-width:90vw !important;width:auto !important;height:auto !important;}'
+	{	url:	'thewotch.com',
+		back:	[[['.comic-nav-previous']]],
+		next:	[[['.comic-nav-next']]],
+		extra:	[[['.comments']]],
+		style:	'#wcr_imagen{max-height:100% !important;max-width:90vw !important;width:auto !important;height:auto !important;}'
 	},
-	{	url:  'thedevilbear.com',
-		img:  'comixx/'
+	{	url:	'thedevilbear.com',
+		img:	'comixx/'
 	},
-	{	url:  'terinu.com',
-		img:  function(html, pos){
+	{	url:	'terinu.com',
+		img:	function(html, pos){
 					if(!pos) return selCss('#Image1');
 
 					var cappag = imagen[0].match(/Comic(\d+)Pg(\d+)/);
@@ -1766,18 +1767,18 @@ var paginas = [
 
 					return '/Comic/Comic'+cap+'Pg'+pag+'.jpg';
 				},
-		back:  function(html, pos){
+		back:	function(html, pos){
 					return '##'+(pos-1);
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					return '##'+(pos+1);
 				}
 	},
-	{	url:  'las-historietas.blogspot.com',
-		img:  ['//div[contains(@class, "post-body")]//a[img and (contains(@href, ".png") or contains(@href, ".jpg") or contains(@href, ".gif"))]/@href'],
-		back:  '@id="blog-pager-older-link"',
-		next:  '@id="blog-pager-newer-link"',
-		extra:  [function(html, pos){
+	{	url:	'las-historietas.blogspot.com',
+		img:	['//div[contains(@class, "post-body")]//a[img and (contains(@href, ".png") or contains(@href, ".jpg") or contains(@href, ".gif"))]/@href'],
+		back:	'@id="blog-pager-older-link"',
+		next:	'@id="blog-pager-newer-link"',
+		extra:	[function(html, pos){
 					var div = selCss('.post-body', html);
 					var aimgs = selCss('[href$=".png"]>img,[href$=".jpg"]>img,[href$=".gif"]>img,[href$=".PNG"]>img,[href$=".JPG"]>img,[href$=".GIF"]>img', div, true);
 					aimgs[0].parentNode.removeChild(aimgs[0]);
@@ -1793,37 +1794,37 @@ var paginas = [
 					return div;
 				}],
 		layelem:'//div[contains(@class, "post-body")]',
-		style:  '.content-outer{max-width:none !important;}'
+		style:	'.content-outer{max-width:none !important;}'
 	},
-	{	url:  'dcisgoingtohell.com',
-		back:  '@class="navi navi-prev"',
-		next:  '@class="navi navi-next"'
+	{	url:	'dcisgoingtohell.com',
+		back:	'@class="navi navi-prev"',
+		next:	'@class="navi navi-next"'
 	},
-	{	url:  'palcomix.com',
-		img:  '../images/',
-		extra:  [[['form']]]
+	{	url:	'palcomix.com',
+		img:	'../images/',
+		extra:	[[['form']]]
 	},
-	{	url:  'soulsymphonycomic.com',
-		img:  [['#comic>img']]
+	{	url:	'soulsymphonycomic.com',
+		img:	[['#comic>img']]
 	},
-	{	url:  'malandchad.com',
-		back:  '@rel="prev"',
-		next:  '@rel="next"'
+	{	url:	'malandchad.com',
+		back:	'@rel="prev"',
+		next:	'@rel="next"'
 	},
-	{	url:  'digitalcomicmuseum.com/preview',
-		img:  'cache/'
+	{	url:	'digitalcomicmuseum.com/preview',
+		img:	'cache/'
 	},
-	{	url:  'fourcolorshadows.blogspot.com|thehorrorsofitall.blogspot.com',
-		img:  function(html, pos){
+	{	url:	'fourcolorshadows.blogspot.com|thehorrorsofitall.blogspot.com',
+		img:	function(html, pos){
 					var aimgs = xpath('//div[contains(@class,"blog-posts")]//div/a[img[not(@class="icon-action")]]', html, true);
 					var num = pos ? Number(link[pos].match(/##(\d+);/)[1]) : 0;
 
 					return aimgs[pos-num].href;
 				},
-		back:  function(html, pos){
+		back:	function(html, pos){
 					throw new Error('fail');
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					if(!pos) return '##0;1';
 
 					var aimgs = xpath('//div[contains(@class,"blog-posts")]//div/a[img[not(@class="icon-action")]]', html, true);
@@ -1834,7 +1835,7 @@ var paginas = [
 					return selCss('#Blog1_blog-pager-older-link', html).href +
 						'##' + (num+aimgs.length) + ';' + (pos+1);
 				},
-		extra:  [function(html, pos){
+		extra:	[function(html, pos){
 					var post = xpath('//div[contains(@class,"post-body") and .//a[@href="'+imagen[pos]+'"]]', html);
 					return outerHTML(selCss('h3', post.parentNode)) +
 						'<br/>' + post.textContent +
@@ -1842,8 +1843,8 @@ var paginas = [
 				}],
 		layelem:'//div[@id="header-wrapper"]'
 	},
-	{	url:  'bato.to/chapter',
-		img:  function(html, pos){
+	{	url:	'bato.to/chapter',
+		img:	function(html, pos){
 					try {
 						xpath('//img[@class="page-img" and starts-with(@src, "http")]/@src', html);
 					} catch (error) {
@@ -1854,117 +1855,117 @@ var paginas = [
 
 					return xpath('//img[@class="page-img"]', html);	
 				},
-		back:  function(html, pos){
+		back:	function(html, pos){
 					return xpath("//div[contains(concat(' ',normalize-space(@class),' '),' nav-prev ')]//a/@href", html);
 		},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					return xpath("//div[contains(concat(' ',normalize-space(@class),' '),' nav-next ')]//a/@href", html);
 		}
 	},
-	{	url:  'nedroid.com',
-		extra:  ['<br/>', [['.post-comic h2']]]
+	{	url:	'nedroid.com',
+		extra:	['<br/>', [['.post-comic h2']]]
 	},
-	{	url:  'lovemenicecomic.com',
-		img:  'http://www.lovemenicecomic.com/wp-content/webcomic/',
-		back:  '@rel="previous"',
-		next:  '@rel="next"'
+	{	url:	'lovemenicecomic.com',
+		img:	'http://www.lovemenicecomic.com/wp-content/webcomic/',
+		back:	'@rel="previous"',
+		next:	'@rel="next"'
 	},
-	{	url:  'kingfeatures.com',
-		img:  [['#comic img']],
-		back:  function(html, pos){
+	{	url:	'kingfeatures.com',
+		img:	[['#comic img']],
+		back:	function(html, pos){
 					var date = xpath('//select[@name="date"]/option[@selected]/preceding-sibling::option[1]/@value', html);
 					return 'aboutMaina.php?date='+date;
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					var date = xpath('//select[@name="date"]/option[@selected]/following-sibling::option[1]/@value', html);
 					return 'aboutMaina.php?date='+date;
 				}
 	},
-	{	url:  'thezombiehunters.com',
-		extra:  [[['#ranttext']]]
+	{	url:	'thezombiehunters.com',
+		extra:	[[['#ranttext']]]
 	},
-	{	url:  'syacartoonist.com|satwcomic.com|stupidfox.net',
-		img:  [['[src*="/art/"]:not([class])']],
-		extra:  [['//div[@class="stand_high"][1]']]
+	{	url:	'syacartoonist.com|satwcomic.com|stupidfox.net',
+		img:	[['[src*="/art/"]:not([class])']],
+		extra:	[['//div[@class="stand_high"][1]']]
 	},
-	{	url:  'casualvillain.com',
-		img:  [['#comic img']],
-		back:  '.="Back"',
-		next:  '.="Forward"'
+	{	url:	'casualvillain.com',
+		img:	[['#comic img']],
+		back:	'.="Back"',
+		next:	'.="Forward"'
 	},
-	{	url:  'fanboys-online.com',
-		extra:  [[['.post-content']]],
-		bgcol:  '#490606'
+	{	url:	'fanboys-online.com',
+		extra:	[[['.post-content']]],
+		bgcol:	'#490606'
 	},
-	{	url:  'freefall.purrsia.com',
-		img:  ['//img[@height>="200"]'],
-		extra:  ['<br>',['//a[2]//img[@height>="200"]'],['//a[3]//img[@height>="200"]'],['//a[4]//img[@height>="200"]'],['//a[5]//img[@height>="200"]'],['//a[6]//img[@height>="200"]'],['//a[7]//img[@height>="200"]'],['//a[8]//img[@height>="200"]'],['//a[9]//img[@height>="200"]'],['//a[10]//img[@height>="200"]']],
-		back:  'contains(.,"Previous")',
-		next:  'contains(.,"Next")',
-		js:  wcr_ext_navi_ctrls
+	{	url:	'freefall.purrsia.com',
+		img:	['//img[@height>="200"]'],
+		extra:	['<br>',['//a[2]//img[@height>="200"]'],['//a[3]//img[@height>="200"]'],['//a[4]//img[@height>="200"]'],['//a[5]//img[@height>="200"]'],['//a[6]//img[@height>="200"]'],['//a[7]//img[@height>="200"]'],['//a[8]//img[@height>="200"]'],['//a[9]//img[@height>="200"]'],['//a[10]//img[@height>="200"]']],
+		back:	'contains(.,"Previous")',
+		next:	'contains(.,"Next")',
+		js:	wcr_ext_navi_ctrls
 	},
-	{	url:  'shd-wk.com',
-		style:  '#wcr_div{text-align:left !important;} #wcr_listabm{padding-top:100px;}'
+	{	url:	'shd-wk.com',
+		style:	'#wcr_div{text-align:left !important;} #wcr_listabm{padding-top:100px;}'
 	},
-	{	url:  'pebbleversion.com',
-		img:  [['img[src*="ComicStrips"]']],
-		extra:  [[['td[rowspan="2"] div']], [['td[colspan="4"] font']]]
+	{	url:	'pebbleversion.com',
+		img:	[['img[src*="ComicStrips"]']],
+		extra:	[[['td[rowspan="2"] div']], [['td[colspan="4"] font']]]
 	},
-	{	url:  'accurseddragon.com',
-		extra:  [[['.webcomic_post']]]
+	{	url:	'accurseddragon.com',
+		extra:	[[['.webcomic_post']]]
 	},
-	{	url:  'victorycomic.comicgenesis.com',
-		img:  [['img[alt="Comic"]']]
+	{	url:	'victorycomic.comicgenesis.com',
+		img:	[['img[alt="Comic"]']]
 	},
-	{	url:  'flakypastry.runningwithpencils.com',
-		img:  'comics/'
+	{	url:	'flakypastry.runningwithpencils.com',
+		img:	'comics/'
 	},
-	{	url:  'gogetaroomie.chloe-art.com',
-		img:  [['.comicpane img']]
+	{	url:	'gogetaroomie.chloe-art.com',
+		img:	[['.comicpane img']]
 	},
-	{	url:  'mindmistress.comicgenesis.com',
-		img:  '/comics/',
-		extra:  [[['img[src^="/comics/"]', '', 1]]]
+	{	url:	'mindmistress.comicgenesis.com',
+		img:	'/comics/',
+		extra:	[[['img[src^="/comics/"]', '', 1]]]
 	},
-	{	url:  'kastlecomics.comicgenesis.com',
-		img:  [['img[src*="/comics/"]']]
+	{	url:	'kastlecomics.comicgenesis.com',
+		img:	[['img[src*="/comics/"]']]
 	},
-	{	url:  'evernightcomic.com',
-		style:  '#wcr_imagen{height:auto !important;}'
+	{	url:	'evernightcomic.com',
+		style:	'#wcr_imagen{height:auto !important;}'
 	},
-	{	url:  'comicstriplibrary.org',
-		img:  '/images/comics/',
-		back:  '.="<< Previous"',
-		next:  '.="Next >>"'
+	{	url:	'comicstriplibrary.org',
+		img:	'/images/comics/',
+		back:	'.="<< Previous"',
+		next:	'.="Next >>"'
 	},
-	{	url:  '*.tiraecol.net',
-		img:  [['img[src*="tiraecol.net/modules/comic/cache/images/"]']],
-		back:  ['//td[@width="200px" and @align="left"]/a[2]'],
-		next:  ['//td[@width="200px" and @align="right"]/a[1]'],
-		extra:  [[['.title']]]
+	{	url:	'*.tiraecol.net',
+		img:	[['img[src*="tiraecol.net/modules/comic/cache/images/"]']],
+		back:	['//td[@width="200px" and @align="left"]/a[2]'],
+		next:	['//td[@width="200px" and @align="right"]/a[1]'],
+		extra:	[[['.title']]]
 	},
-	{	url:  'conejofrustrado.com',
-		back:  '@class="navAnterior"',
-		next:  '@class="navSiguiente"'
+	{	url:	'conejofrustrado.com',
+		back:	'@class="navAnterior"',
+		next:	'@class="navSiguiente"'
 	},
-	{	url:  'e2w-illustration.com',
-		img:  'http://www.e2w-illustration.com/images/'
+	{	url:	'e2w-illustration.com',
+		img:	'http://www.e2w-illustration.com/images/'
 	},
-	{	url:  'comic.naver.com',
-		img:  [['.wt_viewer img']],
-		back:  [['.pre a']],
-		next:  [['.next a']],
-		extra:  [[['.wt_viewer img', '<br/>', 1]]],
-		style:  '.wt_viewer>img{display:none;}'
+	{	url:	'comic.naver.com',
+		img:	[['.wt_viewer img']],
+		back:	[['.pre a']],
+		next:	[['.next a']],
+		extra:	[[['.wt_viewer img', '<br/>', 1]]],
+		style:	'.wt_viewer>img{display:none;}'
 	},
 	{
-		url:  'webtoons.com',
-		img:  ['//*[@id="_imageList"]/img/@data-url'],
-		back:  [['.pg_prev']],
-		next:  [['.pg_next']],
-		extra:  [[['#_imageList']]],
-		layelem:  '//*[@id="_imageList"]',
-		js:  function(dir){
+		url:	'webtoons.com',
+		img:	['//*[@id="_imageList"]/img/@data-url'],
+		back:	[['.pg_prev']],
+		next:	[['.pg_next']],
+		extra:	[[['#_imageList']]],
+		layelem:	'//*[@id="_imageList"]',
+		js:	function(dir){
 				// Refresh webtoon's image loading script
 				exec("oVisible.refresh();oVisible.check()");
 				// Click on any img
@@ -1972,87 +1973,87 @@ var paginas = [
 				setEvt(elemImagen, 'click', imgClick);
 				setEvt(elemImagen, 'mousemove', imgCursor);
 				},
-		style:  '#wcr_imagen{display:none;}',
+		style:	'#wcr_imagen{display:none;}',
 	},
-	{	url:  'trenchescomic.com',
-		img:  [['.comic img']]
+	{	url:	'trenchescomic.com',
+		img:	[['.comic img']]
 	},
-	{	url:  'goominet.com',
-		img:  [['center>img[src^="uploads/"]']],
-		extra:  [[['center>img[src^="t"]']]]
+	{	url:	'goominet.com',
+		img:	[['center>img[src^="uploads/"]']],
+		extra:	[[['center>img[src^="t"]']]]
 	},
-	{	url:  'doesnotplaywellwithothers.com',
-		extra:  [[['#sidebar-undercomic p']]]
+	{	url:	'doesnotplaywellwithothers.com',
+		extra:	[[['#sidebar-undercomic p']]]
 	},
-	{	url:  'aikoniacomic.com',
-		style:  '#comic{height:auto;}',
-		extra:  [[['#blurb']]]
+	{	url:	'aikoniacomic.com',
+		style:	'#comic{height:auto;}',
+		extra:	[[['#blurb']]]
 	},
-	{	url:  'grrlpowercomic.com',
-		img:  [['#comic img']],
-		extra:  [[['.post-content']]],
-		style:  '#content{display:none}.post-content,#comment-wrapper{width: 766px;margin: auto;}'
+	{	url:	'grrlpowercomic.com',
+		img:	[['#comic img']],
+		extra:	[[['.post-content']]],
+		style:	'#content{display:none}.post-content,#comment-wrapper{width: 766px;margin: auto;}'
 	},
-	{	url:  'the-whiteboard.com',
-		img:  [['center>img']]
+	{	url:	'the-whiteboard.com',
+		img:	[['center>img']]
 	},
-	{	url:  'mezzacotta.net',
-		extra:  [[['h2']], ['//h2/following-sibling::p', '', 2]]
+	{	url:	'mezzacotta.net',
+		extra:	[[['h2']], ['//h2/following-sibling::p', '', 2]]
 	},
-	{	url:  'hbrowse.com',
-		img:  [['.pageImage img']],
-		back:  ['//a[not(@href)]/preceding-sibling::a[1] | //a[@name="prev" and not(starts-with(@href, "javascript"))]'],
-		next:  ['//a[not(@href)]/following-sibling::a[1] | //a[@name="next" and not(starts-with(@href, "javascript"))]']
+	{	url:	'hbrowse.com',
+		img:	[['.pageImage img']],
+		back:	['//a[not(@href)]/preceding-sibling::a[1] | //a[@name="prev" and not(starts-with(@href, "javascript"))]'],
+		next:	['//a[not(@href)]/following-sibling::a[1] | //a[@name="next" and not(starts-with(@href, "javascript"))]']
 	},
-	{	url:  'fancyadventures.com',
-		extra:  [[['.entry p']]]
+	{	url:	'fancyadventures.com',
+		extra:	[[['.entry p']]]
 	},
-	{	url:  'darklegacycomics.com',
-		img:  [['td[background="comic_mid.gif"] img']]
+	{	url:	'darklegacycomics.com',
+		img:	[['td[background="comic_mid.gif"] img']]
 	},
-	{	url:  'bearmageddon.com',
-		extra:  [[['.post']]]
+	{	url:	'bearmageddon.com',
+		extra:	[[['.post']]]
 	},
-	{	url:  'betweenfailures.net',
-		img:  'http://betweenfailures.net/wp-content/webcomic/',
-		extra:  [[['.webcomic_post h1']], [['.webcomic_post .content']]]
+	{	url:	'betweenfailures.net',
+		img:	'http://betweenfailures.net/wp-content/webcomic/',
+		extra:	[[['.webcomic_post h1']], [['.webcomic_post .content']]]
 	},
-	{	url:  'sisterclaire.com',
-		back:  function(html, pos){
+	{	url:	'sisterclaire.com',
+		back:	function(html, pos){
 					try{ return xpath('//a[.="Previous"]', html); }
 					catch(e){ return xpath('//a[.="Previous Chapter"]', html); }
 				},
-		next:  '.="Next" or .="Next Chapter"',
-		extra:  [[['.entry']]],
+		next:	'.="Next" or .="Next Chapter"',
+		extra:	[[['.entry']]],
 	},
-	{	url:  'awesomehospital.com',
-		extra:  [[['.post-comic']]]
+	{	url:	'awesomehospital.com',
+		extra:	[[['.post-comic']]]
 	},
-	{	url:  'ars.userfriendly.org',
-		img:  'http://www.userfriendly.org/cartoons/archives/',
-		back:  [['[alt="Previous Cartoon"]']],
-		next:  [['[alt="Next Day\'s Cartoon"]']]
+	{	url:	'ars.userfriendly.org',
+		img:	'http://www.userfriendly.org/cartoons/archives/',
+		back:	[['[alt="Previous Cartoon"]']],
+		next:	[['[alt="Next Day\'s Cartoon"]']]
 	},
-	{	url:  'friendswithboys.com',
-		img:  [['.entry img']],
-		extra:  [[['.entry>*', '', 1]]]
+	{	url:	'friendswithboys.com',
+		img:	[['.entry img']],
+		extra:	[[['.entry>*', '', 1]]]
 	},
-	{	url:  'calamitiesofnature.com',
-		img:  [['#comic img']]
+	{	url:	'calamitiesofnature.com',
+		img:	[['#comic img']]
 	},
-	{	url:  'irregularwebcomic.net',
-		extra:  [[['#annotation']]],
-		style:  'div.hide {display: block; text-align: left;}',
+	{	url:	'irregularwebcomic.net',
+		extra:	[[['#annotation']]],
+		style:	'div.hide {display: block; text-align: left;}',
 	},
-	{	url:  'adistantsoil.com',
-		back:  '@title="Previous"',
-		next:  '@title="Next"',
-		extra:  [['//div[@class="post-content"]']],
-		bgcol:  '#f4eebc'
+	{	url:	'adistantsoil.com',
+		back:	'@title="Previous"',
+		next:	'@title="Next"',
+		extra:	[['//div[@class="post-content"]']],
+		bgcol:	'#f4eebc'
 	},
 	{
-		url:  'kissmanga.com',
-		img:  function(html, pos){
+		url:	'kissmanga.com',
+		img:	function(html, pos){
 					var imgs = html.match(/lstImages\.push\(wrapKA\(".+?"\)\);/g);
 
 					var num = 0;
@@ -2062,7 +2063,7 @@ var paginas = [
 
 					return unsafeWindow.wrapKA(imgs[num].match(/"(.+)"/)[1]);
 				},
-		back:  function(html, pos){
+		back:	function(html, pos){
 					var num;
 					var imgs = html.match(/lstImages\.push\(wrapKA\(".+?"\)\);/g);
 
@@ -2075,7 +2076,7 @@ var paginas = [
 					return xpath('//select[(@id|@class)="selectChapter"]/option[@selected]/preceding-sibling::option[1]/@value', html) +
 						'##-1';
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					var num;
 					var imgs = html.match(/lstImages\.push\(wrapKA\(".+?"\)\);/g);
 
@@ -2088,128 +2089,128 @@ var paginas = [
 					return xpath('//select[(@id|@class)="selectChapter"]/option[@selected]/following-sibling::option[1]/@value', html) +
 						'##0';
 				},
-		scrollx:  'R',
-		layelem:  '//div[@id="divImage"]',
+		scrollx:	'R',
+		layelem:	'//div[@id="divImage"]',
 	},
-	{	url:  'spinnyverse.com',
-		back:  [['.nav-previous a']],
-		next:  [['.nav-next a']]
+	{	url:	'spinnyverse.com',
+		back:	[['.nav-previous a']],
+		next:	[['.nav-next a']]
 	},
-	{	url:  'zenpencils.com',
-		extra:  [[['.comicpress_comic_blog_post_widget']]]
+	{	url:	'zenpencils.com',
+		extra:	[[['.comicpress_comic_blog_post_widget']]]
 	},
-	{	url:  'webcomics.yaoi911.com',
-		img:  [['.webcomic-object img']],
-		back:  '@rel="previous"',
-		next:  '@rel="next"'
+	{	url:	'webcomics.yaoi911.com',
+		img:	[['.webcomic-object img']],
+		back:	'@rel="previous"',
+		next:	'@rel="next"'
 	},
-	{	url:  'thedevilspanties.com',
-		img:  ['//div[@id="comic-1"]//img'],
-		extra:  [['//div[@id="comic-2"]//img'],['//div[@id="comic-3"]//img'],['//div[@id="comic-4"]//img'],['//div[@id="comic-5"]//img'],['//div[@id="comic-6"]//img'],['//div[@id="comic-7"]//img'],['//div[@id="comic-8"]//img'],['//div[@id="comic-9"]//img'],['//div[@id="comic-10"]//img'],['//div[@class="entry"]']],
-        js: wcr_ext_navi_ctrls
+	{	url:	'thedevilspanties.com',
+		img:	['//div[@id="comic-1"]//img'],
+		extra:	[['//div[@id="comic-2"]//img'],['//div[@id="comic-3"]//img'],['//div[@id="comic-4"]//img'],['//div[@id="comic-5"]//img'],['//div[@id="comic-6"]//img'],['//div[@id="comic-7"]//img'],['//div[@id="comic-8"]//img'],['//div[@id="comic-9"]//img'],['//div[@id="comic-10"]//img'],['//div[@class="entry"]']],
+		js: wcr_ext_navi_ctrls
 	},
-	{	url:  'bradcolbow.com',
-		img:  [['.entry img']],
-		extra:  [[['h2']], [['h5']]]
+	{	url:	'bradcolbow.com',
+		img:	[['.entry img']],
+		extra:	[[['h2']], [['h5']]]
 	},
-	{	url:  'guildedage.net',
-		img:  [['#comic img']],
-		back:  [['.navi-prev']],
-		next:  [['.navi-next']]
+	{	url:	'guildedage.net',
+		img:	[['#comic img']],
+		back:	[['.navi-prev']],
+		next:	[['.navi-next']]
 	},
-	{	url:  'betweenfailures.com',
-		img:  [['.webcomic-image img']]
+	{	url:	'betweenfailures.com',
+		img:	[['.webcomic-image img']]
 	},
-	{	url:  'claudeandmonet.com',
-		img:  [['.webcomic-object img']]
+	{	url:	'claudeandmonet.com',
+		img:	[['.webcomic-object img']]
 	},
-	{	url:  'de.ninemanga.com',
-		img:  [['.manga_pic']],
-		back:  [['.blue']],
-		next:  '.=">>"',
+	{	url:	'de.ninemanga.com',
+		img:	[['.manga_pic']],
+		back:	[['.blue']],
+		next:	'.=">>"',
 		scrollx:'R'
 	},
-	{	url:  'bloomingfaeries.com',
-		img:  [['#comic img']]
+	{	url:	'bloomingfaeries.com',
+		img:	[['#comic img']]
 	},
-	{	url:  'shadbase.com|shagbase.com',
-		img:  [['#comic img']],
-		extra:  [['//div[@id="comic-1" and not(img)]'], [['#comic .comicpane', '', 1]]],
+	{	url:	'shadbase.com|shagbase.com',
+		img:	[['#comic img']],
+		extra:	[['//div[@id="comic-1" and not(img)]'], [['#comic .comicpane', '', 1]]],
 		layelem:'//div[@id="comic"]'
 	},
-	{	url:  'mrlovenstein.com',
-		img:  [['.comic_image div img']],
-		back:  'img[contains(@src, "nav_left")]',
-		next:  'img[contains(@src, "nav_right")]',
+	{	url:	'mrlovenstein.com',
+		img:	[['.comic_image div img']],
+		back:	'img[contains(@src, "nav_left")]',
+		next:	'img[contains(@src, "nav_right")]',
 		layelem:'//div[@class="comic_image"]'
 	},
-	{	url:  'anticscomic.com',
-		img:  [['#comic img']]
+	{	url:	'anticscomic.com',
+		img:	[['#comic img']]
 	},
-	{	url:  'octopuns.blogspot.com',
-		img:  [['.post-body img']],
-		back:  'img[contains(@src,"Back.png")]',
-		next:  'img[contains(@src,"Next.png")]',
-		extra:  [['//div[contains(@class, "post-body")]/*[not(@class="separator") or contains(@style, "text-align: left")] | //div[contains(@class, "post-body")]/text()', '']],
-		fixurl:  function(url, img, link){
+	{	url:	'octopuns.blogspot.com',
+		img:	[['.post-body img']],
+		back:	'img[contains(@src,"Back.png")]',
+		next:	'img[contains(@src,"Next.png")]',
+		extra:	[['//div[contains(@class, "post-body")]/*[not(@class="separator") or contains(@style, "text-align: left")] | //div[contains(@class, "post-body")]/text()', '']],
+		fixurl:	function(url, img, link){
 					if(link) return url.replace('.com.au/', '.com/');
 					return url;
 				}
 	},
-	{	url:  'powernapcomic.com',
-		img:  [['center > img']],
-		extra:  [[['.titulo2']], [['.titulo2 + .news']]]
+	{	url:	'powernapcomic.com',
+		img:	[['center > img']],
+		extra:	[[['.titulo2']], [['.titulo2 + .news']]]
 	},
-	{	url:  'blackbird.ashen-ray.com|carciphona.com',
-		img:  function(html, pos){
+	{	url:	'blackbird.ashen-ray.com|carciphona.com',
+		img:	function(html, pos){
 					return selCss('.page', html).style.backgroundImage.match(/"(.+)"/)[1];
 				},
 		layelem:'//div[@class="page"]',
 		scrollx:'R'
 	},
-	{	url:  'ahs-comic.com',
-		img:  [['.webcomic-image img']],
-		extra:  [[['#main article']]],
-		style:  '.webcomic-image{font-size: 1em; line-height: 1;}'
+	{	url:	'ahs-comic.com',
+		img:	[['.webcomic-image img']],
+		extra:	[[['#main article']]],
+		style:	'.webcomic-image{font-size: 1em; line-height: 1;}'
 	},
-	{	url:  'gogetaroomie.com',
-		extra:  [[['#newsarea > *', '', 0, -3]]]
+	{	url:	'gogetaroomie.com',
+		extra:	[[['#newsarea > *', '', 0, -3]]]
 	},
-	{	url:  'sleepymaid.com',
-		img:  [['.image']]
+	{	url:	'sleepymaid.com',
+		img:	[['.image']]
 	},
-	{	url:  'squid-ops.com',
-		img:  [['#content img']]
+	{	url:	'squid-ops.com',
+		img:	[['#content img']]
 	},
-	{	url:  'endcomic.com',
-		img:  [['#comic img']],
-		extra:  [[['.entry']]]
+	{	url:	'endcomic.com',
+		img:	[['#comic img']],
+		extra:	[[['.entry']]]
 	},
-	{	url:  'thenoobcomic.com',
-		back:  [['.comic_nav_previous_button']],
-		next:  [['.comic_nav_next_button']]
+	{	url:	'thenoobcomic.com',
+		back:	[['.comic_nav_previous_button']],
+		next:	[['.comic_nav_next_button']]
 	},
-	{	url:  '*.zizki.com',
-		img:  [['.back img']],
-		back:  [['.larr']],
-		next:  [['.rarr']]
+	{	url:	'*.zizki.com',
+		img:	[['.back img']],
+		back:	[['.larr']],
+		next:	[['.rarr']]
 	},
-	{	url:  'schizmatic.com',
-		img:  [/src=&quot;(.+?)&quot;/, 1],
-		extra:  [[['#authorText']]]
+	{	url:	'schizmatic.com',
+		img:	[/src=&quot;(.+?)&quot;/, 1],
+		extra:	[[['#authorText']]]
 	},
-	{	url:  'bringbackroomies.com',
-		img:  [['#comic img']]
+	{	url:	'bringbackroomies.com',
+		img:	[['#comic img']]
 	},
-	{	url:  'blindsprings.com',
-		img:  [['#cc-comic']],
-		back:  [['.cc-prev']],
-		next:  [['.cc-next']],
-		first:  [['.cc-first']],
-		last:  [['.cc-last']],
-		extra:  [[['#bottomleft']]],
-		xelem:  '//div[@id="bottomleft"]',
-		js:  function(dir){
+	{	url:	'blindsprings.com',
+		img:	[['#cc-comic']],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+		first:	[['.cc-first']],
+		last:	[['.cc-last']],
+		extra:	[[['#bottomleft']]],
+		xelem:	'//div[@id="bottomleft"]',
+		js:	function(dir){
 				var disqusJs = selCss('.cc-commentbody>script').innerHTML;
 				DISQUS && DISQUS.reset({
 						reload: true,
@@ -2219,17 +2220,17 @@ var paginas = [
 					}
 				});
 			},
-		style:  '#topleft{background-size:auto 1061px;height:1061px;}\n#cc-comicbody{height:933px;}\n#wcr_imagen{width:700px !important;height:auto !important;}',
+		style:	'#topleft{background-size:auto 1061px;height:1061px;}\n#cc-comicbody{height:933px;}\n#wcr_imagen{width:700px !important;height:auto !important;}',
 	},
-	{	url:  'forgottenordercomic.com',
-		img:  [['#cc-comic']],
-		back:  [['.cc-prev']],
-		next:  [['.cc-next']],
-		first:  [['.cc-first']],
-		last:  [['.cc-last']],
-		extra:  [[['#newsleft']]],
-		xelem:  '//div[@id="newsleft"]',
-		js:  function(dir){
+	{	url:	'forgottenordercomic.com',
+		img:	[['#cc-comic']],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+		first:	[['.cc-first']],
+		last:	[['.cc-last']],
+		extra:	[[['#newsleft']]],
+		xelem:	'//div[@id="newsleft"]',
+		js:	function(dir){
 				var disqusJs = selCss('.cc-commentbody>script').innerHTML;
 				DISQUS && DISQUS.reset({
 					reload: true,
@@ -2240,19 +2241,19 @@ var paginas = [
 				});
 			},
 	},
-	{	url:  'wtfcomics.com',
-		img:  function(html, pos){
+	{	url:	'wtfcomics.com',
+		img:	function(html, pos){
 					var m = link[pos].match(/\?(\d+)_(\d+)?/);
 					var id = Math.max(Math.min(Number(m[2] || '1'), Number(m[1])), 1);
 					return html.match(/document.writeln\(\"<IMG SRC=\\"([^"]+)/)[1] + id + '.jpg';
 				},
-		back:  function(html, pos){
+		back:	function(html, pos){
 					var m = link[pos].match(/([^\/]+\?)(\d+)_(\d+)?/);
 					var id = Math.max(Math.min(Number(m[3] || '1'), Number(m[2])), 1);
 					if(id == 1) throw new Error('first');
 					return m[1] + m[2] + '_' + (id-1);
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					var m = link[pos].match(/([^\/]+\?)(\d+)_(\d+)?/);
 					var id = Math.max(Math.min(Number(m[3] || '1'), Number(m[2])), 1);
 					if(id == m[2]) throw new Error('last');
@@ -2260,57 +2261,57 @@ var paginas = [
 				},
 		layelem:'//img'
 	},
-	{	url:  'olympusoverdrive.com',
-		style:  '#comic{height:auto !important;}'
+	{	url:	'olympusoverdrive.com',
+		style:	'#comic{height:auto !important;}'
 	},
-	{	url:  '*.troutcave.net',
-		style:  '#left-wrap, #comic{width:auto !important;}'
+	{	url:	'*.troutcave.net',
+		style:	'#left-wrap, #comic{width:auto !important;}'
 	},
-	{	url:  'gingerhaze.com',
-		img:  'http://gingerhaze.com/sites/default/files/nimona-pages'
+	{	url:	'gingerhaze.com',
+		img:	'http://gingerhaze.com/sites/default/files/nimona-pages'
 	},
-	{	url:  'gunnerkrigg.com',
-		back:  'img[contains(@src, "prev_a")]',
-		next:  'img[contains(@src, "next_a")]'
+	{	url:	'gunnerkrigg.com',
+		back:	'img[contains(@src, "prev_a")]',
+		next:	'img[contains(@src, "next_a")]'
 	},
-	{	url:  'aspect.waywardstudios.net',
-		img:  'comics/'
+	{	url:	'aspect.waywardstudios.net',
+		img:	'comics/'
 	},
-	{	url:  'cucumber.gigidigi.com',
-		img:  [['.webcomic-image img']]
+	{	url:	'cucumber.gigidigi.com',
+		img:	[['.webcomic-image img']]
 	},
-	{	url:  'dorktower.com',
-		img:  [['.entry-content > p > img']],
-		back:  '.="Previous"',
-		next:  '.="Next"'
+	{	url:	'dorktower.com',
+		img:	[['.entry-content > p > img']],
+		back:	'.="Previous"',
+		next:	'.="Next"'
 	},
-	{	url:  'octopuspie.com',
-		img:  'http://www.octopuspie.com/strippy/'
+	{	url:	'octopuspie.com',
+		img:	'http://www.octopuspie.com/strippy/'
 	},
-	{	url:  'nhentai.net',
-		img:  [['#image-container a img']],
-		back:  [['.previous']],
-		next:  [['.next']],
-		extra:  [[['#page-container > *', '<br/>', 2]]],
-		style:  '#page-container img{max-width: none;}',
+	{	url:	'nhentai.net',
+		img:	[['#image-container a img']],
+		back:	[['.previous']],
+		next:	[['.next']],
+		extra:	[[['#page-container > *', '<br/>', 2]]],
+		style:	'#page-container img{max-width: none;}',
 		layelem:'//div[@id="content"]',
 		scrollx:'R'
 	},
-	{	url:  'hejibits.com',
-		extra:  [[['.post-content']]]
+	{	url:	'hejibits.com',
+		extra:	[[['.post-content']]]
 	},
-	{	url:  'paintraincomic.com',
-		img:  [['#comic img']],
-		extra:  [[['.post-content']]]
+	{	url:	'paintraincomic.com',
+		img:	[['#comic img']],
+		extra:	[[['.post-content']]]
 	},
-	{	url:  'extrafabulouscomics.com',
-		style:  '#page{width:auto;}'
+	{	url:	'extrafabulouscomics.com',
+		style:	'#page{width:auto;}'
 	},
-	{	url:  'feywinds.com/comic',
-		img:  '../comic/pages'
+	{	url:	'feywinds.com/comic',
+		img:	'../comic/pages'
 	},
-	{	url:  'omgbeaupeep.com',
-		img:  [['#omv .picture']],
+	{	url:	'omgbeaupeep.com',
+		img:	[['#omv .picture']],
 		back: function(html, pos) {
 			try {
 				return xpath('//a[img[@alt="Previous Page"]]/@href', html);
@@ -2330,102 +2331,102 @@ var paginas = [
 		extra: [[[".pager"]]],
 	},
  	{
-		url:  'orgymania.net',
-		img:  '/slippreview/',
-		back:  'text()="< prev"',
-		next:  'text()="next >"',
-		first:  'text()="|<"',
+		url:	'orgymania.net',
+		img:	'/slippreview/',
+		back:	'text()="< prev"',
+		next:	'text()="next >"',
+		first:	'text()="|<"',
 	},
 	//Needed Two Seperate EGS entries to handle the www and non-www URLs
 	//--[
 	{
-		url:  'www.egscomics.com',
-		img:  [['#cc-comic']],
-		back:  [['.cc-prev']],
-		next:  [['.cc-next']],
-		first:  [['.cc-first']],
-		last:  [['.cc-last']],
-		extra:  ['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>'],
-		fixurl:  function(url, img, link){
+		url:	'www.egscomics.com',
+		img:	[['#cc-comic']],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+		first:	[['.cc-first']],
+		last:	[['.cc-last']],
+		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>'],
+		fixurl:	function(url, img, link){
 		if(link) return url.replace('://egscomics', '://www.egscomics');
 		return url;
 		}
 	},
 	{
-		url:  'egscomics.com',
-		img:  [['#cc-comic']],
-		back:  [['.cc-prev']],
-		next:  [['.cc-next']],
-		first:  [['.cc-first']],
-		last:  [['.cc-last']],
-		extra:  ['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>']
+		url:	'egscomics.com',
+		img:	[['#cc-comic']],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+		first:	[['.cc-first']],
+		last:	[['.cc-last']],
+		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>']
 	},
 	//]--
 	{
-		url:  'http://mspfanventures.com/',
-		img:  [['article img']],
-		next:  [['#nextlinks a']],
-		extra:  [[['article']],'<script>assignOnClicks()</script>'],
-		js:  function(dir){assignOnClicks();},
-		style:  '#wcr_imagen { display: none; }',
+		url:	'http://mspfanventures.com/',
+		img:	[['article img']],
+		next:	[['#nextlinks a']],
+		extra:	[[['article']],'<script>assignOnClicks()</script>'],
+		js:	function(dir){assignOnClicks();},
+		style:	'#wcr_imagen { display: none; }',
 	},
 {
-		url:  'mspaintadventures.com/test_index.php?s=1',
-		img:  'http://cdn.mspaintadventures.com/advimgs',
-		next:  [['font[size="5"]>a']],
-		extra:  [['//table[@width="600"]']],
-		js:  function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
+		url:	'mspaintadventures.com/test_index.php?s=1',
+		img:	'http://cdn.mspaintadventures.com/advimgs',
+		next:	[['font[size="5"]>a']],
+		extra:	[['//table[@width="600"]']],
+		js:	function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
 			
 			// Click on any img
 			var elemImagen=document.querySelectorAll('#wcr_extra img');
 			setEvt(elemImagen, 'click', imgClick);
 			setEvt(elemImagen, 'mousemove', imgCursor);},
-		style:  '#wcr_imagen { display: none; }\np { font-size: large; }',
+		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
 	},
 	{
-		url:  'mspaintadventures.com/extras',
-		img:  'http://www.mspaintadventures.com/extra',
-		back:  function(html, pos){var comicNr = parseInt(link[pos].match(/\d+/)[0]);
+		url:	'mspaintadventures.com/extras',
+		img:	'http://www.mspaintadventures.com/extra',
+		back:	function(html, pos){var comicNr = parseInt(link[pos].match(/\d+/)[0]);
 			if (comicNr == 1) throw new Error("First comic");
 			comicNr--;
 			comicNr = ("000000" + comicNr).match(/0*(\d{6})$/)[1];
 			return link[pos].replace(/\d+/, comicNr);},
-		next:  function(html, pos){var comicNr = parseInt(link[pos].match(/\d+/)[0]);
+		next:	function(html, pos){var comicNr = parseInt(link[pos].match(/\d+/)[0]);
 			comicNr++;
 			comicNr = ("000000" + comicNr).match(/0*(\d{6})/)[1];
 			return link[pos].replace(/\d+/, comicNr);},
-		extra:  [['//table[@width="800"]']],
-		js:  function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
+		extra:	[['//table[@width="800"]']],
+		js:	function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
 			
 			// Click on any img
 			var elemImagen=document.querySelectorAll('#wcr_extra img');
 			setEvt(elemImagen, 'click', imgClick);
 			setEvt(elemImagen, 'mousemove', imgCursor);},
-		style:  '#wcr_imagen { display: none; }\np { font-size: large; }',
+		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
 	},
 	{
-		url:  'mspaintadventures.com/test_index.php?s=4',
-		img:  'http://cdn.mspaintadventures.com/advimgs',
-		back:  'text()="Go Back"',
-		next:  [['font[size="5"]>a']],
-		extra:  [['//table[@width="600"]']],
-		js:  function(dir){
+		url:	'mspaintadventures.com/test_index.php?s=4',
+		img:	'http://cdn.mspaintadventures.com/advimgs',
+		back:	'text()="Go Back"',
+		next:	[['font[size="5"]>a']],
+		extra:	[['//table[@width="600"]']],
+		js:	function(dir){
 			// Click on any img
 			var elemImagen=document.querySelectorAll('#wcr_extra img');
 			setEvt(elemImagen, 'click', imgClick);
 			setEvt(elemImagen, 'mousemove', imgCursor);},
-		style:  '#wcr_imagen { display: none; }\np { font-size: large; }',
+		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
 	},
 	{
-		url:  'mspaintadventures.com/test_index.php?s=6',
-		img:  'http://cdn.mspaintadventures.com/storyfiles/',
-		back:  'text()="Go Back"',
-		next:  function(html, pos){var x = selCss('font[size="5"]>a',html,true);
+		url:	'mspaintadventures.com/test_index.php?s=6',
+		img:	'http://cdn.mspaintadventures.com/storyfiles/',
+		back:	'text()="Go Back"',
+		next:	function(html, pos){var x = selCss('font[size="5"]>a',html,true);
 			return x[x.length-1];},
-		extra:  [['//table[@width="600"]']],
-		xelem:  '//table[@width="600"]',
-		layelem:  '//table[@width="600"]',
-		js:  function(dir){
+		extra:	[['//table[@width="600"]']],
+		xelem:	'//table[@width="600"]',
+		layelem:	'//table[@width="600"]',
+		js:	function(dir){
 			// Click on any img to switch page
 			var elemImagen=document.querySelectorAll('#wcr_extra img');
 			setEvt(elemImagen, 'click', imgClick);
@@ -2435,18 +2436,18 @@ var paginas = [
 			var x = document.getElementsByClassName('spoiler');
 			for (var i = 0; i < x.length; i++) {x[i].previousSibling.firstChild.click();}
 			},
-		style:  '#wcr_imagen { display: none; }\np { font-size: large; }',
+		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
 	},
 	{
-		url:  'mspaintadventures.com/scratch.php?',
-		img:  'storyfiles/',
-		back:  'text()="Go Back"',
-		next:  function(html, pos){var x = selCss('font[size="5"]>a',html,true);
+		url:	'mspaintadventures.com/scratch.php?',
+		img:	'storyfiles/',
+		back:	'text()="Go Back"',
+		next:	function(html, pos){var x = selCss('font[size="5"]>a',html,true);
 			return x[x.length-1];},
-		extra:  [['//table[@width="600"]']],
-		xelem:  '//table[@width="600"]/tbody',
-		layelem:  '//table[@width="600"]',
-		js:  function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
+		extra:	[['//table[@width="600"]']],
+		xelem:	'//table[@width="600"]/tbody',
+		layelem:	'//table[@width="600"]',
+		js:	function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
 			
 			// Click on any img to switch page
 			var elemImagen=document.querySelectorAll('#wcr_extra img');
@@ -2458,39 +2459,39 @@ var paginas = [
 			for (var i = 0; i < x.length; i++) {x[i].previousSibling.firstChild.click();}
 			
 			typeof onChange == 'function' && onChange(dir);},
-		style:  '#wcr_imagena { display: none; }\np { font-size: large; }',
+		style:	'#wcr_imagena { display: none; }\np { font-size: large; }',
 	},
 	{
-		url:  'mangatown.com/manga/',
-		img:  [['#image']],
-		back:  function(html, pos){try {
+		url:	'mangatown.com/manga/',
+		img:	[['#image']],
+		back:	function(html, pos){try {
 				return xpath('//div[@class="page_select"]/select/option[@selected]/preceding-sibling::option[1]/@value',html);
 			} catch (e) {
 				var chapterUrl = xpath('//h1/a/@href', html);
 				var prevChapter = xpath('//select[@class="chapter_select"]/option[@value="' + chapterUrl + '"]/preceding-sibling::option[1]/@value');
 				return prevChapter;
 			}},
-		next:  function(html, pos){try {
+		next:	function(html, pos){try {
 				return xpath('//div[@class="page_select"]/select/option[@selected]/following-sibling::option[1]/@value',html);
 			} catch (e) {
 				var chapterUrl = xpath('//h1/a/@href', html);
 				var nextChapter = xpath('//select[@class="chapter_select"]/option[@value="' + chapterUrl + '"]/following-sibling::option[1]/@value');
 				return nextChapter;
 			}},
-		first:  ['//div[@class="page_select"]/select/option[1]/@value'],
-		last:  ['//div[@class="page_select"]/select/option[last()]/@value'],
-		js:  function(dir){document.onkeyup = null;},
+		first:	['//div[@class="page_select"]/select/option[1]/@value'],
+		last:	['//div[@class="page_select"]/select/option[last()]/@value'],
+		js:	function(dir){document.onkeyup = null;},
 		scrollx:'R'
 	},
 	{
-		url:  'http://www.legostargalactica.net/',
-		extra:  [['//div[@class="post-comic"]'],[['.comment-wrap']]],
-		xelem:  '//div[@class="post-comic"]',
-		layelem:  '//div[@id="comic"]',
+		url:	'http://www.legostargalactica.net/',
+		extra:	[['//div[@class="post-comic"]'],[['.comment-wrap']]],
+		xelem:	'//div[@class="post-comic"]',
+		layelem:	'//div[@id="comic"]',
 	},
 	{
-		url:  'dynasty-scans.com',
-		img:  function(html, pos){
+		url:	'dynasty-scans.com',
+		img:	function(html, pos){
 				var page;
 				var img = selCss("#image > img", html);
 				var pages = JSON.parse(html.match(/var pages = ([^;]*);/)[1]);
@@ -2504,7 +2505,7 @@ var paginas = [
 				img.src = url;
 				return img;
 			},
-		back:  function(html, pos){
+		back:	function(html, pos){
 				var page = Number(match(link[pos], /#(\d+)$/, 1, 1));
 				if (--page) {
 					return link[pos].replace(/(#?#.*)?$/,"##"+page);
@@ -2512,7 +2513,7 @@ var paginas = [
 
 				return selCss("#prev_link", html).href.replace(/$/,"##last");
 			},
-		next:  function(html, pos){
+		next:	function(html, pos){
 				var page = Number(match(link[pos], /#(\d+)$/, 1, 1));
 				var pages = JSON.parse(html.match(/var pages = ([^;]*);/)[1]);
 				if (++page < pages.length) {
@@ -2525,14 +2526,14 @@ var paginas = [
 				}
 				return url;
 			},
-		extra:  [[['.pages-list']]],
+		extra:	[[['.pages-list']]],
 		layelem:'//*[@id="image"]',
 	},
 		{
-		url:  'mangaseeonline.us/read-online',
+		url:	'mangaseeonline.us/read-online',
 		img: 	[['img.CurImage']],
-		layout:  true,
-		back:  function(html, pos) {
+		layout:	true,
+		back:	function(html, pos) {
 					var cS = selCss('.ChapterSelect', html);
 					var pS = selCss('.PageSelect', html);
 					var indexName = selCss('input.IndexName', html).getAttribute('value');
@@ -2552,7 +2553,7 @@ var paginas = [
 					var newChapter = cS[chapter].innerHTML.split(' ');
 					return document.location.href.replace(/(chapter-).+?(-.+?)\d+(.html)/, "$1" + newChapter[1] + "$2" + page + "$3");
 				},
-		next:  function(html, pos) {
+		next:	function(html, pos) {
 					var cS = selCss('.ChapterSelect', html);
 					var pS = selCss('.PageSelect', html);
 					var chapter = cS.selectedIndex;
@@ -2561,20 +2562,20 @@ var paginas = [
 					var newChapter = cS[chapter].innerHTML.split(' ');
 					return document.location.href.replace(/(chapter-).+?(-.+?)\d+(.html)/, "$1" + newChapter[1] + "$2" + (page + 1) + "$3");
 				},
-		js:  	function(dir){
+		js:		function(dir){
 					document.querySelector('.navbar').className = "navbar navbar-default";
 					var mWrapper = document.getElementsByClassName('mainWrapper');
 					if (mWrapper && mWrapper.length > 0) mWrapper[0].style.marginTop = '0px';
 				},
 	},
 	{
-		url:  'girlgeniusonline.com/comic.php',
-		img:  ['//img[contains(@src, "/strips")][1]'],
-		back:  [['#bottomprev']],
-		next:  [['#bottomnext']],
-		extra:  [
-        ['//div[@id="comicbody"]/a/img[@alt="Comic"]'],
-        ['//div[@id="comicbody"]/img[@alt="Comic"][1]'],
+		url:	'girlgeniusonline.com/comic.php',
+		img:	['//img[contains(@src, "/strips")][1]'],
+		back:	[['#bottomprev']],
+		next:	[['#bottomnext']],
+		extra:	[
+		['//div[@id="comicbody"]/a/img[@alt="Comic"]'],
+		['//div[@id="comicbody"]/img[@alt="Comic"][1]'],
 		['//div[@id="comicbody"]/img[@alt="Comic"][2]'],
 		['//div[@id="comicbody"]/img[@alt="Comic"][3]'],
 		['//div[@id="comicbody"]/img[@alt="Comic"][4]'],
@@ -2584,22 +2585,22 @@ var paginas = [
 		['//div[@id="comicbody"]/img[@alt="Comic"][8]'],
 		['//div[@id="comicbody"]/img[@alt="Comic"][9]'],
 		['//div[@id="comicbody"]/img[@alt="Comic"][10]'],
-        ['//div[@id="comicbody"]/table'],
+		['//div[@id="comicbody"]/table'],
 		],
-		js:  wcr_ext_navi_ctrls,
-        style:  '#wcr_imagen{display: none;}'
+		js:	wcr_ext_navi_ctrls,
+		style:	'#wcr_imagen{display: none;}'
 	},
 	{
-		url:  'http://incase.buttsmithy.com/comic/',
-		img:  [['#comic img']],
+		url:	'http://incase.buttsmithy.com/comic/',
+		img:	[['#comic img']],
 	},
 	{
-		url:  'project-apollo.net/mos/',
-		img:  'manga/',
+		url:	'project-apollo.net/mos/',
+		img:	'manga/',
 	},
 	{
-		url:  'https://danbooru.donmai.us/posts?',
-		img:  function(html, pos){
+		url:	'https://danbooru.donmai.us/posts?',
+		img:	function(html, pos){
 					if (!extraData.imgs) extraData.imgs = {};
 					var page = parseInt(match(link[pos], /page=(\d+)/, 1, 1));
 					if (!extraData.imgs[page]) {
@@ -2612,20 +2613,20 @@ var paginas = [
 					var url = extraData.imgs[page][index-1].getAttribute('data-file-url');
 					return url;
 				},
-		back:  function(html, pos){
+		back:	function(html, pos){
 					var base = link[pos].split(/##?/)[0];
 					var index = parseInt(link[pos].split(/##?/)[1]) || 1;
 					if(index>1) return base + "##" + (index - 1);
 					return xpath('//a[@rel="prev"]/@href', html) + "##last";
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					var page = parseInt(match(link[pos], /page=(\d+)/, 1, 1));
 					var base = link[pos].split(/##?/)[0];
 					var index = parseInt(link[pos].split(/##?/)[1]) || 1;
 					if(index<extraData.imgs[page].length) return base + "##" + (index + 1);
 					return xpath('//a[@rel="next"]/@href', html) + "##1"
 				},
-		extra:  ['<h2><a href="/posts/',
+		extra:	['<h2><a href="/posts/',
 				 function(html, pos){
 					var page = parseInt(match(link[pos], /page=(\d+)/, 1, 1));
 					var index = parseInt(link[pos].split(/##?/)[1]) || 1;
@@ -2635,7 +2636,7 @@ var paginas = [
 				 [['#posts']],
 				],
 		layelem:'//div[@id="posts"]/div[1]',
-		js:  function(dir){
+		js:	function(dir){
 				var selExtras = selCss('#wcr_extra');
 				selCss('#wcr_div').insertBefore(selExtras, null);
 				// Doesn't currently work.
@@ -2646,8 +2647,8 @@ var paginas = [
 			},
 	},
 	{
-		url:  'mngdoom.com',
-		img:  function(html, pos){
+		url:	'mngdoom.com',
+		img:	function(html, pos){
 				var pageCh = link[pos].match(/(\d+)\/(\d+)$/);
 				var chapter, page;
 				if (pageCh) {
@@ -2658,7 +2659,7 @@ var paginas = [
 				
 				return images[page-1];
 				},
-		back:  function(html, pos){
+		back:	function(html, pos){
 				var pageCh = link[pos].match(/(\d+)\/(\d+)$/);
 				var chapter, page;
 				if (pageCh) {
@@ -2675,7 +2676,7 @@ var paginas = [
 					return link[pos].replace(/(\d+)\/(\d+)$/, chapter + "/" + (page - 1));
 				}
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 				var pageCh = link[pos].match(/(\d+)\/(\d+)$/);
 				var chapter, page;
 				if (pageCh) {
@@ -2694,75 +2695,75 @@ var paginas = [
 				},
 	},
 	{
-		url:  'kimchicuddles.com/post/',
-		img:  [['figure.photo-hires-item img']],
-		back:  [['.previous-button']],
-		next:  [['.next-button']],
-		first:  [['.first-button']],
-		last:  [['.latest-button']],
+		url:	'kimchicuddles.com/post/',
+		img:	[['figure.photo-hires-item img']],
+		back:	[['.previous-button']],
+		next:	[['.next-button']],
+		first:	[['.first-button']],
+		last:	[['.latest-button']],
 	},
 	{
-		url:  'marktrail.com',
-		img:  [['#comic img']],
+		url:	'marktrail.com',
+		img:	[['#comic img']],
 	},
-	{	url:  'atomic-robo.com',
-		img:  [['#cc-comic']],
-		back:  [['.cc-prev']],
-		next:  [['.cc-next']],
-		first:  [['.cc-first']],
-		last:  [['.cc-last']],
-		style:  '#wcr_imagen{height:auto !important;width:auto !important;}'
+	{	url:	'atomic-robo.com',
+		img:	[['#cc-comic']],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+		first:	[['.cc-first']],
+		last:	[['.cc-last']],
+		style:	'#wcr_imagen{height:auto !important;width:auto !important;}'
 	},
-	{	url:  'furaffinity.net',
-		img:  [['#submissionImg']],
-		back:  ['(//span[@class="parsed_nav_links"]//a[contains(.,"PREV")]|//a[@class="auto_link named_url" and contains(.,"PREV")]|//a[@class="prev button-link"])[last()]'],
-		next:  ['(//span[@class="parsed_nav_links"]//a[contains(.,"NEXT")]|//a[@class="auto_link named_url" and contains(.,"NEXT")]|//a[@class="next button-link"])[last()]'],
-		first:  ['//span[@class="parsed_nav_links"]//a[contains(.,"FIRST")]|//a[@class="auto_link named_url" and contains(.,"FIRST")]'],
-		extra:  ['<div id="wcr-fa-extra">',['//div[@class="alt1 actions aligncenter"]'],'<br>',['//center[@class="flow thumb-size-100"]'],'<br>',['//table[@class="maintable"]//tbody//tr//table[@class="maintable"]'],'</div>'],
-		style:  '.alt1.actions.aligncenter{background: none;width: auto}'
+	{	url:	'furaffinity.net',
+		img:	[['#submissionImg']],
+		back:	['(//span[@class="parsed_nav_links"]//a[contains(.,"PREV")]|//a[@class="auto_link named_url" and contains(.,"PREV")]|//a[@class="prev button-link"])[last()]'],
+		next:	['(//span[@class="parsed_nav_links"]//a[contains(.,"NEXT")]|//a[@class="auto_link named_url" and contains(.,"NEXT")]|//a[@class="next button-link"])[last()]'],
+		first:	['//span[@class="parsed_nav_links"]//a[contains(.,"FIRST")]|//a[@class="auto_link named_url" and contains(.,"FIRST")]'],
+		extra:	['<div id="wcr-fa-extra">',['//div[@class="alt1 actions aligncenter"]'],'<br>',['//center[@class="flow thumb-size-100"]'],'<br>',['//table[@class="maintable"]//tbody//tr//table[@class="maintable"]'],'</div>'],
+		style:	'.alt1.actions.aligncenter{background: none;width: auto}'
 	},
-	{	url:  'dhscomix.com/comics', //Random Encounters
-		img:  ['//div[@id="content"]//img'],
-		extra:  [['//div[@id="content"]']],
-		back:  'img[contains(@src, "nav_prevpage")]',
-		next:  'img[contains(@src, "nav_nextpage")]',
+	{	url:	'dhscomix.com/comics', //Random Encounters
+		img:	['//div[@id="content"]//img'],
+		extra:	[['//div[@id="content"]']],
+		back:	'img[contains(@src, "nav_prevpage")]',
+		next:	'img[contains(@src, "nav_nextpage")]',
 		//Work around for multiple comic images on a page
-		style:  '#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
-		js:  wcr_ext_navi_ctrls
+		style:	'#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
+		js:	wcr_ext_navi_ctrls
 	},
-	{	url:  'dhscomix.com/bcomics|dhscomix.com/dcomics|dhscomix.com/decomics|dhscomix.com/dfcomics|dhscomix.com/dhscomics|dhscomix.com/fcomics|dhscomix.com/jcomics|dhscomix.com/kcomics|dhscomix.com/lcomics|dhscomix.com/mercomics|dhscomix.com/ocomics|dhscomix.com/pcomics|dhscomix.com/scomics|dhscomix.com/tcomics|dhscomix.com/wcomics', //All the other DHS Comix Comics
-		img:  ['//div[@id="content"]//img'],
-		extra:  [['//div[@id="content"]']],
-		back:  'img[contains(@src, "previous")]',
-		next:  'img[contains(@src, "next")]',
+	{	url:	'dhscomix.com/bcomics|dhscomix.com/dcomics|dhscomix.com/decomics|dhscomix.com/dfcomics|dhscomix.com/dhscomics|dhscomix.com/fcomics|dhscomix.com/jcomics|dhscomix.com/kcomics|dhscomix.com/lcomics|dhscomix.com/mercomics|dhscomix.com/ocomics|dhscomix.com/pcomics|dhscomix.com/scomics|dhscomix.com/tcomics|dhscomix.com/wcomics', //All the other DHS Comix Comics
+		img:	['//div[@id="content"]//img'],
+		extra:	[['//div[@id="content"]']],
+		back:	'img[contains(@src, "previous")]',
+		next:	'img[contains(@src, "next")]',
 		//Work around for multiple comic images on a page
-		style:  '#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
-		js:  wcr_ext_navi_ctrls
+		style:	'#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
+		js:	wcr_ext_navi_ctrls
 	},
-	{	url:  'dominic-deegan.com',
-		img:  ['//div[@class="post-thumbnail"]//img'],
-		style:  'body{background-color:inherit !important;}'
+	{	url:	'dominic-deegan.com',
+		img:	['//div[@class="post-thumbnail"]//img'],
+		style:	'body{background-color:inherit !important;}'
 		
 	},
-	{	url:  'cad-comic.com',
-		img:  ['//div[@class="comicpage"]//img[contains(@src, "wp-content/uploads")]'],
-		back:  '@rel="prev"',
-		next:  '@rel="next"'
+	{	url:	'cad-comic.com',
+		img:	['//div[@class="comicpage"]//img[contains(@src, "wp-content/uploads")]'],
+		back:	'@rel="prev"',
+		next:	'@rel="next"'
 		
 	},
-	{	url:  'curtailedcomic.com',
-		img:  ['//div[@id="comic"]//a//img'],
-		back:  '@class="navi comic-nav-previous navi-prev"',
-		next:  '@class="navi comic-nav-next navi-next"',
-		extra:  [['//div[@class="entry-content"]']],
-		style:  '.creator-comment{background:white}'
+	{	url:	'curtailedcomic.com',
+		img:	['//div[@id="comic"]//a//img'],
+		back:	'@class="navi comic-nav-previous navi-prev"',
+		next:	'@class="navi comic-nav-next navi-next"',
+		extra:	[['//div[@class="entry-content"]']],
+		style:	'.creator-comment{background:white}'
 		
 	},
-	{	url:  'homestuck.com/story|homestuck2.com/story/',
-		img:  ['//img[contains(@class, "mar-x-auto disp-bl")]'],
-		back:  ['//li[@class="o_game-nav-item"]//a[contains(.,"Go Back")]'],
-		next:  ['(//div[contains(@class, "o_story-nav")]//div//a)[last()]'],
-		extra:  [
+	{	url:	'homestuck.com/story|homestuck2.com/story/',
+		img:	['//img[contains(@class, "mar-x-auto disp-bl")]'],
+		back:	['//li[@class="o_game-nav-item"]//a[contains(.,"Go Back")]'],
+		next:	['(//div[contains(@class, "o_story-nav")]//div//a)[last()]'],
+		extra:	[
 		'<div id="wcr-hs-extra">',
 			['//img[contains(@src, "/scratch/")]'],
 			'<div id="wcr_HS_title">',
@@ -2783,7 +2784,7 @@ var paginas = [
 			['(//div[@class=" mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg"])'],
 		'</div>',
 		],
-		style:  '.disp-n{'+
+		style:	'.disp-n{'+
 				'display: inherit !important;}'+
 				
 				'#wcr_imagen{'+
@@ -2835,7 +2836,7 @@ var paginas = [
 				'}'+
 				'#content_container > h2{display: none;height:0px;}'+
 				'.mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg:nth-of-type(1){display:block}',
-		js:  function(dir){ //Copied from whoever did Webtoon's entry
+		js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
 				var elemImagen = document.querySelectorAll('#wcr-hs-extra');
 				setEvt(elemImagen, 'click', imgClick);
@@ -2845,41 +2846,41 @@ var paginas = [
 				elemImagen2[0].style.cursor = cursorUrl(cursores_custom[2]);
 				},
 	},
-	{	url:  'yoshsaga.com|artificialincident.com',
-		img:  ['//div[@class="webcomic-image"]//a//img']		
+	{	url:	'yoshsaga.com|artificialincident.com',
+		img:	['//div[@class="webcomic-image"]//a//img']		
 	},
-	{	url:  'vickifox.com/comic',
-		img:  ['//img[contains(@src, "/pics/comic/")]'],
+	{	url:	'vickifox.com/comic',
+		img:	['//img[contains(@src, "/pics/comic/")]'],
 		//Modified from kingfeatures.com's entry
-		back:  function(html, pos){
+		back:	function(html, pos){
 					var date = xpath('//button[@id="btnPrev"]/@value', html);
 					return 'strip?id='+date;
 				},
-		next:  function(html, pos){
+		next:	function(html, pos){
 					var date = xpath('//button[@id="btnNext"]/@value', html);
 					return 'strip?id='+date;
 				},
 	},
-	{	url:  'bobandgeorge.com/archives',
-		img:  ['//img[@id="comic_0"]|//img[contains(@src, "comics/")]'],
-		extra:  [['//img[@id="comic_1"]'],['//img[@id="comic_2"]'],['//img[@id="comic_3"]'],['//img[@id="comic_4"]'],['//img[@id="comic_5"]'],['//img[@id="comic_6"]'],['//img[@id="comic_7"]'],['//img[@id="comic_8"]'],['//img[@id="comic_9"]'],['//img[@id="comic_10"]'],'<br><br>',['//table[@class="table-bottom"]']],
-		style:  '#comic_0, #comic_1, #comic_2, #comic_3, #comic_4, #comic_5, #comic_6, #comic_7, #comic_8, #comic_9, #comic_10{display: inline !important; top:auto !important; left: auto !important; position: relative !important;}',
-		js:  wcr_ext_navi_ctrls
+	{	url:	'bobandgeorge.com/archives',
+		img:	['//img[@id="comic_0"]|//img[contains(@src, "comics/")]'],
+		extra:	[['//img[@id="comic_1"]'],['//img[@id="comic_2"]'],['//img[@id="comic_3"]'],['//img[@id="comic_4"]'],['//img[@id="comic_5"]'],['//img[@id="comic_6"]'],['//img[@id="comic_7"]'],['//img[@id="comic_8"]'],['//img[@id="comic_9"]'],['//img[@id="comic_10"]'],'<br><br>',['//table[@class="table-bottom"]']],
+		style:	'#comic_0, #comic_1, #comic_2, #comic_3, #comic_4, #comic_5, #comic_6, #comic_7, #comic_8, #comic_9, #comic_10{display: inline !important; top:auto !important; left: auto !important; position: relative !important;}',
+		js:	wcr_ext_navi_ctrls
 	},
-	{	url:  'snafu-comics.com/',
-		back:  '@class="next"',
-		next:  '@class="previous"',
-		first:  '@class="first"',
-		last:  '@class="latest"',
-		style:  '.headerarea{position: relative !important;}*{transition: none !important;-webkit-transform: none !important;}'
+	{	url:	'snafu-comics.com/',
+		back:	'@class="next"',
+		next:	'@class="previous"',
+		first:	'@class="first"',
+		last:	'@class="latest"',
+		style:	'.headerarea{position: relative !important;}*{transition: none !important;-webkit-transform: none !important;}'
 	},
-	{	url:  'narbonic.com/',
-		img:  ['//div[@id="comic-strip-image-1"]//img'],
-		next:  '@rel="next"',
-		back:  '@rel="prev"',
-		first:  '//div[@class="nav-first"]//a',
-		last:  '//div[@class="nav-last"]//a',
-		extra:  ['<div id="wcr_imagen">',
+	{	url:	'narbonic.com/',
+		img:	['//div[@id="comic-strip-image-1"]//img'],
+		next:	'@rel="next"',
+		back:	'@rel="prev"',
+		first:	'//div[@class="nav-first"]//a',
+		last:	'//div[@class="nav-last"]//a',
+		extra:	['<div id="wcr_imagen">',
 		['//div[@id="comic-strip-container-1"]'],
 		['//div[@id="comic-strip-container-2"]'],
 		['//div[@id="comic-strip-container-3"]'],
@@ -2902,53 +2903,53 @@ var paginas = [
 		['//div[@id="comic-strip-container-20"]'],
 		'</div>',
 		],
-		style:  '#comic-strip-image, .entry-comic img, img{margin: 0 0 0 0 !important; max-width: none;}#wcr_extra > div#wcr_imagen > div#comic-strip-container-1 > div#comic-strip-image-1 > img{display: none !important;} img{ background: white !important;}',
-		js:  wcr_ext_navi_ctrls
+		style:	'#comic-strip-image, .entry-comic img, img{margin: 0 0 0 0 !important; max-width: none;}#wcr_extra > div#wcr_imagen > div#comic-strip-container-1 > div#comic-strip-image-1 > img{display: none !important;} img{ background: white !important;}',
+		js:	wcr_ext_navi_ctrls
 	},
-	{	url:  'thedreamlandchronicles.com/',
-		img:  ['//div[@id="comic"]//a//img'],
+	{	url:	'thedreamlandchronicles.com/',
+		img:	['//div[@id="comic"]//a//img'],
 	},
-	{	url:  'w0lfmare.xepher.net/',
-		img:  ['//div[@id="comic"]//img'],
+	{	url:	'w0lfmare.xepher.net/',
+		img:	['//div[@id="comic"]//img'],
 	},
-	{	url:  'project-future.xepher.net/',
-		back:  ['//img[@alt="Previous"]/..']
+	{	url:	'project-future.xepher.net/',
+		back:	['//img[@alt="Previous"]/..']
 	},
-	{	url:  'sailorsun.org/|jeaniebottle.com/',
-		img:  ['//div[@id="comic"]//img'],
-		back:  'contains(@class, "comic-nav-previous")',
-		next:  'contains(@class, "comic-nav-next")',
+	{	url:	'sailorsun.org/|jeaniebottle.com/',
+		img:	['//div[@id="comic"]//img'],
+		back:	'contains(@class, "comic-nav-previous")',
+		next:	'contains(@class, "comic-nav-next")',
 	},
-	{	url:  'lfg.co/page',
-		style:  '#header{position:relative;}'
+	{	url:	'lfg.co/page',
+		style:	'#header{position:relative;}'
 	}
 	// End of sites
 	/*
 	,
-	{	url:  '',
-		img:  '',
-		back:  '',
-		next:  ''
+	{	url:	'',
+		img:	'',
+		back:	'',
+		next:	''
 	}
 	,
-	{	url:  '',
-		img:  '',
-		back:  '',
-		next:  '',
-		first:  '',
-		last:  '',
-		extra:  [[['']]],
-		fixurl:  function(url, img, link){
+	{	url:	'',
+		img:	'',
+		back:	'',
+		next:	'',
+		first:	'',
+		last:	'',
+		extra:	[[['']]],
+		fixurl:	function(url, img, link){
 				},
-		js:  	function(dir){
+		js:		function(dir){
 				},
 		scrollx:'R',
-		xelem:  '',
+		xelem:	'',
 		layelem:'',
-		txtcol:  '',
-		bgcol:  '',
-		style:  '',
-		layout:  true
+		txtcol:	'',
+		bgcol:	'',
+		style:	'',
+		layout:	true
 	}
 	*/
 
@@ -4731,17 +4732,17 @@ function toggleFullscreen(){
 // To change the Fullscreen button and variable if left fullscreen via other methods than the button
 
 if (document.addEventListener){
-    document.addEventListener('fullscreenchange', exitHandler, false);
-    document.addEventListener('mozfullscreenchange', exitHandler, false);
-    document.addEventListener('MSFullscreenChange', exitHandler, false);
-    document.addEventListener('webkitfullscreenchange', exitHandler, false);
+	document.addEventListener('fullscreenchange', exitHandler, false);
+	document.addEventListener('mozfullscreenchange', exitHandler, false);
+	document.addEventListener('MSFullscreenChange', exitHandler, false);
+	document.addEventListener('webkitfullscreenchange', exitHandler, false);
 }
 function exitHandler(){
 if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement)
-    {
-    fullScreened = false;
-    document.getElementById('wcr_btnfullscreen').innerText = 'Enable Fullscreen';
-    }
+	{
+	fullScreened = false;
+	document.getElementById('wcr_btnfullscreen').innerText = 'Enable Fullscreen';
+	}
 }
 
 //alterna una conf booleana para esta pag
@@ -6424,18 +6425,18 @@ function mostrarSettingsZoom(){
 	try{
 		var html = '';
 		var cbs = {
-			achw:  'Shrink wide images to fit in the width of the screen',
-			achh:  'Shrink high images to fit in the height of the screen',
-			agrw:  'Expand narrow images to use the width of the screen',
-			agrh:  'Expand short images to use the height of the screen'
+			achw:	'Shrink wide images to fit in the width of the screen',
+			achh:	'Shrink high images to fit in the height of the screen',
+			agrw:	'Expand narrow images to use the width of the screen',
+			agrh:	'Expand short images to use the height of the screen'
 		};
 		for(var p in cbs)
 			html += '<input type="checkbox" id="wcr_set_cb_'+p+'"/> '+
 				'<label for="wcr_set_cb_'+p+'">'+cbs[p]+'</label><br/>';
 
 		var txts = {
-			bordex:  'Pixels to leave as a border to the left and right',
-			bordey:  'Pixels to leave as a border above and below the image'
+			bordex:	'Pixels to leave as a border to the left and right',
+			bordey:	'Pixels to leave as a border above and below the image'
 		};
 		for(p in txts) html += '<input id="wcr_set_txt_'+p+'" size="2"> '+txts[p]+'<br/>';
 
@@ -6512,7 +6513,7 @@ function wcr_ext_navi_ctrls(dir){
 // Edited from Webtoon's entry. Thanks to who ever did that
 // Makes it so anything within extra will be nav-clickable
 //
-// js:  wcr_ext_navi_ctrls
+// js:	wcr_ext_navi_ctrls
 //
 	var elemImagen = document.querySelectorAll('#wcr_extra');
 	setEvt(elemImagen, 'click', imgClick);
