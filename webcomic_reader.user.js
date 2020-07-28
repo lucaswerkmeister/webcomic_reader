@@ -41,22 +41,22 @@ var defaultSettings = {
 };
 
 // ==UserScript==
-// @name			Webcomic Reader
-// @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.07.28.113600
+// @name		Webcomic Reader
+// @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
+// @version		2020.07.28.115100
 // @license		MIT
-// @namespace		http://userscripts.org/scripts/show/59842
+// @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
-// @homepageURL	https://github.com/anka-213/webcomic_reader#readme
-// @supportURL	 https://github.com/anka-213/webcomic_reader/issues
-// @updateURL		https://raw.githubusercontent.com/anka-213/webcomic_reader/master/webcomic_reader.user.js
-// @updatetype	 24
-// @grant			GM_getValue
-// @grant			GM_setValue
-// @grant			GM_deleteValue
-// @grant			GM_xmlhttpRequest
-// @grant			GM_registerMenuCommand
-// @grant			GM_openInTab
+// @homepageURL https://github.com/anka-213/webcomic_reader#readme
+// @supportURL	https://github.com/anka-213/webcomic_reader/issues
+// @updateURL	https://raw.githubusercontent.com/anka-213/webcomic_reader/master/webcomic_reader.user.js
+// @updatetype	24
+// @grant		GM_getValue
+// @grant		GM_setValue
+// @grant		GM_deleteValue
+// @grant		GM_xmlhttpRequest
+// @grant		GM_registerMenuCommand
+// @grant		GM_openInTab
 // @exclude		*.jpg
 // @exclude		*.jpeg
 // @exclude		*.png
@@ -377,7 +377,7 @@ var defaultSettings = {
 // @include		http*://digitalcomicmuseum.com/*
 // @include		http*://fourcolorshadows.blogspot.com/*
 // @include		http*://thehorrorsofitall.blogspot.com/*
-// @include		*//bato.to/chapter*
+// @include			*//bato.to/chapter*
 // @include		http*://www.octopuspie.com/*
 // @include		http*://www.lovemenicecomic.com/*
 // @include		http*://blog.saveapathea.com/*
@@ -580,12 +580,12 @@ var defaultSettings = {
 // @include		http*://*.kemono.cafe/*
 // @include		http*://www.yoshsaga.com/*
 // @include		http*://www.artificialincident.com/*
-// @include	 http*://narbonic.com/comic/*
-// @include	 http*://www.thedreamlandchronicles.com/*
-// @include	 http*://*.xepher.net/*
-// @include	 http*://skin-horse.com/*
-// @include	 http*://sailorsun.org/*
-// @include	 http*://jeaniebottle.com/*
+// @include		http*://narbonic.com/comic/*
+// @include		http*://www.thedreamlandchronicles.com/*
+// @include		http*://*.xepher.net/*
+// @include		http*://skin-horse.com/*
+// @include		http*://sailorsun.org/*
+// @include		http*://jeaniebottle.com/*
 
 // ==/UserScript==
 
@@ -2107,7 +2107,7 @@ var paginas = [
 	{	url:	'thedevilspanties.com',
 		img:	['//div[@id="comic-1"]//img'],
 		extra:	[['//div[@id="comic-2"]//img'],['//div[@id="comic-3"]//img'],['//div[@id="comic-4"]//img'],['//div[@id="comic-5"]//img'],['//div[@id="comic-6"]//img'],['//div[@id="comic-7"]//img'],['//div[@id="comic-8"]//img'],['//div[@id="comic-9"]//img'],['//div[@id="comic-10"]//img'],['//div[@class="entry"]']],
-		js: wcr_ext_navi_ctrls
+		js:		wcr_ext_navi_ctrls
 	},
 	{	url:	'bradcolbow.com',
 		img:	[['.entry img']],
@@ -2312,7 +2312,7 @@ var paginas = [
 	},
 	{	url:	'omgbeaupeep.com',
 		img:	[['#omv .picture']],
-		back: function(html, pos) {
+		back:	function(html, pos) {
 			try {
 				return xpath('//a[img[@alt="Previous Page"]]/@href', html);
 			} catch (e) {
@@ -2320,7 +2320,7 @@ var paginas = [
 				return link[pos].replace(currChapter.value, currChapter.previousSibling.value);
 			}
 		},
-		next: function(html, pos) {
+		next:	function(html, pos) {
 			try {
 				return xpath('//a[img[@alt="Next Page"]]/@href', html);
 			} catch (e) {
@@ -2328,9 +2328,9 @@ var paginas = [
 				return link[pos].replace(currChapter.value, currChapter.nextSibling.value).replace(/\/[^\/]*$/, "/1");
 			}
 		},
-		extra: [[[".pager"]]],
+		extra:	[[[".pager"]]],
 	},
- 	{
+	{
 		url:	'orgymania.net',
 		img:	'/slippreview/',
 		back:	'text()="< prev"',
@@ -2531,7 +2531,7 @@ var paginas = [
 	},
 		{
 		url:	'mangaseeonline.us/read-online',
-		img: 	[['img.CurImage']],
+		img:	[['img.CurImage']],
 		layout:	true,
 		back:	function(html, pos) {
 					var cS = selCss('.ChapterSelect', html);
@@ -2627,13 +2627,13 @@ var paginas = [
 					return xpath('//a[@rel="next"]/@href', html) + "##1"
 				},
 		extra:	['<h2><a href="/posts/',
-				 function(html, pos){
+				function(html, pos){
 					var page = parseInt(match(link[pos], /page=(\d+)/, 1, 1));
 					var index = parseInt(link[pos].split(/##?/)[1]) || 1;
 					return extraData.imgs[page][index-1].getAttribute('data-id');
-				 },
-				 '">Image details</a></h2>',
-				 [['#posts']],
+				},
+				'">Image details</a></h2>',
+				[['#posts']],
 				],
 		layelem:'//div[@id="posts"]/div[1]',
 		js:	function(dir){
@@ -4245,11 +4245,11 @@ function debugInfo(){
 
 	for(min=posActual; link[min-1]!==undefined; min--) continue;
 	s+= mostrarLinks(min, min+3);
-	if(min+4 < posActual-3) s+= '...\n' +	mostrarLinks(posActual-3, posActual+3);
+	if(min+4 < posActual-3) s+= '...\n' + mostrarLinks(posActual-3, posActual+3);
 	else s+= mostrarLinks(min+4, posActual+3);
 
 	for(max=posActual; link[max+1]!==undefined; max++) continue;
-	if(posActual+4 < max-3) s+= '...\n' +	mostrarLinks(max-3, max);
+	if(posActual+4 < max-3) s+= '...\n' + mostrarLinks(max-3, max);
 	else s+= mostrarLinks(posActual+4, max);
 
 	alert(s);
@@ -5146,7 +5146,7 @@ function mostrarSettings(){
 
 		var arrcursores = ['default', 'none', 'context-menu', 'help', 'pointer', 'progress', 'wait', 'cell', 'crosshair', 'text', 'vertical-text', 'alias', 'copy', 'move', 'no-drop', 'not-allowed', 'all-scroll', 'col-resize', 'row-resize', 'n-resize', 'e-resize', 's-resize', 'w-resize', 'ne-resize', 'nw-resize', 'se-resize', 'sw-resize', 'ew-resize', 'ns-resize', 'nesw-resize', 'nwse-resize'];
 		if(isFirefox()) arrcursores.push('-moz-grab', '-moz-grabbing', '-moz-zoom-in', '-moz-zoom-out');
-		if(isWebKit())	arrcursores.push('-webkit-grab', '-webkit-grabbing', '-webkit-zoom-in', '-webkit-zoom-out');
+		if(isWebKit()) arrcursores.push('-webkit-grab', '-webkit-grabbing', '-webkit-zoom-in', '-webkit-zoom-out');
 		var cursores = {
 			'1': 'Left green arrow',
 			'2': 'Right green arrow',
