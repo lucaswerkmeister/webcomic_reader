@@ -41,523 +41,518 @@ var defaultSettings = {
 };
 
 // ==UserScript==
-// @name			Webcomic Reader
+// @name		   Webcomic Reader
 // @author		 Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.07.27.160900
+// @version		2019.09.12
 // @license		MIT
-// @namespace		http://userscripts.org/scripts/show/59842
+// @namespace	  http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
 // @homepageURL	https://github.com/anka-213/webcomic_reader#readme
 // @supportURL	 https://github.com/anka-213/webcomic_reader/issues
-// @updateURL		https://raw.githubusercontent.com/anka-213/webcomic_reader/master/webcomic_reader.user.js
+// @updateURL	  https://raw.githubusercontent.com/anka-213/webcomic_reader/master/webcomic_reader.user.js
 // @updatetype	 24
-// @grant			GM_getValue
-// @grant			GM_setValue
-// @grant			GM_deleteValue
-// @grant			GM_xmlhttpRequest
-// @grant			GM_registerMenuCommand
-// @grant			GM_openInTab
-// @exclude		*.jpg
-// @exclude		*.jpeg
-// @exclude		*.png
-// @exclude		*.gif
-// @include		http*://www.sluggy.com/*
-// @include		http*://sluggy.com/*
-// @include		http*://www.penny-arcade.com/comic*
-// @include		http*://penny-arcade.com/comic*
-// @match			*://*.xkcd.com/*
-// @include		http*://www.giantitp.com/*
-// @include		http*://www.dilbert.com/strip/*
-// @include		http*://dilbert.com/strip/*
-// @include		http*://www.explosm.net/*
-// @include		http*://explosm.net/*
-// @include		http*://www.nuklearpower.com/*
-// @include		http*://www.reallifecomics.com/*
-// @include		http*://reallifecomics.com/*
-// @include		http*://www.pvponline.com/*
-// @include		http*://pvponline.com/*
-// @include		http*://www.brawlinthefamily.com/*
-// @include		http*://drmcninja.com/*
-// @include		http*://www.vgcats.com/*/*
-// @include		http*://www.phdcomics.com/*
-// @include		http*://cad-comic.com/*
-// @match			*://*.smbc-comics.com/*
-// @include		http*://abstrusegoose.com/*
-// @include		http*://thedoghousediaries.com/*
-// @include		http*://www.erfworld.com/*
-// @include		http*://es.juanelo.net/*/*
+// @grant		  GM_getValue
+// @grant		  GM_setValue
+// @grant		  GM_deleteValue
+// @grant		  GM_xmlhttpRequest
+// @grant		  GM_registerMenuCommand
+// @grant		  GM_openInTab
+// @include		http://www.sluggy.com/*
+// @include		http://sluggy.com/*
+// @include		http://www.penny-arcade.com/comic*
+// @include		http://penny-arcade.com/comic*
+// @include		https://www.penny-arcade.com/comic*
+// @include		https://penny-arcade.com/comic*
+// @match		  *://*.xkcd.com/*
+// @include		http://www.giantitp.com/*
+// @include		http://www.dilbert.com/strip/*
+// @include		http://dilbert.com/strip/*
+// @include		http://hf.dilbert.com/strip/*
+// @include		http://www.explosm.net/*
+// @include		http://explosm.net/*
+// @include		http://www.nuklearpower.com/*
+// @include		http://www.reallifecomics.com/*
+// @include		http://reallifecomics.com/*
+// @include		http://www.pvponline.com/*
+// @include		http://pvponline.com/*
+// @include		http://www.brawlinthefamily.com/*
+// @include		http://drmcninja.com/*
+// @include		http://www.vgcats.com/*/*
+// @include		http://www.phdcomics.com/*
+// @include		http://www.cad-comic.com/*
+// @match		  *://*.smbc-comics.com/*
+// @include		http://abstrusegoose.com/*
+// @include		http://thedoghousediaries.com/*
+// @include		http://www.erfworld.com/*
+// @include		http://es.juanelo.net/*/*
 // @include		http*://readms.net/*
 // @include		http*://*.readms.net/*
-// @include		http*://www.qwantz.com/*
-// @include		http*://qwantz.com/*
-// @include		http*://www.2pstart.com/*/*
-// @include		http*://www.spaceavalanche.com/*
-// @include		http*://www.gunshowcomic.com/*
-// @include		http*://gunshowcomic.com/*
-// @include		http*://www.terrorisland.net/*
-// @include		http*://nedroid.com/*
-// @include		http*://www.bobandgeorge.com/*
-// @include		http*://bobandgeorge.com/*
-// @include		http*://www.stationv3.com/*
-// @include		http*://www.lfg.co/page/*
-// @include		http*://www.gpf-comics.com/*
-// @match			*://*.questionablecontent.net/*
-// @include		http*://www.daisyowl.com/*
-// @include		http*://daisyowl.com/*
-// @include		http*://www.hyperdeathbabies.com/*
-// @include		http*://amultiverse.com/*
-// @include		http*://wondermark.com/*
-// @include		http*://www.amazingsuperpowers.com/*
-// @match			*://fanfox.net/*
-// @match			*://m.fanfox.net/*
-// @include		http*://www.leasticoulddo.com/*
-// @include		http*://leasticoulddo.com/*
-// @include		http*://www.sinfest.net/*
-// @include		http*://www.crfh.net/*
-// @include		http*://crfh.net/*
-// @include		http*://www.pennyandaggie.com/*
-// @include		http*://pennyandaggie.com/*
-// @include		http*://www.darkbolt.com/*
-// @include		http*://darkbolt.com/*
-// @include		http*://egscomics.com/*
-// @include		http*://www.egscomics.com/*
-// @include		http*://www.the-gutters.com/*
-// @include		http*://noneedforbushido.com/*
-// @include		http*://www.teahousecomic.com/*
-// @include		http*://www.nettserier.no/*
-// @include		http*://nettserier.no/*
+// @include		http://www.qwantz.com/*
+// @include		http://qwantz.com/*
+// @include		http://www.2pstart.com/*/*
+// @include		http://www.spaceavalanche.com/*
+// @include		http://www.gunshowcomic.com/*
+// @include		http://gunshowcomic.com/*
+// @include		http://www.terrorisland.net/*
+// @include		http://nedroid.com/*
+// @include		http://www.bobandgeorge.com/*
+// @include		http://bobandgeorge.com/*
+// @include		http://www.stationv3.com/*
+// @include		http://www.lfgcomic.com/page/*
+// @include		http://lfgcomic.com/page/*
+// @include		http://www.gpf-comics.com/*
+// @match		  *://*.questionablecontent.net/*
+// @include		http://www.daisyowl.com/*
+// @include		http://daisyowl.com/*
+// @include		http://www.hyperdeathbabies.com/*
+// @include		http://amultiverse.com/*
+// @include		http://wondermark.com/*
+// @include		http://www.amazingsuperpowers.com/*
+// @match		  *://fanfox.net/*
+// @match		  *://m.fanfox.net/*
+// @include		http://www.leasticoulddo.com/*
+// @include		http://leasticoulddo.com/*
+// @include		http://www.sinfest.net/*
+// @include		http://www.crfh.net/*
+// @include		http://crfh.net/*
+// @include		http://www.pennyandaggie.com/*
+// @include		http://pennyandaggie.com/*
+// @include		http://www.darkbolt.com/*
+// @include		http://darkbolt.com/*
+// @match		*://egscomics.com/*
+// @match		*://www.egscomics.com/*
+// @include		http://www.the-gutters.com/*
+// @include		http://noneedforbushido.com/*
+// @include		http://www.teahousecomic.com/*
+// @include		http://www.applegeeks.com/*
+// @include		http://applegeeks.com/*
+// @include		http://www.nettserier.no/*
+// @include		http://nettserier.no/*
 // @include		http*://www.nerfnow.com/*
-// @include		http*://www.little-gamers.com/*
-// @include		http*://www.duelinganalogs.com/*
-// @include		http*://www.myextralife.com/*
-// @include		http*://notinventedhe.re/*
-// @include		http*://www.unshelved.com/*
-// @include		http*://www.eviscerati.org/comics*
-// @include		http*://buttersafe.com/*
-// @include		http*://www.romanticallyapocalyptic.com/*
-// @include		http*://romanticallyapocalyptic.com/*
-// @include		http*://www.somethingpositive.net/*
-// @include		http*://somethingpositive.net/*
-// @include		http*://www.rhymes-with-witch.com/*
-// @include		http*://rhymes-with-witch.com/*
-// @include		http*://www.superstupor.com/*
-// @include		http*://superstupor.com/*
-// @include		http*://www.misfile.com/*
-// @include		http*://www.asofterworld.com/*
-// @include		http*://asofterworld.com/*
-// @include		http*://www.achewood.com/*
-// @include		http*://achewood.com/*
-// @include		http*://www.biggercheese.com/*
-// @include		http*://biggercheese.com/*
-// @include		http*://www.gwscomic.com/*
-// @include		http*://gwscomic.com/*
-// @include		http*://www.fonflatter.de/*
-// @include		http*://www.ruthe.de/*
-// @include		http*://ruthe.de/*
-// @include		http*://www.daybydaycartoon.com/*
-// @include		http*://daybydaycartoon.com/*
-// @include		http*://www.dieselsweeties.com/*
-// @include		http*://dieselsweeties.com/*
-// @include		http*://www.foxtrot.com/*
-// @include		http*://www.csectioncomics.com/*
-// @include		http*://garfieldminusgarfield.net/*
-// @include		http*://www.girlgeniusonline.com/*
-// @include		http*://www.gocomics.com/*
-// @exclude		http*://www.gocomics.com/
-// @exclude		http*://www.gocomics.com/?*
+// @include		http://www.little-gamers.com/*
+// @include		http://www.duelinganalogs.com/*
+// @include		http://www.myextralife.com/*
+// @include		http://notinventedhe.re/*
+// @include     *://mangaseeonline.us/*
+// @include		http://www.unshelved.com/*
+// @include		https://www.eviscerati.org/comics*
+// @include		http://buttersafe.com/*
+// @include		http://www.romanticallyapocalyptic.com/*
+// @include		http://romanticallyapocalyptic.com/*
+// @include		http://www.somethingpositive.net/*
+// @include		http://somethingpositive.net/*
+// @include		http://www.rhymes-with-witch.com/*
+// @include		http://rhymes-with-witch.com/*
+// @include		http://www.superstupor.com/*
+// @include		http://superstupor.com/*
+// @include		http://www.misfile.com/*
+// @include		http://www.asofterworld.com/*
+// @include		http://asofterworld.com/*
+// @include		http://www.achewood.com/*
+// @include		http://achewood.com/*
+// @include		http://www.biggercheese.com/*
+// @include		http://biggercheese.com/*
+// @include		http://www.gwscomic.com/*
+// @include		http://gwscomic.com/*
+// @include		http://www.fonflatter.de/*
+// @include		http://www.ruthe.de/*
+// @include		http://ruthe.de/*
+// @include		http://www.daybydaycartoon.com/*
+// @include		http://daybydaycartoon.com/*
+// @include		http://www.dieselsweeties.com/*
+// @include		http://dieselsweeties.com/*
+// @include		http://www.foxtrot.com/*
+// @include		http://www.csectioncomics.com/*
+// @include		http://garfieldminusgarfield.net/*
+// @include		http://www.girlgeniusonline.com/*
+// @include		http://www.gocomics.com/*
+// @exclude		http://www.gocomics.com/
+// @exclude		http://www.gocomics.com/?*
 // @include		http*://www.gunnerkrigg.com/*
 // @include		http*://gunnerkrigg.com/*
-// @include		http*://www.ho-lo.co.il/*
-// @include		http*://www.threepanelsoul.com/*
-// @include		http*://threepanelsoul.com/*
-// @match			*://*.oglaf.com/*
-// @include		http*://www.kevinandkell.com/*
-// @include		http*://kevinandkell.com/*
-// @include		http*://www.lackadaisy.com/comic.php*
-// @include		http*://lackadaisy.com/comic.php*
-// @include		http*://www.lukesurl.com/*
-// @include		http*://mycardboardlife.com/*
+// @include		http://www.ho-lo.co.il/*
+// @include		http://www.threepanelsoul.com/*
+// @include		http://threepanelsoul.com/*
+// @match		  *://*.oglaf.com/*
+// @include		http://www.kevinandkell.com/*
+// @include		http://kevinandkell.com/*
+// @include		http://www.lackadaisycats.com/comic.php*
+// @include		http://lackadaisycats.com/comic.php*
+// @include		http://www.lukesurl.com/*
+// @include		http://mycardboardlife.com/*
 // @include		http*://megatokyo.com/*
 // @include		http*://www.megatokyo.it/*
 // @include		http*://www.megatokyo.de/*
-// @include		http*://noreasoncomics.com/*
-// @include		http*://www.pixelcomic.net/*
-// @include		http*://pixelcomic.net/*
-// @include		http*://www.redmeat.com/*
-// @include		http*://redmeat.com/*
-// @include		http*://sexylosers.com/*
-// @include		http*://www.doonesbury.com/*
-// @include		http*://www.pbfcomics.com/*
-// @include		http*://tjandamal.com/*
-// @include		http*://sfeertheory.littlefoolery.com/*
-// @include		http*://wanderingones.com/*
-// @include		http*://www.big-big-truck.com/ayiw/*
-// @include		http*://big-big-truck.com/ayiw/*
-// @include		http*://wapsisquare.com/*
-// @include		http*://www.wastedtalent.ca/*
-// @include		http*://www.wulffmorgenthaler.com/*
-// @include		http*://wulffmorgenthaler.com/*
-// @include		http*://www.weregeek.com/*
-// @include		http*://*.katbox.net/*
-// @include		http*://*.keenspace.com/*
-// @include		http*://*.comicgenesis.com/*
-// @include		http*://www.beanleafpress.com/*
-// @include		http*://www.theoswaldchronicles.com/*
-// @include		http*://www.awkwardzombie.com/*
-// @include		http*://awkwardzombie.com/*
-// @include		http*://*.seraph-inn.com/*
-// @include		http*://www.fakku.net/manga/*
-// @include		http*://www.fakku.net/doujinshi/*
-// @include		http*://www.deadwinter.cc/*
-// @include		http*://deadwinter.cc/*
-// @include		http*://www.loveisintheblood.com/*
-// @include		http*://rhapsodies.wpmorse.com/*
-// @include		http*://www.piratesofmars.com/*
-// @include		http*://www.earthsongsaga.com/vol*
-// @include		http*://www.goblinscomic.org/*
-// @include		http*://www.venusenvycomic.com/*
-// @include		http*://venusenvycomic.com/*
-// @include		http*://www.meekcomic.com/*
-// @include		http*://www.dominic-deegan.com/*
-// @include		http*://dominic-deegan.com/*
-// @include		http*://yafgc.net/*
-// @include		http*://www.sdamned.com/*
-// @include		http*://www.twolumps.net/*
-// @include		http*://twolumps.net/*
-// @include		http*://www.precociouscomic.com/*
-// @include		http*://precociouscomic.com/*
-// @include		http*://betweenplaces.spiderforest.com/*
-// @include		http*://specialschool.spiderforest.com/*
-// @include		http*://requiem.spiderforest.com/*
-// @include		http*://sevensmith.net/chirault/*
-// @include		http*://www.junglestudio.com/roza/*
-// @include		http*://www.dream-scar.net/*
-// @include		http*://dream-scar.net/*
-// @include		http*://www.tryinghuman.com/*
-// @include		http*://tryinghuman.com/*
-// @include		http*://www.thedreamercomic.com/*
-// @include		http*://thedreamercomic.com/
-// @include		http*://www.shazzbaa.com/*
-// @include		http*://shazzbaa.com/*
-// @match			*://*.sandraandwoo.com/*
-// @include		http*://www.freakangels.com/*
-// @include		http*://www.sakanacomic.com/*
-// @include		http*://keychain.patternspider.net/*
-// @include		http*://www.collectedcurios.com/*
-// @include		http*://www.sylvanmigdal.com/*
-// @include		http*://sylvanmigdal.com/*
-// @include		http*://www.c.urvy.org/*
-// @include		http*://c.urvy.org/*
-// @include		http*://www.doublefine.com/*
-// @include		http*://www.survivingtheworld.net/*
-// @include		http*://survivingtheworld.net/*
-// @include		http*://nonadventures.com/*
-// @include		http*://www.robandelliot.cycomics.com/*
-// @include		http*://robandelliot.cycomics.com/*
-// @include		http*://soulsymphonycomic.com/*
-// @include		http*://www.blastwave-comic.com/*
-// @include		http*://www.channelate.com/*
-// @include		http*://www.optipess.com/*
-// @include		http*://www.drawuntilitsfunny.com/*
-// @include		http*://beardfluff.com/*
-// @include		http*://lawlscomic.com/*
-// @include		http*://www.maakies.com/*
-// @include		http*://www.lefthandedtoons.com/*
-// @include		http*://trollscience.com/*
-// @include		http*://www.diggercomic.com/*
-// @include		http*://luciphurrsimps.com/*
-// @include		http*://nikkisprite.com/*
-// @include		http*://www.gronkcomic.com/*
-// @include		http*://www.redsplanet.com/*
-// @include		http*://www.cowshell.com/*
-// @include		http*://everblue-comic.com/*
-// @include		http*://tmkcomic.depleti.com/*
-// @include		http*://www.remindblog.com/*
-// @include		http*://inkdolls.com/*
-// @include		http*://www.terra-comic.com/*
-// @include		http*://www.redmoonrising.org/*
-// @include		http*://www.khaoskomix.com/*
-// @include		http*://memoria.valice.net/*
-// @include		http*://www.twilightlady.com/*
+// @include		http://noreasoncomics.com/*
+// @include		http://www.pixelcomic.net/*
+// @include		http://pixelcomic.net/*
+// @include		http://www.redmeat.com/*
+// @include		http://redmeat.com/*
+// @include		http://sexylosers.com/*
+// @include		http://www.doonesbury.com/*
+// @include		http://www.pbfcomics.com/*
+// @include		http://tjandamal.com/*
+// @include		http://sfeertheory.littlefoolery.com/*
+// @include		http://wanderingones.com/*
+// @include		http://www.big-big-truck.com/ayiw/*
+// @include		http://big-big-truck.com/ayiw/*
+// @include		http://wapsisquare.com/*
+// @include		http://www.wastedtalent.ca/*
+// @include		http://www.wulffmorgenthaler.com/*
+// @include		http://wulffmorgenthaler.com/*
+// @include		http://www.weregeek.com/*
+// @include		http://*.katbox.net/*
+// @include		http://*.keenspace.com/*
+// @include		http://*.comicgenesis.com/*
+// @include		http://www.beanleafpress.com/*
+// @include		http://www.theoswaldchronicles.com/*
+// @include		*://www.awkwardzombie.com/*
+// @include		*://awkwardzombie.com/*
+// @include		http://*.seraph-inn.com/*
+// @include		https://www.fakku.net/manga/*
+// @include		https://www.fakku.net/doujinshi/*
+// @include		http://www.deadwinter.cc/*
+// @include		http://deadwinter.cc/*
+// @include		http://www.loveisintheblood.com/*
+// @include		http://rhapsodies.wpmorse.com/*
+// @include		http://www.piratesofmars.com/*
+// @include		http://www.earthsongsaga.com/vol*
+// @include		http://www.goblinscomic.org/*
+// @include		http://www.venusenvycomic.com/*
+// @include		http://venusenvycomic.com/*
+// @include		http://www.meekcomic.com/*
+// @include		http://www.dominic-deegan.com/*
+// @include		http://dominic-deegan.com/*
+// @include		http://yafgc.net/*
+// @include		http://www.sdamned.com/*
+// @include		http://www.twolumps.net/*
+// @include		http://twolumps.net/*
+// @include		http://www.precociouscomic.com/*
+// @include		http://precociouscomic.com/*
+// @include		http://betweenplaces.spiderforest.com/*
+// @include		http://specialschool.spiderforest.com/*
+// @include		http://requiem.spiderforest.com/*
+// @include		http://sevensmith.net/chirault/*
+// @include		http://www.junglestudio.com/roza/*
+// @include		http://www.dream-scar.net/*
+// @include		http://dream-scar.net/*
+// @include		http://www.tryinghuman.com/*
+// @include		http://tryinghuman.com/*
+// @include		http://www.thedreamercomic.com/*
+// @include		http://thedreamercomic.com/
+// @include		http://www.shazzbaa.com/*
+// @include		http://shazzbaa.com/*
+// @match		  *://*.sandraandwoo.com/*
+// @include		http://www.freakangels.com/*
+// @include		http://www.sakanacomic.com/*
+// @include		http://keychain.patternspider.net/*
+// @include		http://www.collectedcurios.com/*
+// @include		http://www.sylvanmigdal.com/*
+// @include		http://sylvanmigdal.com/*
+// @include		http://www.c.urvy.org/*
+// @include		http://c.urvy.org/*
+// @include		http://www.doublefine.com/*
+// @include		http://www.survivingtheworld.net/*
+// @include		http://survivingtheworld.net/*
+// @include		http://nonadventures.com/*
+// @include		http://www.robandelliot.cycomics.com/*
+// @include		http://robandelliot.cycomics.com/*
+// @include		http://soulsymphonycomic.com/*
+// @include		http://www.blastwave-comic.com/*
+// @include		http://www.channelate.com/*
+// @include		http://www.optipess.com/*
+// @include		http://www.drawuntilitsfunny.com/*
+// @include		http://beardfluff.com/*
+// @include		http://lawlscomic.com/*
+// @include		http://www.maakies.com/*
+// @include		http://www.lefthandedtoons.com/*
+// @include		http://trollscience.com/*
+// @include		http://www.diggercomic.com/*
+// @include		http://luciphurrsimps.com/*
+// @include		http://nikkisprite.com/*
+// @include		http://www.gronkcomic.com/*
+// @include		http://www.redsplanet.com/*
+// @include		http://www.cowshell.com/*
+// @include		http://everblue-comic.com/*
+// @include		http://tmkcomic.depleti.com/*
+// @include		http://www.remindblog.com/*
+// @include		http://inkdolls.com/*
+// @include		http://www.terra-comic.com/*
+// @include		http://www.redmoonrising.org/*
+// @include		http://www.khaoskomix.com/*
+// @include		http://memoria.valice.net/*
+// @include		http://www.twilightlady.com/*
 // @include		http*://e-hentai.org/*
-// @include		http*://www.perveden.com/*
-// @include		http*://www.bittersweetcandybowl.com/*
-// @include		http*://www.imagebam.com/*
-// @include		http*://www.exploitationnow.com/*
-// @include		http*://basicinstructions.net/*
-// @include		http*://www.missmab.com/*
-// @include		http*://missmab.com/*
-// @include		http*://www.lookwhatibroughthome.com/*
-// @include		http*://hijinksensue.com/*
-// @include		http*://www.darthsanddroids.net/*
-// @include		http*://darthsanddroids.net/*
-// @include		http*://www.harkavagrant.com/*
-// @include		http*://dresdencodak.com/*
-// @include		http*://www.straysonline.com/comic/*
-// @include		http*://straysonline.com/comic/*
-// @include		http*://www.dragonball-multiverse.com/*
-// @include		http*://insanesoft.org/fanfyria/*
-// @include		http*://snafu-comics.com/*
-// @include		http*://www.snafu-comics.com/*
-// @include		http*://www.wayfarersmoon.com/*
-// @include		http*://wayfarersmoon.com/*
-// @include		http*://*.smackjeeves.com/*
-// @include		http*://www.10kcommotion.com/*
-// @include		http*://10kcommotion.com/*
-// @include		http*://www.multiplexcomic.com/*
-// @include		http*://multiplexcomic.com/*
-// @include		http*://www.johnandjohn.nl/index.php?*wltypeid=1*
-// @include		http*://www.sorcery101.net/*
-// @include		http*://www.treadingground.com/*
-// @include		http*://www.kiwiblitz.com/*
-// @include		http*://thepunchlineismachismo.com/*
-// @include		http*://kafkaskoffee.com/*
-// @include		http*://occasionalcomics.com/*
-// @include		http*://www.zombieboycomics.com/*
-// @include		http*://www.babyblues.com/*
-// @include		http*://babyblues.com/*
-// @include		http*://www.bearandtiger.com/*
+// @include		http://www.perveden.com/*
+// @include		http://www.bittersweetcandybowl.com/*
+// @include		http://www.imagebam.com/*
+// @include		http://www.exploitationnow.com/*
+// @include		http://basicinstructions.net/*
+// @include		http://www.missmab.com/*
+// @include		http://www.lookwhatibroughthome.com/*
+// @include		http://hijinksensue.com/*
+// @include		http://www.darthsanddroids.net/*
+// @include		http://darthsanddroids.net/*
+// @include		http://www.harkavagrant.com/*
+// @include		http://dresdencodak.com/*
+// @include		http://www.straysonline.com/comic/*
+// @include		http://straysonline.com/comic/*
+// @include		http://www.dragonball-multiverse.com/*
+// @include		http://insanesoft.org/fanfyria/*
+// @include		http://*.snafu-comics.com/*
+// @include		http://www.wayfarersmoon.com/*
+// @include		http://wayfarersmoon.com/*
+// @include		http://*.smackjeeves.com/*
+// @include		http://www.10kcommotion.com/*
+// @include		http://10kcommotion.com/*
+// @include		http://www.multiplexcomic.com/*
+// @include		http://multiplexcomic.com/*
+// @include		http://www.johnandjohn.nl/index.php?*wltypeid=1*
+// @include		http://www.sorcery101.net/*
+// @include		http://www.treadingground.com/*
+// @include		http://www.kiwiblitz.com/*
+// @include		http://thepunchlineismachismo.com/*
+// @include		http://kafkaskoffee.com/*
+// @include		http://occasionalcomics.com/*
+// @include		http://www.zombieboycomics.com/*
+// @include		http://www.babyblues.com/*
+// @include		http://babyblues.com/*
+// @include		http://www.bearandtiger.com/*
 // @include		http*://exhentai.org/*
-// @include		http*://www.wigucomics.com/*
-// @include		http*://www.mankin-trad.net/*
-// @include		http*://mankin-trad.net/*
-// @include		http*://www.scarygoround.com/*
-// @include		http*://scarygoround.com/*
-// @include		http*://www.schlockmercenary.com/*
-// @include		http*://www.warehousecomic.com/*
-// @include		http*://warehousecomic.com/*
-// @include		http*://www.tnemrot.com/*
-// @include		http*://www.holiday-wars.com/*
-// @include		http*://www.zapcomic.com/*
-// @include		http*://www.dumbingofage.com/*
-// @include		http*://www.shortpacked.com/*
-// @include		http*://www.itswalky.com/*
-// @include		http*://itswalky.com/*
-// @include		http*://www.evildivacomics.com/*
-// @include		http*://axecop.com/*
-// @include		http*://www.reddit.com/
-// @include		http*://www.reddit.com/?*
-// @include		http*://www.reddit.com/r/*
-// @exclude		http*://www.reddit.com/*/comments/*
-// @include		http*://blankitcomics.com/*
-// @include		http*://doctorcatmd.com/*
-// @include		http*://www.sheldoncomics.com/*
-// @include		http*://sheldoncomics.com/*
-// @include		http*://luscious.net/*/pictures/*
-// @include		http*://www.geekculture.com/joyoftech/*
-// @include		http*://www.realmofatland.com/*
-// @include		http*://realmofatland.com/*
-// @include		http*://thedoujin.com/index.php/pages/*
-// @include		http*://www.oslevadosdabreca.com/*
-// @include		http*://www.thedevilbear.com/*
-// @include		http*://thedevilbear.com/*
-// @include		http*://www.exiern.com/*
-// @include		http*://nsfw-comix.com/*
-// @include		http*://jaynaylor.com/*
-// @include		http*://www.anelnoath.com/*
-// @include		http*://www.faans.com/*
-// @include		http*://www.truefork.org/*
-// @include		http*://truefork.org/*
+// @include		http://www.wigucomics.com/*
+// @include		http://www.mankin-trad.net/*
+// @include		http://mankin-trad.net/*
+// @include		http://www.scarygoround.com/*
+// @include		http://scarygoround.com/*
+// @include		http://www.schlockmercenary.com/*
+// @include		http://www.warehousecomic.com/*
+// @include		http://warehousecomic.com/*
+// @include		http://www.tnemrot.com/*
+// @include		http://www.holiday-wars.com/*
+// @include		http://www.zapcomic.com/*
+// @include		http://www.dumbingofage.com/*
+// @include		http://www.shortpacked.com/*
+// @include		http://www.itswalky.com/*
+// @include		http://itswalky.com/*
+// @include		http://www.evildivacomics.com/*
+// @include		http://axecop.com/*
+// @include		http://www.reddit.com/
+// @include		http://www.reddit.com/?*
+// @include		http://www.reddit.com/r/*
+// @exclude		http://www.reddit.com/*/comments/*
+// @include		http://blankitcomics.com/*
+// @include		http://doctorcatmd.com/*
+// @include		http://www.sheldoncomics.com/*
+// @include		http://sheldoncomics.com/*
+// @include		http://luscious.net/*/pictures/*
+// @include		http://www.geekculture.com/joyoftech/*
+// @include		http://www.realmofatland.com/*
+// @include		http://realmofatland.com/*
+// @include		http://thedoujin.com/index.php/pages/*
+// @include		http://www.oslevadosdabreca.com/*
+// @include		http://www.thedevilbear.com/*
+// @include		http://thedevilbear.com/*
+// @include		http://www.exiern.com/*
+// @include		http://nsfw-comix.com/*
+// @include		http://jaynaylor.com/*
+// @include		http://www.anelnoath.com/*
+// @include		http://www.faans.com/*
+// @include		http://www.truefork.org/*
+// @include		http://truefork.org/*
 // @include		http*://www.thewotch.com/*
 // @include		http*://cheer.sailorsun.org/*
-// @include		http*://montrose.is/sgvy/archives/*
-// @include		http*://www.montrose.is/sgvy/archives/*
-// @include		http*://www.drunkduck.com/*
-// @include		http*://drunkduck.com/*
-// @include		http*://www.ephralon.de/seekers_detailed.php*
-// @include		http*://ephralon.de/seekers_detailed.php*
-// @include		http*://www.terinu.com/*
-// @include		http*://terinu.com/*
-// @include		http*://dcisgoingtohell.com/*
-// @include		http*://las-historietas.blogspot.com/*
-// @include		http*://www.palcomix.com/*
-// @include		http*://palcomix.com/*
-// @include		http*://malandchad.com/*
-// @include		http*://www.digitalcomicmuseum.com/*
-// @include		http*://digitalcomicmuseum.com/*
-// @include		http*://fourcolorshadows.blogspot.com/*
-// @include		http*://thehorrorsofitall.blogspot.com/*
+// @include		http://montrose.is/sgvy/archives/*
+// @include		http://www.montrose.is/sgvy/archives/*
+// @include		http://www.drunkduck.com/*
+// @include		http://drunkduck.com/*
+// @include		http://www.ephralon.de/seekers_detailed.php*
+// @include		http://ephralon.de/seekers_detailed.php*
+// @include		http://www.terinu.com/*
+// @include		http://terinu.com/*
+// @include		http://dcisgoingtohell.com/*
+// @include		http://las-historietas.blogspot.com/*
+// @include		http://www.palcomix.com/*
+// @include		http://palcomix.com/*
+// @include		http://malandchad.com/*
+// @include		http://www.digitalcomicmuseum.com/*
+// @include		http://digitalcomicmuseum.com/*
+// @include		http://fourcolorshadows.blogspot.com/*
+// @include		http://thehorrorsofitall.blogspot.com/*
 // @include		*//bato.to/chapter*
-// @include		http*://www.octopuspie.com/*
-// @include		http*://www.lovemenicecomic.com/*
-// @include		http*://blog.saveapathea.com/*
-// @include		http*://www.dead-philosophers.com/*
-// @include		http*://www.kingfeatures.com/*
-// @include		http*://kingfeatures.com/*
-// @include		http*://www.thezombiehunters.com/*
-// @include		http*://thezombiehunters.com/*
-// @include		http*://www.bugcomic.com/*
-// @include		http*://www.interrobangstudios.com/*
-// @include		http*://interrobangstudios.com/*
-// @include		http*://syacartoonist.com/*
-// @include		http*://satwcomic.com/*
-// @include		http*://stupidfox.net/*
-// @include		http*://www.casualvillain.com/*
-// @include		http*://fanboys-online.com/*
-// @include		http*://www.girlswithslingshots.com/*
-// @include		http*://www.mntgaiden.com/*
-// @include		http*://ravensdojo.com/*
-// @include		http*://freefall.purrsia.com/*
-// @include		http*://www.shd-wk.com/*
-// @include		http*://shd-wk.com/*
-// @include		http*://www.pepsaga.com/*
-// @include		http*://slimythief.com/*
-// @include		http*://www.pebbleversion.com/*
-// @include		http*://pebbleversion.com/*
-// @include		http*://www.accurseddragon.com/*
-// @include		http*://www.stringtheorycomic.com/*
-// @include		http*://www.supercrash.net/*
-// @include		http*://loveandcapes.com/*
-// @include		http*://victorycomic.comicgenesis.com/*
-// @include		http*://magellanverse.com/*
-// @include		http*://www.evil-comic.com/*
-// @include		http*://flakypastry.runningwithpencils.com/*
-// @include		http*://www.pointguardian.com/*
-// @include		http*://gogetaroomie.chloe-art.com/*
-// @include		http*://www.amazingagentjennifer.com/*
-// @include		http*://mindmistress.comicgenesis.com/*
-// @include		http*://www.evernightcomic.com/*
-// @include		http*://*.thewebcomic.com/*
-// @include		http*://www.comicstriplibrary.org/display/*
-// @include		http*://comicstriplibrary.org/display/*
-// @include		http*://www.ourmanga.com/*
-// @include		http*://read.egscans.com/*
-// @include		http*://*.tiraecol.net/*
-// @include		http*://tiraecol.net/*
-// @include		http*://www.conejofrustrado.com/*
-// @include		http*://www.e2w-illustration.com/*
-// @include		http*://comic.naver.com/*
-// @include		http*://www.peteristhewolf.com/*
-// @include		http*://peteristhewolf.com/*
-// @include		http*://www.wlpcomics.com/*
-// @include		http*://wlpcomics.com/*
-// @include		http*://trenchescomic.com/*
-// @include		http*://www.goominet.com/unspeakable-vault/*
-// @include		http*://www.doesnotplaywellwithothers.com/*
-// @include		http*://www.aikoniacomic.com/*
-// @include		http*://aikoniacomic.com/*
+// @include		http://www.octopuspie.com/*
+// @include		http://www.lovemenicecomic.com/*
+// @include		http://blog.saveapathea.com/*
+// @include		http://www.dead-philosophers.com/*
+// @include		http://www.kingfeatures.com/*
+// @include		http://kingfeatures.com/*
+// @include		http://www.thezombiehunters.com/*
+// @include		http://thezombiehunters.com/*
+// @include		http://www.bugcomic.com/*
+// @include		http://www.interrobangstudios.com/*
+// @include		http://interrobangstudios.com/*
+// @include		http://syacartoonist.com/*
+// @include		http://satwcomic.com/*
+// @include		http://stupidfox.net/*
+// @include		http://www.casualvillain.com/*
+// @include		http://fanboys-online.com/*
+// @include		http://www.girlswithslingshots.com/*
+// @include		http://www.mntgaiden.com/*
+// @include		http://ravensdojo.com/*
+// @include		http://freefall.purrsia.com/*
+// @include		http://www.shd-wk.com/*
+// @include		http://shd-wk.com/*
+// @include		http://www.pepsaga.com/*
+// @include		http://slimythief.com/*
+// @include		http://www.pebbleversion.com/*
+// @include		http://pebbleversion.com/*
+// @include		http://www.accurseddragon.com/*
+// @include		http://www.stringtheorycomic.com/*
+// @include		http://www.supercrash.net/*
+// @include		http://loveandcapes.com/*
+// @include		http://victorycomic.comicgenesis.com/*
+// @include		http://magellanverse.com/*
+// @include		http://www.evil-comic.com/*
+// @include		http://flakypastry.runningwithpencils.com/*
+// @include		http://www.pointguardian.com/*
+// @include		http://gogetaroomie.chloe-art.com/*
+// @include		http://www.amazingagentjennifer.com/*
+// @include		http://mindmistress.comicgenesis.com/*
+// @include		http://www.evernightcomic.com/*
+// @include		http://*.thewebcomic.com/*
+// @include		http://www.comicstriplibrary.org/display/*
+// @include		http://comicstriplibrary.org/display/*
+// @include		http://www.ourmanga.com/*
+// @include		http://read.egscans.com/*
+// @include		http://*.tiraecol.net/*
+// @include		http://tiraecol.net/*
+// @include		http://www.conejofrustrado.com/*
+// @include		http://www.e2w-illustration.com/*
+// @include		http://comic.naver.com/*
+// @include		http://www.peteristhewolf.com/*
+// @include		http://peteristhewolf.com/*
+// @include		http://www.wlpcomics.com/*
+// @include		http://wlpcomics.com/*
+// @include		http://trenchescomic.com/*
+// @include		http://www.goominet.com/unspeakable-vault/*
+// @include		http://www.doesnotplaywellwithothers.com/*
+// @include		http://www.aikoniacomic.com/*
+// @include		http://aikoniacomic.com/*
 // @include		http*://grrlpowercomic.com/*
-// @include		http*://www.poisonedminds.com/*
-// @include		http*://poisonedminds.com/*
-// @include		http*://nodwick.humor.gamespy.com/*
-// @include		http*://www.the-whiteboard.com/*
-// @include		http*://the-whiteboard.com/*
-// @include		http*://www.mezzacotta.net/*
-// @include		http*://www.hbrowse.com/*
-// @include		http*://www.bardsworth.com/*
-// @include		http*://fancyadventures.com/*
-// @include		http*://www.purplepussy.net/*
-// @include		http*://purplepussy.net/*
-// @include		http*://www.darklegacycomics.com/*
-// @include		http*://darklegacycomics.com/*
-// @include		http*://candicomics.com/*
-// @include		http*://www.buckocomic.com/*
-// @include		http*://bearmageddon.com/*
-// @include		http*://betweenfailures.net/*
-// @include		http*://www.sisterclaire.com/*
-// @include		http*://www.awesomehospital.com/*
-// @include		http*://ars.userfriendly.org/cartoons/*
-// @include		http*://www.friendswithboys.com/*
-// @include		http*://www.jesusandmo.net/*
-// @include		http*://www.calamitiesofnature.com/*
-// @include		http*://www.rosalarian.com/*
-// @include		http*://rosalarian.com/*
-// @include		http*://www.irregularwebcomic.net/*
-// @include		http*://adistantsoil.com/*
-// @include		http*://comic.nodwick.com/*
-// @include		http*://ffn.nodwick.com/*
-// @include		http*://ps238.nodwick.com/*
-// @include		http*://thedevilspanties.com/*
-// @include		http*://www.animephile.com/*
-// @match			*://kissmanga.com/*
-// @include		http*://invisiblebread.com/*
-// @include		http*://www.vickifox.com/*
-// @include		http*://vickifox.com/*
-// @include		http*://www.spinnyverse.com/*
-// @include		http*://zenpencils.com/*
-// @include		http*://webcomics.yaoi911.com/*
-// @include		http*://www.whompcomic.com/*
-// @include		http*://www.curtailedcomic.com/*
-// @include		http*://curtailedcomic.com/*
-// @include		http*://bradcolbow.com/*
-// @include		http*://www.theherobiz.com/*
-// @include		http*://guildedage.net/*
-// @include		http*://betweenfailures.com/*
-// @include		http*://www.claudeandmonet.com/*
-// @include		http*://de.ninemanga.com/*
-// @include		http*://www.bloomingfaeries.com/*
-// @include		http*://www.findchaos.com/*
-// @include		http*://chaoslife.findchaos.com/*
-// @include		http*://www.shadbase.com/*
-// @include		http*://www.mrlovenstein.com/*
-// @include		http*://www.anticscomic.com/*
-// @include		http*://octopuns.blogspot.com/*
-// @include		http*://www.powernapcomic.com/*
-// @include		http*://blackbird.ashen-ray.com/*
-// @include		http*://carciphona.com/*
-// @include		http*://ahs-comic.com/*
-// @include		http*://www.gogetaroomie.com/*
-// @include		http*://gogetaroomie.com/*
-// @include		http*://*.thecomicseries.com/*
-// @include		http*://www.sleepymaid.com/gallery/displayimage.php*
-// @include		http*://sleepymaid.com/gallery/displayimage.php*
-// @include		http*://www.squid-ops.com/*
-// @include		http*://squid-ops.com/*
-// @include		http*://www.endcomic.com/*
-// @include		http*://www.thenoobcomic.com/*
-// @include		http*://thenoobcomic.com/*
-// @include		http*://zizki.com/*
-// @include		http*://*.zizki.com/*
-// @include		http*://www.schizmatic.com/*
-// @include		http*://schizmatic.com/*
-// @include		http*://www.bringbackroomies.com/*
-// @match			*://*.blindsprings.com/*
-// @match			*://*.forgottenordercomic.com/*
-// @include		http*://www.wtfcomics.com/*archive.html?*
-// @include		http*://wtfcomics.com/*archive.html?*
-// @include		http*://www.olympusoverdrive.com/index.php?*
-// @include		http*://olympusoverdrive.com/index.php?*
-// @include		http*://*gucomics.com/*
-// @include		http*://www.punksandnerds.com/*
-// @include		http*://*.troutcave.net/*
-// @include		http*://www.berserkersdaughter.com/*
-// @include		http*://gingerhaze.com/nimona/comic/*
-// @include		http*://aspect.waywardstudios.net/*
-// @include		http*://chirault.sevensmith.net/*
-// @include		http*://cucumber.gigidigi.com/*
-// @include		http*://www.dorktower.com/*
-// @include		http*://nhentai.net/*
-// @include		http*://www.hejibits.com/*
-// @include		http*://paintraincomic.com/*
-// @include		http*://extrafabulouscomics.com/*
-// @include		http*://www.feywinds.com/comic/*
-// @include		http*://www.omgbeaupeep.com/*
-// @include		http*://orgymania.net/*
-// @include		http*://mspaintadventures.com/*
-// @include		http*://www.mspaintadventures.com/*
-// @include		http*://homestuck.com/*
-// @include		http*://www.homestuck.com/*
-// @include		http*://homestuck2.com/*
-// @include		http*://www.homestuck2.com/*
-// @include		http*://mspfanventures.com/
-// @include		http*://www.mangatown.com/manga/*
-// @include		http*://www.legostargalactica.net/*
-// @include		http*://mangaseeonline.us/*
-// @include		http*://*.keenspot.com/*
-// @include		http*://dynasty-scans.com/*
-// @include		http*://*.dynasty-scans.com/*
-// @include		http*://nhentai.net/g/*
-// @include		http*://www.marycagle.com/*
-// @include		http*://www.sleeplessdomain.com/*
-// @include		http*://www.webtoons.com/*
-// @include		http*://incase.buttsmithy.com/comic/*
-// @include		http*://leylinescomic.com/comics/*
-// @include		http*://project-apollo.net/mos/*
-// @include		http*://afterstrife.com/?p*
-// @include		http*://danbooru.donmai.us/*
-// @match			*://www.mngdoom.com/*/*
-// @match			*://kimchicuddles.com/post/*
-// @match			*://marktrail.com/*
+// @include		http://www.poisonedminds.com/*
+// @include		http://poisonedminds.com/*
+// @include		http://nodwick.humor.gamespy.com/*
+// @include		http://www.the-whiteboard.com/*
+// @include		http://the-whiteboard.com/*
+// @include		http://www.mezzacotta.net/*
+// @include		http://www.hbrowse.com/*
+// @include		http://www.bardsworth.com/*
+// @include		http://fancyadventures.com/*
+// @include		http://www.purplepussy.net/*
+// @include		http://purplepussy.net/*
+// @include		http://www.darklegacycomics.com/*
+// @include		http://darklegacycomics.com/*
+// @include		http://candicomics.com/*
+// @include		http://www.buckocomic.com/*
+// @include		http://bearmageddon.com/*
+// @include		http://betweenfailures.net/*
+// @include		http://www.sisterclaire.com/*
+// @include		http://www.awesomehospital.com/*
+// @include		http://ars.userfriendly.org/cartoons/*
+// @include		http://www.friendswithboys.com/*
+// @include		http://www.jesusandmo.net/*
+// @include		http://www.calamitiesofnature.com/*
+// @include		http://www.rosalarian.com/*
+// @include		http://rosalarian.com/*
+// @include		http://www.irregularwebcomic.net/*
+// @include		http://adistantsoil.com/*
+// @include		http://comic.nodwick.com/*
+// @include		http://ffn.nodwick.com/*
+// @include		http://ps238.nodwick.com/*
+// @include		http://thedevilspanties.com/*
+// @include		http://www.animephile.com/*
+// @match		  *://kissmanga.com/*
+// @include		http://invisiblebread.com/*
+// @include		http://www.vickifox.com/*
+// @include		http://www.spinnyverse.com/*
+// @include		http://zenpencils.com/*
+// @include		http://webcomics.yaoi911.com/*
+// @include		http://www.whompcomic.com/*
+// @include		http://curtailedcomic.com/*
+// @include		http://bradcolbow.com/*
+// @include		http://www.theherobiz.com/*
+// @include		http://guildedage.net/*
+// @include		http://betweenfailures.com/*
+// @include		http://www.claudeandmonet.com/*
+// @include		http://de.ninemanga.com/*
+// @include		http://www.bloomingfaeries.com/*
+// @include		http://www.findchaos.com/*
+// @include		http://chaoslife.findchaos.com/*
+// @include		http://www.shadbase.com/*
+// @include		http://www.shagbase.com/*
+// @include		http://www.mrlovenstein.com/*
+// @include		http://www.anticscomic.com/*
+// @include		http://octopuns.blogspot.com/*
+// @include		http://www.powernapcomic.com/*
+// @include		http://blackbird.ashen-ray.com/*
+// @include		http://carciphona.com/*
+// @include		http://ahs-comic.com/*
+// @include		http://www.gogetaroomie.com/*
+// @include		http://gogetaroomie.com/*
+// @include		http://*.thecomicseries.com/*
+// @include		http://www.sleepymaid.com/gallery/displayimage.php*
+// @include		http://sleepymaid.com/gallery/displayimage.php*
+// @include		http://www.squid-ops.com/*
+// @include		http://squid-ops.com/*
+// @include		http://www.endcomic.com/*
+// @include		http://www.thenoobcomic.com/*
+// @include		http://thenoobcomic.com/*
+// @include		http://zizki.com/*
+// @include		http://*.zizki.com/*
+// @include		http://www.schizmatic.com/*
+// @include		http://schizmatic.com/*
+// @include		http://www.bringbackroomies.com/*
+// @match		  *://*.blindsprings.com/*
+// @match		  *://*.forgottenordercomic.com/*
+// @include		http://www.wtfcomics.com/*archive.html?*
+// @include		http://wtfcomics.com/*archive.html?*
+// @include		http://www.olympusoverdrive.com/index.php?*
+// @include		http://olympusoverdrive.com/index.php?*
+// @include		http://*gucomics.com/*
+// @include		http://www.punksandnerds.com/*
+// @include		http://*.troutcave.net/*
+// @include		http://www.berserkersdaughter.com/*
+// @include		http://gingerhaze.com/nimona/comic/*
+// @include		http://aspect.waywardstudios.net/*
+// @include		http://chirault.sevensmith.net/*
+// @include		http://cucumber.gigidigi.com/*
+// @include		http://www.dorktower.com/*
+// @include		http://nhentai.net/*
+// @include		http://www.hejibits.com/*
+// @include		http://paintraincomic.com/*
+// @include		http://extrafabulouscomics.com/*
+// @include		http://www.feywinds.com/comic/*
+// @include		http://www.omgbeaupeep.com/*
+// @include		http://orgymania.net/*
+// @include		http://mspaintadventures.com/*
+// @include		http://www.mspaintadventures.com/*
+// @include		http://mspfanventures.com/
+// @include		http://www.mangatown.com/manga/*
+// @include		http://www.legostargalactica.net/*
+// @include		http://*.keenspot.com/*
+// @include		http://dynasty-scans.com/*
+// @include		http://*.dynasty-scans.com/*
+// @include		https://nhentai.net/g/*
+// @include		http://www.marycagle.com/*
+// @include		http://www.sleeplessdomain.com/*
+// @include		http://www.webtoons.com/*
+// @include		http://incase.buttsmithy.com/comic/*
+// @include		http://leylinescomic.com/comics/*
+// @include		http://project-apollo.net/mos/*
+// @include		http://afterstrife.com/?p*
+// @include		https://danbooru.donmai.us/*
+// @match		  *://www.mngdoom.com/*/*
+// @match		  *://kimchicuddles.com/post/*
+// @match		  *://marktrail.com/*
 // @include		http*://www.atomic-robo.com/*
 // @include		http*://www.furaffinity.net/view/*
 // @include		http*://www.furaffinity.net/full/*
@@ -577,15 +572,6 @@ var defaultSettings = {
 // @include		http*://www.dhscomix.com/scomics*
 // @include		http*://www.dhscomix.com/tcomics*
 // @include		http*://www.dhscomix.com/wcomics*
-// @include		http*://*.kemono.cafe/*
-// @include		http*://www.yoshsaga.com/*
-// @include		http*://www.artificialincident.com/*
-// @include	 http*://narbonic.com/comic/*
-// @include	 http*://www.thedreamlandchronicles.com/*
-// @include	 http*://*.xepher.net/*
-// @include	 http*://skin-horse.com/*
-// @include	 http*://sailorsun.org/*
-// @include	 http*://jeaniebottle.com/*
 
 // ==/UserScript==
 
@@ -637,7 +623,7 @@ try{
 		};
 	}
 }catch(e){}
-var docelem = document.documentElement;
+
 var prefetchSize = confPrefetchSize([defaultSettings.prefetchBack, defaultSettings.prefetchNext]); //number of prefetched pages ahead in each direction
 var prefetchSizeStart = confPrefetchSizeStart([defaultSettings.prefetchBackStart, defaultSettings.prefetchNextStart]); //number of prefetched pages in each direction the first time
 var prefetchNoNext = confBool('prefetchNoNext', true);
@@ -692,8 +678,9 @@ var usarb64 = confBool('b64_images', false);
 
 	img/back/next/extra[i] can be either:
 		'string',
-		['xpath expression that returns the first element found'],
-		['xpath expression that returns an array of elements', 'string to put between each element', ?first_index, ?last_index],
+		['XPath expression that returns the first element found'],
+		['XPath expression that returns an array of elements', 'string to put between each element', ?first_index, ?last_index],
+		[['CSS selector that returns the first element found']],
 		[/regular expression/, group number to get the desired content]
 		function(html_of_requested_page, position_relative_to_the_starting_page){ return content; }
 	a 'string' is interpreted as part of a default XPath expression for img/back/next, or a literal string for extra[i]
@@ -728,10 +715,10 @@ var paginas = [
 				}],
 		bgcol:	'#fff'
 	},
-	{	url:	'dilbert.com',
+	{	url:	'*.dilbert.com',
 		img:	[['.img-comic']],
-		back:	'@title="Older Strip"',
-		next:	'@title="Next Strip"'
+		back:	'@alt="Older Strip"',
+		next:	'@alt="Newer Strip"'
 	},
 	{	url:	'explosm.net/comics',
 		img:	[['#main-comic']],
@@ -1084,9 +1071,8 @@ var paginas = [
 				}
 	},
 	{	url:	'threepanelsoul.com',
-		img:	[['#cc-comic']],
-		next:	'@rel="next"',
-		back:	'@rel="prev"',
+		extra:	[['//nobr', '<br/>']],
+		bgcol:	'#fff'
 	},
 	{	url:	'oglaf.com',
 		img:	[['#strip']],
@@ -1119,11 +1105,9 @@ var paginas = [
 		bgcol:	'#ccc',
 	},
 	{	url:	'kevinandkell.com',
-		first:	'@title="First Strip"',
-		last:	'@href="/"',
-		back:	'@title="Previous Strip"',
-		next:	'@title="Next Strip"',
-		style:	'.subheaderArrow a{width: 0px;display: none;}.subheaderArrow{width: 0px;display: none;}#subheaderComicContainer{padding: 0px 0px;margin-left: 0px;margin-right:0px}#subheaderContainer{max-width: 880px;width: auto;}body{min-width: 0px;}'
+		back:	'..[@id="prevstrip"]',
+		next:	'..[@id="nextstrip"]',
+		extra:	[['//div[@id="caption"]/span']]
 	},
 	{	url:	'mycardboardlife.com',
 		img:	'http://mycardboardlife.com/comics/',
@@ -1205,7 +1189,7 @@ var paginas = [
 		// FIXME The name of the comic’s game/category is missing from the news section within `extra`.
 		// That game name can always be seen within the normal news section in the bottom left. So the workaround is refreshing the page to load the current comic’s news section.
 		// JavaScript that runs when the document is ready adds the game name to that bottom left news section.
-		// That JavaScript is written inline within the HTML of the loaded page. The <script> tag is written in the same place in the HTML as the element it inserts: after `.cc-publishtime`.
+		// That JavaScript is written inline within the HTML of the loaded page. The <script> tag is written in the same place in the HTML as the element it inserts: after `.cc-publishtime`.
 		// Thus, a method for adding the game name when loading a new comic would be to extract just the element string literal from the JS within the loaded HTML, then use jQuery to insert that element in the right place inside the `.cc-newsarea`.
 	},
 	{	url:	'*.seraph-inn.com',
@@ -1327,6 +1311,45 @@ var paginas = [
 					catch(e){ return xpath('//li[@class="right"]/a/@href', html); }
 				}
 	},
+	{
+		url:	'mangaseeonline.us/read-online',
+		img: 	[['img.CurImage']],
+		layout:	true,
+		back:	function(html, pos) {
+					var cS = selCss('.ChapterSelect', html);
+					var pS = selCss('.PageSelect', html);
+					var indexName = selCss('input.IndexName', html).getAttribute('value');
+					var chapter = cS.selectedIndex;
+					var page = pS.selectedIndex;
+					if (page < 1) {
+						chapter--;
+						var request = new XMLHttpRequest();
+						request.open('POST', 'request.chapter.php', false);
+						request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+						request.send('IndexName=' + indexName + '&ChapterValue=' + cS[chapter].value + '&MaxPage=yes');
+						if (request.responseText) { 
+                        	var res = JSON.parse(request.responseText);
+                        	page = res.CurPage - 1;
+                        }
+					}
+					var newChapter = cS[chapter].innerHTML.split(' ');
+					return document.location.href.replace(/(chapter-).+?(-.+?)\d+(.html)/, "$1" + newChapter[1] + "$2" + page + "$3");
+				},
+		next:	function(html, pos) {
+					var cS = selCss('.ChapterSelect', html);
+					var pS = selCss('.PageSelect', html);
+					var chapter = cS.selectedIndex;
+					var page = pS.selectedIndex + 1;
+					if (page >= pS.length) { page = 0; chapter++; }
+					var newChapter = cS[chapter].innerHTML.split(' ');
+					return document.location.href.replace(/(chapter-).+?(-.+?)\d+(.html)/, "$1" + newChapter[1] + "$2" + (page + 1) + "$3");
+				},
+		js:		function(dir){
+					document.querySelector('.navbar').className = "navbar navbar-default";
+					var mWrapper = document.getElementsByClassName('mainWrapper');
+					if (mWrapper && mWrapper.length > 0) mWrapper[0].style.marginTop = '0px';
+				},
+	},
 	{	url:	'sakanacomic.com',
 		img:	'/img/com/',
 		style:	'#comic-outer{height:auto;}'
@@ -1374,22 +1397,9 @@ var paginas = [
 		next:	'.="Next"'
 	},
 	{	url:	'twokinds.keenspot.com',
-		img:	['//main[@id="content"]//article[@class="comic"]/a/img|//main[@id="content"]/article[@class="comic"]/img'],
-		back:	'contains(@class, "navprev")',
-		next:	'contains(@class, "navnext")',
-		first:	'contains(@class, "navnbegin")',
-		last:	'contains(@class, "navend")',
-		extra:	[
-				'<object data="',
-					[
-					'//main[@id="content"]/article[@class="comic"]/a/@href'
-					],
-					'"></object>',
-					[
-					'//aside[@class="transcript"]'
-					]
-				],
-        js:	wcr_ext_navi_ctrls
+		img:	[['#cg_img img']],
+		back:	'@id="cg_back"',
+		next:	'@id="cg_next"'
 	},
 	{	url:	'roadwaffles.keenspot.com',
 		img:	'comics/',
@@ -1712,8 +1722,8 @@ var paginas = [
 	},
 	{	url:	'cheer.sailorsun.org',
 		img:	[['#comic img']],
-		back:	[[['.comic-nav-previous']]],
-		next:	[[['.comic-nav-next']]]
+		back:   [[['.comic-nav-previous']]],
+		next:   [[['.comic-nav-next']]]
 	},
 	{	url:	'drunkduck.com',
 		img:	[['#comic img']],
@@ -1741,8 +1751,8 @@ var paginas = [
 		extra:	[[['img[src^="comix/"]', '<br/>', 1]]]
 	},
 	{	url:	'thewotch.com',
-		back:	[[['.comic-nav-previous']]],
-		next:	[[['.comic-nav-next']]],
+		back:   [[['.comic-nav-previous']]],
+		next:   [[['.comic-nav-next']]],
 		extra:	[[['.comments']]],
 		style:	'#wcr_imagen{max-height:100% !important;max-width:90vw !important;width:auto !important;height:auto !important;}'
 	},
@@ -1897,11 +1907,9 @@ var paginas = [
 		bgcol:	'#490606'
 	},
 	{	url:	'freefall.purrsia.com',
-		img:	['//img[@height>="200"]'],
-		extra:	['<br>',['//a[2]//img[@height>="200"]'],['//a[3]//img[@height>="200"]'],['//a[4]//img[@height>="200"]'],['//a[5]//img[@height>="200"]'],['//a[6]//img[@height>="200"]'],['//a[7]//img[@height>="200"]'],['//a[8]//img[@height>="200"]'],['//a[9]//img[@height>="200"]'],['//a[10]//img[@height>="200"]']],
+		img:	'/ff',
 		back:	'contains(.,"Previous")',
-		next:	'contains(.,"Next")',
-		js:	wcr_ext_navi_ctrls
+		next:	'contains(.,"Next")'
 	},
 	{	url:	'shd-wk.com',
 		style:	'#wcr_div{text-align:left !important;} #wcr_listabm{padding-top:100px;}'
@@ -1989,9 +1997,7 @@ var paginas = [
 		extra:	[[['#blurb']]]
 	},
 	{	url:	'grrlpowercomic.com',
-		img:	[['#comic img']],
-		extra:	[[['.post-content']]],
-		style:	'#content{display:none}.post-content,#comment-wrapper{width: 766px;margin: auto;}'
+		extra:	[[['.post-comic']]]
 	},
 	{	url:	'the-whiteboard.com',
 		img:	[['center>img']]
@@ -2091,6 +2097,9 @@ var paginas = [
 		scrollx:	'R',
 		layelem:	'//div[@id="divImage"]',
 	},
+	{	url:	'vickifox.com',
+		img:	[['.comic']]
+	},
 	{	url:	'spinnyverse.com',
 		back:	[['.nav-previous a']],
 		next:	[['.nav-next a']]
@@ -2104,9 +2113,7 @@ var paginas = [
 		next:	'@rel="next"'
 	},
 	{	url:	'thedevilspanties.com',
-		img:	['//div[@id="comic-1"]//img'],
-		extra:	[['//div[@id="comic-2"]//img'],['//div[@id="comic-3"]//img'],['//div[@id="comic-4"]//img'],['//div[@id="comic-5"]//img'],['//div[@id="comic-6"]//img'],['//div[@id="comic-7"]//img'],['//div[@id="comic-8"]//img'],['//div[@id="comic-9"]//img'],['//div[@id="comic-10"]//img'],['//div[@class="entry"]']],
-        js: wcr_ext_navi_ctrls
+		extra:	[['//div[@class="entry"]']],
 	},
 	{	url:	'bradcolbow.com',
 		img:	[['.entry img']],
@@ -2212,10 +2219,10 @@ var paginas = [
 		js:	function(dir){
 				var disqusJs = selCss('.cc-commentbody>script').innerHTML;
 				DISQUS && DISQUS.reset({
-						reload: true,
-						config: function () {
-							this.page.identifier = disqusJs.match(/identifier = '(.*)'/)[1];
-							this.page.url = disqusJs.match(/url = '(.*)'/)[1];
+			  		reload: true,
+			  		config: function () {
+			  			this.page.identifier = disqusJs.match(/identifier = '(.*)'/)[1];
+			  			this.page.url = disqusJs.match(/url = '(.*)'/)[1];
 					}
 				});
 			},
@@ -2309,7 +2316,7 @@ var paginas = [
 	{	url:	'feywinds.com/comic',
 		img:	'../comic/pages'
 	},
-	{	url:	'omgbeaupeep.com',
+	{   url:	'omgbeaupeep.com',
 		img:	[['#omv .picture']],
 		back: function(html, pos) {
 			try {
@@ -2336,13 +2343,13 @@ var paginas = [
 		next:	'text()="next >"',
 		first:	'text()="|<"',
 	},
-	//Needed Two Seperate EGS entries to handle the www and non-www URLs
+	// Needed two separate EGS entries to handle the www and non-www URLs
 	//--[
 	{
 		url:	'www.egscomics.com',
 		img:	[['#cc-comic']],
-		back:	[['.cc-prev']],
-		next:	[['.cc-next']],
+		back:   [['.cc-prev']],
+		next:   [['.cc-next']],
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
 		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>'],
@@ -2354,8 +2361,8 @@ var paginas = [
 	{
 		url:	'egscomics.com',
 		img:	[['#cc-comic']],
-		back:	[['.cc-prev']],
-		next:	[['.cc-next']],
+		back:   [['.cc-prev']],
+		next:   [['.cc-next']],
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
 		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>']
@@ -2369,8 +2376,8 @@ var paginas = [
 		js:	function(dir){assignOnClicks();},
 		style:	'#wcr_imagen { display: none; }',
 	},
-{
-		url:	'mspaintadventures.com/test_index.php?s=1',
+	{
+		url:	'mspaintadventures.com/?s=1',
 		img:	'http://cdn.mspaintadventures.com/advimgs',
 		next:	[['font[size="5"]>a']],
 		extra:	[['//table[@width="600"]']],
@@ -2404,7 +2411,7 @@ var paginas = [
 		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
 	},
 	{
-		url:	'mspaintadventures.com/test_index.php?s=4',
+		url:	'mspaintadventures.com/?s=4',
 		img:	'http://cdn.mspaintadventures.com/advimgs',
 		back:	'text()="Go Back"',
 		next:	[['font[size="5"]>a']],
@@ -2417,7 +2424,7 @@ var paginas = [
 		style:	'#wcr_imagen { display: none; }\np { font-size: large; }',
 	},
 	{
-		url:	'mspaintadventures.com/test_index.php?s=6',
+		url:	'mspaintadventures.com/?s=6',
 		img:	'http://cdn.mspaintadventures.com/storyfiles/',
 		back:	'text()="Go Back"',
 		next:	function(html, pos){var x = selCss('font[size="5"]>a',html,true);
@@ -2516,78 +2523,23 @@ var paginas = [
 				var page = Number(match(link[pos], /#(\d+)$/, 1, 1));
 				var pages = JSON.parse(html.match(/var pages = ([^;]*);/)[1]);
 				if (++page < pages.length) {
-					return link[pos].replace(/(#?#.*)?$/,"##"+page);
+				  return link[pos].replace(/(#?#.*)?$/,"##"+page);
 				}
 
 				var url = selCss("#next_link", html).href;
 				if (url.match(/#$/)) {
-					throw new Error("Last page");
+				  throw new Error("Last page");
 				}
 				return url;
 			},
 		extra:	[[['.pages-list']]],
 		layelem:'//*[@id="image"]',
 	},
-		{
-		url:	'mangaseeonline.us/read-online',
-		img: 	[['img.CurImage']],
-		layout:	true,
-		back:	function(html, pos) {
-					var cS = selCss('.ChapterSelect', html);
-					var pS = selCss('.PageSelect', html);
-					var indexName = selCss('input.IndexName', html).getAttribute('value');
-					var chapter = cS.selectedIndex;
-					var page = pS.selectedIndex;
-					if (page < 1) {
-						chapter--;
-						var request = new XMLHttpRequest();
-						request.open('POST', 'request.chapter.php', false);
-						request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-						request.send('IndexName=' + indexName + '&ChapterValue=' + cS[chapter].value + '&MaxPage=yes');
-						if (request.responseText) { 
-							var res = JSON.parse(request.responseText);
-							page = res.CurPage - 1;
-						}
-					}
-					var newChapter = cS[chapter].innerHTML.split(' ');
-					return document.location.href.replace(/(chapter-).+?(-.+?)\d+(.html)/, "$1" + newChapter[1] + "$2" + page + "$3");
-				},
-		next:	function(html, pos) {
-					var cS = selCss('.ChapterSelect', html);
-					var pS = selCss('.PageSelect', html);
-					var chapter = cS.selectedIndex;
-					var page = pS.selectedIndex + 1;
-					if (page >= pS.length) { page = 0; chapter++; }
-					var newChapter = cS[chapter].innerHTML.split(' ');
-					return document.location.href.replace(/(chapter-).+?(-.+?)\d+(.html)/, "$1" + newChapter[1] + "$2" + (page + 1) + "$3");
-				},
-		js:		function(dir){
-					document.querySelector('.navbar').className = "navbar navbar-default";
-					var mWrapper = document.getElementsByClassName('mainWrapper');
-					if (mWrapper && mWrapper.length > 0) mWrapper[0].style.marginTop = '0px';
-				},
-	},
 	{
 		url:	'girlgeniusonline.com/comic.php',
-		img:	['//img[contains(@src, "/strips")][1]'],
+		img:	'http://www.girlgeniusonline.com/ggmain/strips/',
 		back:	[['#bottomprev']],
 		next:	[['#bottomnext']],
-		extra:	[
-        ['//div[@id="comicbody"]/a/img[@alt="Comic"]'],
-        ['//div[@id="comicbody"]/img[@alt="Comic"][1]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][2]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][3]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][4]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][5]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][6]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][7]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][8]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][9]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][10]'],
-        ['//div[@id="comicbody"]/table'],
-		],
-		js:	wcr_ext_navi_ctrls,
-        style:	'#wcr_imagen{display: none;}'
 	},
 	{
 		url:	'http://incase.buttsmithy.com/comic/',
@@ -2605,7 +2557,7 @@ var paginas = [
 					if (!extraData.imgs[page]) {
 						extraData.imgs[page] = selCss(".post-preview", html, true);
 					}
-					//var imgs =	xpath('//*[@class="post-preview"]/@data-file-url', html, true);
+					//var imgs =  xpath('//*[@class="post-preview"]/@data-file-url', html, true);
 
 					link[pos] = link[pos].replace(/##last/,"##"+extraData.imgs[page].length);
 					var index = parseInt(match(link[pos],/##(\d+)/,1, 1));
@@ -2651,8 +2603,8 @@ var paginas = [
 				var pageCh = link[pos].match(/(\d+)\/(\d+)$/);
 				var chapter, page;
 				if (pageCh) {
-					chapter = pageCh[1];
-					page = pageCh[2];
+				  chapter = pageCh[1];
+				  page = pageCh[2];
 				}
 				var images = JSON.parse(html.match(/var images = ([^;]*)/)[1]).map(x=>x.url);
 				
@@ -2679,17 +2631,17 @@ var paginas = [
 				var pageCh = link[pos].match(/(\d+)\/(\d+)$/);
 				var chapter, page;
 				if (pageCh) {
-					chapter = +pageCh[1];
-					page = +pageCh[2];
+				  chapter = +pageCh[1];
+				  page = +pageCh[2];
 				}
 				var images =JSON.parse(html.match(/var images = ([^;]*)/)[1]).map(x=>x.url);
 				
 				var next_ch =html.match(/var next_chapter_url = '([^']*)'/);
 				
 				if (page >= images.length-1) {
-					return next_ch[1];
+				  return next_ch[1];
 				} else {
-					return link[pos].replace(/(\d+)\/(\d+)$/, chapter + "/" + (page+1));
+				  return link[pos].replace(/(\d+)\/(\d+)$/, chapter + "/" + (page+1));
 				}
 				},
 	},
@@ -2707,220 +2659,46 @@ var paginas = [
 	},
 	{	url:	'atomic-robo.com',
 		img:	[['#cc-comic']],
-		back:	[['.cc-prev']],
-		next:	[['.cc-next']],
+		back:   [['.cc-prev']],
+		next:   [['.cc-next']],
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
 		style:	'#wcr_imagen{height:auto !important;width:auto !important;}'
 	},
 	{	url:	'furaffinity.net',
 		img:	[['#submissionImg']],
-		back:	['(//span[@class="parsed_nav_links"]//a[contains(.,"PREV")]|//a[@class="auto_link named_url" and contains(.,"PREV")]|//a[@class="prev button-link"])[last()]'],
-		next:	['(//span[@class="parsed_nav_links"]//a[contains(.,"NEXT")]|//a[@class="auto_link named_url" and contains(.,"NEXT")]|//a[@class="next button-link"])[last()]'],
-		first:	['//span[@class="parsed_nav_links"]//a[contains(.,"FIRST")]|//a[@class="auto_link named_url" and contains(.,"FIRST")]'],
-		extra:	['<div id="wcr-fa-extra">',['//div[@class="alt1 actions aligncenter"]'],'<br>',['//center[@class="flow thumb-size-100"]'],'<br>',['//table[@class="maintable"]//tbody//tr//table[@class="maintable"]'],'</div>'],
-		style:	'.alt1.actions.aligncenter{background: none;width: auto}'
+		back:	['//span[@class="parsed_nav_links"]//a[contains(.,"PREV")]'],
+		next:	['//span[@class="parsed_nav_links"]//a[contains(.,"NEXT")]'],
+		first:	['//span[@class="parsed_nav_links"]//a[contains(.,"FIRST")]'],
+		extra:  [['//table[@class="maintable"]//tbody//tr//table[@class="maintable"]']]
 	},
 	{	url:	'dhscomix.com/comics', //Random Encounters
 		img:	['//div[@id="content"]//img'],
-		extra:	[['//div[@id="content"]']],
+        extra:	[['//div[@id="content"]']],
 		back:	'img[contains(@src, "nav_prevpage")]',
 		next:	'img[contains(@src, "nav_nextpage")]',
-		//Work around for multiple comic images on a page
-		style:	'#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
-		js:	wcr_ext_navi_ctrls
+        //Work around for multiple comic images on a page
+        style:  '#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
+        js:	function(dir){ //Copied from Webtoon's entry. Thanks to who ever did that
+				// Makes it so anything within extra will be nav-clickable
+				var elemImagen = document.querySelectorAll('#wcr_extra');
+				setEvt(elemImagen, 'click', imgClick);
+				setEvt(elemImagen, 'mousemove', imgCursor);
+				},
 	},
 	{	url:	'dhscomix.com/bcomics|dhscomix.com/dcomics|dhscomix.com/decomics|dhscomix.com/dfcomics|dhscomix.com/dhscomics|dhscomix.com/fcomics|dhscomix.com/jcomics|dhscomix.com/kcomics|dhscomix.com/lcomics|dhscomix.com/mercomics|dhscomix.com/ocomics|dhscomix.com/pcomics|dhscomix.com/scomics|dhscomix.com/tcomics|dhscomix.com/wcomics', //All the other DHS Comix Comics
 		img:	['//div[@id="content"]//img'],
-		extra:	[['//div[@id="content"]']],
+        extra:	[['//div[@id="content"]']],
 		back:	'img[contains(@src, "previous")]',
 		next:	'img[contains(@src, "next")]',
-		//Work around for multiple comic images on a page
-		style:	'#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
-		js:	wcr_ext_navi_ctrls
-	},
-	{	url:	'dominic-deegan.com',
-		img:	['//div[@class="post-thumbnail"]//img'],
-		style:	'body{background-color:inherit !important;}'
-		
-	},
-	{	url:	'cad-comic.com',
-		img:	['//div[@class="comicpage"]//img[contains(@src, "wp-content/uploads")]'],
-		back:	'@rel="prev"',
-		next:	'@rel="next"'
-		
-	},
-	{	url:	'curtailedcomic.com',
-		img:	['//div[@id="comic"]//a//img'],
-		back:	'@class="navi comic-nav-previous navi-prev"',
-		next:	'@class="navi comic-nav-next navi-next"',
-		extra:	[['//div[@class="entry-content"]']],
-		style:	'.creator-comment{background:white}'
-		
-	},
-	{	url:	'homestuck.com/story|homestuck2.com/story/',
-		img:	['//img[contains(@class, "mar-x-auto disp-bl")]'],
-		back:	['//li[@class="o_game-nav-item"]//a[contains(.,"Go Back")]'],
-		next:	['(//div[contains(@class, "o_story-nav")]//div//a)[last()]'],
-		extra:	[
-		'<div id="wcr-hs-extra">',
-			['//img[contains(@src, "/scratch/")]'],
-			'<div id="wcr_HS_title">',
-				['//h2[contains(@class, "type-hs-header")]'],
-			'</div>',
-			'<br>',
-			'<div id="  " class="wcr_imagen_override">',
-				['//div[@id="content_container"]'],
-			'</div>',
-		'</div>',
-		'<br>',
-		'<div id="wcr-hs-extra-2">',
-			['//div[@class="mar-x-auto disp-bl bg-scratch-mid-green pad-t-lg"]'], //Scratch
-			['//p[contains(@class, "o-story_text")]'],
-			['//div[contains(@class, "o_chat-container")]'], //Main Capture
-			'<br>',
-			['//div[contains(@class, "o_story-nav")]'], //Main
-			['(//div[@class=" mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg"])'],
-		'</div>',
-		],
-		style:	'.disp-n{'+
-				'display: inherit !important;}'+
-				
-				'#wcr_imagen{'+
-				'display: none;}'+
-				
-				'.wcr_imagen_override{'+
-				'display: block !important;}'+
-				
-				'.o_chat-log-btn{'+
-				'display:none;'+
-				'}'+
-				
-				'#wcr_HS_title, .o_chat-container, .o_story-nav, .o-story_text, #o_no-flash, .pad-t-lg{'+
-				'border: 1px dashed gray;'+
-				'}'+
-				
-				'.o_story-nav{'+
-				'margin-right: 25px;'+
-				'margin-left: 25px;'+
-				'padding-top: 25px;'+
-				'padding-bottom:25px;}'+
-				
-				'.type-hs-header{'+
-				'font-size: 20px;'+
-				'white-space: nowrap;'+
-				'font-weight:bold;}'+
-				
-				'#wcr-hs-extra-2{'+
-				'background: #EFEFEF;'+
-				'max-width: 650px;'+
-				'margin-left: auto;'+
-				'margin-right: auto;}'+
-				
-				'#wcr_HS_title{'+
-				'display: inline-block;'+
-				'margin-bottom: 16px;'+
-				'margin-top: 8px}'+
-				'.pad-t-md.pad-x-lg--md.type-center.type-hs-header.line-tight, .pad-t-md{'+
-				'padding: 0;}'+
-				
-				'span[style*="color: white"], span[style*="color: #ffffff"], span[style*="color:white"], span[style*="color:#ffffff"], body.scratch {'+
-				''+
-				'background: black;'+
-				'}'+
-				
-				'div.pad-t-md, div.pad-t-md > div, #wcr_div, #wcr_extra{'+
-				'background: inherit;'+
-				''+
-				'}'+
-				'#content_container > h2{display: none;height:0px;}'+
-				'.mar-x-auto.disp-bl.bg-hs-gray.pad-t-lg:nth-of-type(1){display:block}',
-		js:	function(dir){ //Copied from whoever did Webtoon's entry
+        //Work around for multiple comic images on a page
+        style:  '#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
+        js:	function(dir){ //Copied from whoever did Webtoon's entry
 				// Makes it so anything within extra will be nav-clickable
-				var elemImagen = document.querySelectorAll('#wcr-hs-extra');
+				var elemImagen = document.querySelectorAll('#wcr_extra');
 				setEvt(elemImagen, 'click', imgClick);
 				setEvt(elemImagen, 'mousemove', imgCursor);
-				var elemImagen2 = document.querySelectorAll('.o_story-nav');
-				setEvt(elemImagen2, 'click', btnnext);
-				elemImagen2[0].style.cursor = cursorUrl(cursores_custom[2]);
 				},
-	},
-	{	url:	'yoshsaga.com|artificialincident.com',
-		img:	['//div[@class="webcomic-image"]//a//img']		
-	},
-	{	url:	'vickifox.com/comic',
-		img:	['//img[contains(@src, "/pics/comic/")]'],
-		//Modified from kingfeatures.com's entry
-		back:	function(html, pos){
-					var date = xpath('//button[@id="btnPrev"]/@value', html);
-					return 'strip?id='+date;
-				},
-		next:	function(html, pos){
-					var date = xpath('//button[@id="btnNext"]/@value', html);
-					return 'strip?id='+date;
-				},
-	},
-	{	url:	'bobandgeorge.com/archives',
-		img:	['//img[@id="comic_0"]|//img[contains(@src, "comics/")]'],
-		extra:	[['//img[@id="comic_1"]'],['//img[@id="comic_2"]'],['//img[@id="comic_3"]'],['//img[@id="comic_4"]'],['//img[@id="comic_5"]'],['//img[@id="comic_6"]'],['//img[@id="comic_7"]'],['//img[@id="comic_8"]'],['//img[@id="comic_9"]'],['//img[@id="comic_10"]'],'<br><br>',['//table[@class="table-bottom"]']],
-		style:	'#comic_0, #comic_1, #comic_2, #comic_3, #comic_4, #comic_5, #comic_6, #comic_7, #comic_8, #comic_9, #comic_10{display: inline !important; top:auto !important; left: auto !important; position: relative !important;}',
-		js:	wcr_ext_navi_ctrls
-	},
-	{	url:	'snafu-comics.com/',
-		back:	'@class="next"',
-		next:	'@class="previous"',
-		first:	'@class="first"',
-		last:	'@class="latest"',
-		style:	'.headerarea{position: relative !important;}*{transition: none !important;-webkit-transform: none !important;}'
-	},
-	{	url:	'narbonic.com/',
-		img:	['//div[@id="comic-strip-image-1"]//img'],
-		next:	'@rel="next"',
-		back:	'@rel="prev"',
-		first:	'//div[@class="nav-first"]//a',
-		last:	'//div[@class="nav-last"]//a',
-		extra:	['<div id="wcr_imagen">',
-		['//div[@id="comic-strip-container-1"]'],
-		['//div[@id="comic-strip-container-2"]'],
-		['//div[@id="comic-strip-container-3"]'],
-		['//div[@id="comic-strip-container-4"]'],
-		['//div[@id="comic-strip-container-5"]'],
-		['//div[@id="comic-strip-container-6"]'],
-		['//div[@id="comic-strip-container-7"]'],
-		['//div[@id="comic-strip-container-8"]'],
-		['//div[@id="comic-strip-container-9"]'],
-		['//div[@id="comic-strip-container-10"]'],
-		['//div[@id="comic-strip-container-11"]'],
-		['//div[@id="comic-strip-container-12"]'],
-		['//div[@id="comic-strip-container-13"]'],
-		['//div[@id="comic-strip-container-14"]'],
-		['//div[@id="comic-strip-container-15"]'],
-		['//div[@id="comic-strip-container-16"]'],
-		['//div[@id="comic-strip-container-17"]'],
-		['//div[@id="comic-strip-container-18"]'],
-		['//div[@id="comic-strip-container-19"]'],
-		['//div[@id="comic-strip-container-20"]'],
-		'</div>',
-		],
-		style:	'#comic-strip-image, .entry-comic img, img{margin: 0 0 0 0 !important; max-width: none;}#wcr_extra > div#wcr_imagen > div#comic-strip-container-1 > div#comic-strip-image-1 > img{display: none !important;} img{ background: white !important;}',
-		js:	wcr_ext_navi_ctrls
-	},
-	{	url:	'thedreamlandchronicles.com/',
-		img:	['//div[@id="comic"]//a//img'],
-	},
-	{	url:	'w0lfmare.xepher.net/',
-		img:	['//div[@id="comic"]//img'],
-	},
-	{	url:	'project-future.xepher.net/',
-		back:	['//img[@alt="Previous"]/..']
-	},
-	{	url:	'sailorsun.org/|jeaniebottle.com/',
-		img:	['//div[@id="comic"]//img'],
-		back:	'contains(@class, "comic-nav-previous")',
-		next:	'contains(@class, "comic-nav-next")',
-	},
-	{	url:	'lfg.co/page',
-		style:	'#header{position:relative;}'
 	}
 	// End of sites
 	/*
@@ -2989,35 +2767,8 @@ prefetcheado[-1] = prefetcheado[1] = 0;
 
 var layoutDefault =
 	'<div id="wcr_div" style="text-align:center">'+
-		//Default styling for the buttons
-		'<style id="wcr_style" type="text/css">'+
-		'#wcr_div button,button[id^="wcr_set_btn"],button[id^="wcr_btn"]{'+
-			'font-weight: 100;'+
-			'letter-spacing: 0;'+
-			'text-transform: none;'+
-			'line-height: 20px;'+
-			'font-size: 16px;'+
-			'padding: 0px 8px 0px 8px;'+
-			'float:none;'+
-			'text-align: center;'+
-			'color: #222;'+
-			'background-color: #ccc;'+
-			'border: 2px solid rgba(22,22,22,0.3);'+
-			'font-family: "Lucida Grande", sans-serif !important;}'+
-		'#wcr_div button:Active,button[id^="wcr_set_btn"],button[id^="wcr_btn"]:Active{'+
-			'background-color: #555;+}'+
-		'#wcr_pages{'+
-			'font-size: 14px;'+
-			'padding: 0px 8px 0px 8px;'+
-			'background: #222;'+
-			'color: #ccc;'+
-			'font-family: "Lucida Grande", sans-serif !important;}'+
-		'#wcr_pages optgroup{'+
-			'background-color: #030;}'+
-		'#wcr_pages option{'+
-			'background-color: #222;}'+
-		'</style>'+
-		'<img id="wcr_imagen" style=""/><br/>' +
+		'<style id="wcr_style" type="text/css">#wcr_div button{float:none;}</style>'+
+		'<img id="wcr_imagen"/><br/>' +
 		'<div id="wcr_title"></div>' +
 		'<div id="wcr_extra"></div>' +
 		'<div id="wcr_botones">'+
@@ -3041,33 +2792,12 @@ var layoutDefault =
 				'<button id="wcr_btnfit">Enable Fit-to-screen</button> '+
 				'<button id="wcr_btnlayout">Use Original Layout</button> '+
 				'<button id="wcr_btnslide">Start Slideshow</button> '+
-				'<button id="wcr_btnsettings">Settings</button> '+
-				'<button id="wcr_btnfullscreen">Enable Fullscreen</button>'+
+				'<button id="wcr_btnsettings">Settings</button>'+
 			'</div>'+
 		'</div>'+
 		'<div id="wcr_imagenes" style="display:none"></div>'+
-		'<div id="wcr_links_imgs" style="display:none;"></div>'+
+		'<div id="wcr_links_imgs" style="display:none"></div>'+
 	'</div>';
-
-var wcr_set_btn_disable_mobile_css = 
-	'display: block;'+
-	'position: relative;'+
-	'z-index: 2323;'+
-	'margin: 20px auto auto auto;'+
-	'width: 50%;'+
-	'height: 64px;'+
-	'font-weight: 100;'+
-	'letter-spacing: 0;'+
-	'text-transform: none;'+
-	'line-height: 20px !important;'+
-	'font-size: 24px !important;'+
-	'padding: 0px 8px 0px 8px;'+
-	'float:none;'+
-	'text-align: center;'+
-	'color: #222;'+
-	'background-color: #ccc !important;'+
-	'border: 2px solid rgba(22,22,22,0.3);'+
-	'font-family: "Lucida Grande", sans-serif !important;';
 
 //en vez de reemplazar el body.innerHTML, meter el layoutdefault donde estaba la imagen y dejar el resto de la pagina intacta
 function layoutIntacto(){
@@ -3187,13 +2917,10 @@ var bordey = confVal('bordey', defaultSettings.borderUD); //borde arriba y abajo
 var scrollRate = parseInt(confVal('scroll_rate', 50)); //borde a los lados de la imagen
 var dimScreen = confVal('dim', '0');
 
-var colOK	= 'rgb(204, 238, 204)'; //verde
+var colOK   = 'rgb(204, 238, 204)'; //verde
 var colWait = 'rgb(238, 238, 238)'; //plomo
 var colLoad = 'rgb(238, 238, 204)'; //amarillo
 var colFail = 'rgb(238, 204, 204)'; //rojo
-
-//default variable value for Fullscreen functionality
-var fullScreened = false;
 
 var cursores_custom = {
 	'1': 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAABYdJREFUWIXtll+IXFcdxz+/c86dO3dmJ7ubNsaG1FhZW7fVBpvY1BJ8ia0PrRWpSgNWpT4Ilap5EB+aB0EqvimKYKONVUFBaKiCUCwohtQKeailtQQTa9Jsmmx2Zje7szsze+89v58PM7PJJs0m/kMf8oPDmcM9/L6f8/uePwPX4lr8j8P/M5Mnd0386IbJDZ8aDevfk/fyVp7nM/8tsEvivR+dOPBi+3fWitP2TOtpu/vz2w/9J/KGq5k0cdeWJ7/1w29+fFttJ2rKu5JJet1OAmzMyJJIrIVaVquntRGwhvPWkCAZUMvqWb2yLjQoWG6dWni5OTd9GDg7zC1XEn/HbZv3Pv7sV77xic2fo7QcJ54TnWM8+dz3aMgYlSwQqp5qNSNkniQNVNMqPvGklZQkVAg+kK1PaZ2d5S9/OsJ3d//s9qJYeuWKAJs2b3rkC88+9NRn3/0o3WIJw4EozhzBJ9jKTMOs34OBcv6bGeI9o/VRgg/89uSv+fRNX7w3svz8mhaMj4/f98mf3PPUA+98iNOLU5gAppgKaoZcsXYr+vjgkMwI5ukVPby3JEYcoG8JkIVs+337dv7q/skHeXPxJJhhppgJZoaZoarIVVCYGSEJ1GOGiCcnX/X9LQDSiY98/4N/uP/Oj/nphTN9MeuXdihuMWIYqnLew1U/LjDHjCRJWK9jOBy5La8JcP09T9xxcNeuXbVme4YY44pwjAARi0ZUGBotCIhQxJx23qaIyzjnGUkaVEMGGEmssKgbcebI9fIA1Q99edvBnQ/uuGGhvYBaxNSIGlE1TBU17eua0S16nF08TbMzzUz3DPO9eYzB3jBQjHqos6lxIzdvvI2bdAuiQnm5Cuz4zNbnGruZfOHE70GFIAl1N0Lma5j2Pc+LnNluk7lOk/ZyG439fSA4vPfIRYcq15zXzx3ldDHF224Zo2GjdOLSQDZfBVBZd2t6V5F3KaxEVenEJeZikzKWxKhoqUSNWFQ0Gk48/eUORO2880MMEcHhCBKIUjJfzrGgi6sg3aBPDj3+ysP2WlVd4jAzxPqZBI/D45zgncMFj0sgJA5XEVxiuMSQYIjvN3OGyfBuGPJdjLcaIO/G7qHDe47uqczUkeD6fht4Z7gg+IonqXpCFZLM4+oQRjyh4QgjjsqIJ9Q9PhN8KrjE9aEETM6TXGzT0IICmDvXPXfg8KPHx+98esvXF9N5KAwRj0hEnMMEnAuoi3hzRAwkIAYaFYuCRaAUYqlo0R+H4PH4S1Z/IQBAD5htzp7d/+pj1fVbf/z2Ly2GWRTFe49LDPOgHtQZJY5k4JMZmDqsNKwEzQVfCrpsxFxxiZC6CiqGWyn6pQAAXWD2jRNvfLu6J9nwvn0bdre1hXpFKmDBYd5Q5/q7X9zQYEzBSkXLgBaG9owyNaQHFefIXErpFC9+TQADOkDrry//bW/4anLdtn0b723aNEVYJoY42GggYjgHblABFDQKrhC0AE1BlqFMhATHuFtH1+fMyvyaAEOIJcC9dvDIY9nXbv/pHT/YtOOkHQcP4h1ZSJloT9KcWyBWCtRHokQKKykoiCjRRcqkf3RTaiwkixQ+0tEeAjoUW+s1ccAocOPdj7z/l1u/s+6WY3YU7zyNrMap3aN/P/Kb1/cnWVJ1IWQhUA31UEsynyU1V5PMpz6TzGcuTdcltarPitN/bh1tHTv30szc9H6gyeVew0EosABM/XH/Sw9Xrv/AgZuf2LK55ZtcJ2O8Wdf52U7z53TQCxbiBk0u6of5ikF124Pxlf8R0bdpDMKtH967/Zl6LZUzr84fP/VC8xdTJ6b20T89w1wXXI2rxsMnMgLloK1MuppIgPFBS+lf5HPA7GBV/3JcLQD0K1GlX9I4gPi3xK/F/0X8A9KAi5v8bApEAAAAAElFTkSuQmCC',
@@ -3291,7 +3018,6 @@ function run_script(){
 						redirect(link[posActual]);
 					}
 				});
-				ifMobile();
 			}
 		}
 		else if(GM_registerMenuCommand){
@@ -3299,7 +3025,6 @@ function run_script(){
 				delData('confpag');
 				redirect(link[posActual]);
 			});
-			ifMobileNDisabled();
 		}
 	}catch(e){ error('loadpag: ', e); }
 }
@@ -3449,7 +3174,6 @@ function iniciar(){
 		setEvt('wcr_btnlayout', 'click', toggleConfKeepLayout);
 		setEvt('wcr_btnslide', 'click', slideshow);
 		setEvt('wcr_btnsettings', 'click', mostrarSettings);
-		setEvt('wcr_btnfullscreen', 'click', toggleFullscreen);
 		//setEvt(window, 'touchstart', touchstart);
 		//setEvt(window, 'touchend', touchend);
 
@@ -3771,8 +3495,6 @@ function imgsize(){
 function cambiarPorte(wi, hi){
 	get('wcr_imagen').style.width = wi+'px';
 	get('wcr_imagen').style.height = hi+'px';
-	get('wcr_imagen').style.maxWidth = wi+'px';
-	get('wcr_imagen').style.maxHeight = hi+'px';
 }
 
 //scrollea al punto inicial de la imagen
@@ -4244,11 +3966,11 @@ function debugInfo(){
 
 	for(min=posActual; link[min-1]!==undefined; min--) continue;
 	s+= mostrarLinks(min, min+3);
-	if(min+4 < posActual-3) s+= '...\n' +	mostrarLinks(posActual-3, posActual+3);
+	if(min+4 < posActual-3) s+= '...\n' +  mostrarLinks(posActual-3, posActual+3);
 	else s+= mostrarLinks(min+4, posActual+3);
 
 	for(max=posActual; link[max+1]!==undefined; max++) continue;
-	if(posActual+4 < max-3) s+= '...\n' +	mostrarLinks(max-3, max);
+	if(posActual+4 < max-3) s+= '...\n' +  mostrarLinks(max-3, max);
 	else s+= mostrarLinks(posActual+4, max);
 
 	alert(s);
@@ -4650,7 +4372,7 @@ function confCursor(conf, elem, defval){
 //convierte un cursor custom (url o base64) al formato url
 function cursorUrl(val){
 	if(!val) return 'auto';
-	if(val.match(/[^a-z0-9+\/=]/i)) return	"url("+val+") 16 16, auto";
+	if(val.match(/[^a-z0-9+\/=]/i)) return  "url("+val+") 16 16, auto";
 	return "url('data:image/cursor;base64,"+val+"') 16 16, auto";
 }
 
@@ -4694,54 +4416,6 @@ function toggleConfFit(){
 	fitImagen();
 	scrollear();
 	get('wcr_btnfit').innerHTML = (fitSize ? 'Disable' : 'Enable') + ' Fit-to-screen';
-}
-
-//Toggle Fullscreen
-function toggleFullscreen(){ 
-	if (fullScreened == false){
-		//Toggle on
-		if (docelem.requestFullscreen) {
-			docelem.requestFullscreen();
-		} else if (docelem.mozRequestFullScreen) { /* Firefox */
-			docelem.mozRequestFullScreen();
-		} else if (docelem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-			docelem.webkitRequestFullscreen();
-		} else if (docelem.msRequestFullscreen) { /* IE/Edge */
-			docelem.msRequestFullscreen();
-		}
-		fullScreened = true;
-		document.getElementById('wcr_btnfullscreen').innerText = 'Disable Fullscreen';
-	} else if (fullScreened == true){
-		// Toggle Off
-		if (document.exitFullscreen) {
-			document.exitFullscreen();
-		} else if (document.mozCancelFullScreen) { /* Firefox */
-			document.mozCancelFullScreen();
-		} else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-			document.webkitExitFullscreen();
-		} else if (document.msExitFullscreen) { /* IE/Edge */
-			document.msExitFullscreen();
-		}
-		fullScreened = false;
-		document.getElementById('wcr_btnfullscreen').innerText = 'Enable Fullscreen';
-	}
-}
-
-// https://stackoverflow.com/a/25876513
-// To change the Fullscreen button and variable if left fullscreen via other methods than the button
-
-if (document.addEventListener){
-    document.addEventListener('fullscreenchange', exitHandler, false);
-    document.addEventListener('mozfullscreenchange', exitHandler, false);
-    document.addEventListener('MSFullscreenChange', exitHandler, false);
-    document.addEventListener('webkitfullscreenchange', exitHandler, false);
-}
-function exitHandler(){
-if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement)
-    {
-    fullScreened = false;
-    document.getElementById('wcr_btnfullscreen').innerText = 'Enable Fullscreen';
-    }
 }
 
 //alterna una conf booleana para esta pag
@@ -5145,7 +4819,7 @@ function mostrarSettings(){
 
 		var arrcursores = ['default', 'none', 'context-menu', 'help', 'pointer', 'progress', 'wait', 'cell', 'crosshair', 'text', 'vertical-text', 'alias', 'copy', 'move', 'no-drop', 'not-allowed', 'all-scroll', 'col-resize', 'row-resize', 'n-resize', 'e-resize', 's-resize', 'w-resize', 'ne-resize', 'nw-resize', 'se-resize', 'sw-resize', 'ew-resize', 'ns-resize', 'nesw-resize', 'nwse-resize'];
 		if(isFirefox()) arrcursores.push('-moz-grab', '-moz-grabbing', '-moz-zoom-in', '-moz-zoom-out');
-		if(isWebKit())	arrcursores.push('-webkit-grab', '-webkit-grabbing', '-webkit-zoom-in', '-webkit-zoom-out');
+		if(isWebKit())  arrcursores.push('-webkit-grab', '-webkit-grabbing', '-webkit-zoom-in', '-webkit-zoom-out');
 		var cursores = {
 			'1': 'Left green arrow',
 			'2': 'Right green arrow',
@@ -5165,14 +4839,14 @@ function mostrarSettings(){
 					'1':'Enabled'
 				}
 			},
-			click_img_izq:{ desc:'Click left half of image to go back', title:'If enabled, clicking the left half of the image will take you to the previous page, and the right half to the next one. Otherwise, clicking anywhere will always take you to the next page',
+			click_img_izq:{ desc:'Click left half of<br/>image to go back', title:'If enabled, clicking the left half of the image will take you to the previous page, and the right half to the next one. Otherwise, clicking anywhere will always take you to the next page',
 				def: defaultSettings.clikLeftHalfGoesBack ? '1' : '0',
 				vals:{
 					'0':'Disabled',
 					'1':'Enabled'
 				}
 			},
-			flipControlsManga:{ desc:'Flip controls for mangas', title:'If enabled, flips the controls (L/R arrows, L/R image click, back/next buttons) for mangas or other right-to-left content',
+			flipControlsManga:{ desc:'Flip controls<br/>for mangas', title:'If enabled, flips the controls (L/R arrows, L/R image click, back/next buttons) for mangas or other right-to-left content',
 				def: defaultSettings.flipControlsManga ? '1' : '0',
 				vals:{
 					'0':'Disabled',
@@ -5362,19 +5036,19 @@ function mostrarSettings(){
 		divsets.style.textAlign = 'center';
 		divsets.innerHTML =
 			'<div style="position:fixed; z-index:232322; background:#000; top:0; left:0; right:0; bottom:0; opacity:0.8;"></div>'+
-			'<div id="wcr_settings_popup" style="position:absolute; left:50%; z-index:232323; background-color:#fff; color:#000; padding: 20px;max-width: 800px; min-width: 800px;">'+
+			'<div id="wcr_settings_popup" style="position:absolute; left:50%; z-index:232323; background-color:#fff; color:#000; padding: 20px;">'+
 				'<div id="wcr_settings_links">'+
 					'<span class="wcr_general">General</span> | '+
 					'<span class="wcr_layout">Graphic settings</span> | '+
 					'<span class="wcr_sitio">Site settings</span> | '+
 					'<span class="wcr_teclas">Keyboard shortcuts</span>'+
-				'</div><hr class="wcr_settings_hr" />'+
+				'</div><hr/>'+
 				'<div id="wcr_settings_content" style="text-align:left">'+
 					'<div class="wcr_general">'+htmlLayout(opsGeneral, 'general')+'</div>'+
 					'<div class="wcr_layout">'+htmlLayout(opsLayout, 'layout')+'</div>'+
 					'<div class="wcr_sitio">'+htmlSitio(propsSitio)+'</div>'+
 					'<div class="wcr_teclas">'+htmlTeclas(teclas)+'</div>'+
-				'</div><hr class="wcr_settings_hr" />'+
+				'</div><hr/>'+
 				'<div>'+
 					'Import / Export '+
 					'<select id="wcr_set_sel_impexp">'+
@@ -5382,7 +5056,7 @@ function mostrarSettings(){
 						'<option value="default">default settings</option>'+
 						'<option value="all">ALL data</option>'+
 					'</select> '+
-					'<button id="wcr_set_btn_impexp">GO</button><br>'+
+					'<button id="wcr_set_btn_impexp">GO</button> - '+
 					'Reset '+
 					'<select id="wcr_set_sel_reset">'+
 						'<option value="">data for '+dominioData()+'</option>'+
@@ -5398,14 +5072,8 @@ function mostrarSettings(){
 				'</div>'+
 			'</div>'+
 			'<style>'+
-				'#wcr_settings_popup *{color:#000; font-size: 12px !important; font-family: Verdana, Arial, Helvetica, sans-serif !important;}'+
-				'.wcr_tr_vert_group, .wcr_td_hori_group{height: 25px; padding: 0px;}'+
-				'.wcr_td_vert_group{height: 25px; width: 224px !important; padding: 0px;}'+
-				'.wcr_settings_td_label{text-align: center;height: 24px; padding: 0px;}'+
-				'.wcr_settings_hr{margin: 4px 2px 4px}'+
-				'#wcr_sel_confpag, #wcr_set_sel_impexp, #wcr_set_sel_reset{width: 50% !important}'+
-				'#wcr_general_tabla, #wcr_layout_tabla{width: 100%; border-spacing: 2px}'+
-				'#wcr_settings_popup input, #wcr_settings_popup select, #wcr_settings_popup textarea{background-color:#fff; width: 95%;}'+
+				'#wcr_settings_popup *{color:#000;}'+
+				'#wcr_settings_popup input, #wcr_settings_popup select, #wcr_settings_popup textarea{background-color:#fff;}'+
 				'#wcr_settings_links span{cursor:pointer; text-decoration:underline;}'+
 				'div{position:static; float:none;}'+
 				'#wcr_settings [title]{cursor:help;}'+
@@ -5780,16 +5448,16 @@ function htmlLayout(ops, nombre){
 	var html =
 		'<table id="wcr_'+nombre+'_tabla">'+
 			'<tr class="wcr_settings_group">'+
-				'<td class="wcr_td_vert_group"></td>'+
-				'<td class="wcr_settings_td_label">Default settings</td>'+
-				'<td class="wcr_settings_td_label">Settings for '+document.location.host.replace(/^www\./, '')+'</td>'+
+				'<td></td>'+
+				'<td>Default settings</td>'+
+				'<td>Settings for '+document.location.host.replace(/^www\./, '')+'</td>'+
 			'</tr>';
 	for(var o in ops){
 		var op = ops[o];
 		if(!o.indexOf('_grp_')){
 			html +=
 				'<tr class="wcr_settings_group">'+
-					'<td class="wcr_settings_td_label" colspan="3" title="'+(op.title || '')+'">'+op.desc+'</td>'+
+					'<td colspan="3" title="'+(op.title || '')+'">'+op.desc+'</td>'+
 				'</tr>';
 		}
 		else{
@@ -5801,13 +5469,13 @@ function htmlLayout(ops, nombre){
 			}
 
 			html +=
-				'<tr class="wcr_tr_vert_group">'+
-					'<td class="wcr_td_vert_group" title="'+(op.title || '')+'">'+op.desc+'</td>'+
-					'<td class="wcr_td_hori_group">'+ (op.vals ?
+				'<tr>'+
+					'<td title="'+(op.title || '')+'">'+op.desc+'</td>'+
+					'<td>'+ (op.vals ?
 						('<select id="wcr_sel_layout_'+o+'_def">'+opts+'</select>') :
 						('<input id="wcr_sel_layout_'+o+'_def"/>')
 					)+'</td>'+
-					'<td class="wcr_td_hori_group">'+ (op.vals ?
+					'<td>'+ (op.vals ?
 						('<select id="wcr_sel_layout_'+o+'">'+
 							'<option value="">Use default settings</option>'+opts+
 						'</select>') :
@@ -6245,7 +5913,7 @@ function printarPaginaCustom(custom){
 	}
 
 	function pretty(y) {
-		if (y.tipo == "str") return	changeQuote(JSON.stringify(y.valor));
+		if (y.tipo == "str") return  changeQuote(JSON.stringify(y.valor));
 		if (typeof(y) == "string") return changeQuote(JSON.stringify(y));
 		else if (y.tipo == "fn") return indent(y.valor,4);
 		else if (y.tipo == "xp" || y.tipo == "css" || y.tipo == "bool") return JSON.stringify(y.valor).replace(/"(?:[^"\\]|\\.)*"/g, changeQuote);
@@ -6311,114 +5979,6 @@ function isFirefox(){
 	return navigator.userAgent.indexOf('Gecko/')>0;
 }
 
-//If Mobile Device
-function ifMobile(){
-	
-	//https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device/3540295#3540295
-	
-	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-	
-	var GM_CMD_Buttons = document.createElement('div');
-		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
-		GM_CMD_Buttons.style.textAlign = 'center';
-		
-	
-	//Detect if GreaseMonkey
-		//https://stackoverflow.com/questions/27487828/how-to-detect-if-a-userscript-is-installed-from-the-chrome-store/27494812#27494812
-
-		var scriptEngine;
-
-		if (typeof GM_info === "undefined") {
-			scriptEngine = "N/A";
-			
-		} else {
-			
-			scriptEngine = GM_info.scriptHandler	||	"Greasemonkey";
-			
-		}
-		
-		if (scriptEngine === "Greasemonkey"){
-			GM_CMD_Buttons.innerHTML =
-			'<style id="wcr_style" type="text/css">'+
-				'body > button:nth-last-of-type(1){'+
-				wcr_set_btn_disable_mobile_css+
-				'}'+
-			'</style>';
-		} else {
-		GM_CMD_Buttons.innerHTML =
-			'<button id="wcr_set_btn_disable_mobile">Disable script for this site</button>'+
-			'<style id="wcr_style" type="text/css">'+
-				'#wcr_set_btn_disable_mobile{'+
-				wcr_set_btn_disable_mobile_css+
-				'}'+
-			'</style>';
-		}
-		document.body.appendChild(GM_CMD_Buttons);
-		setEvt('wcr_set_btn_disable_mobile', 'click', function(){
-					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
-						'(It can be re-enabled later with this button)')){
-						setData('confpag', 'dis');
-						redirect(link[posActual]);
-			}
-		});
-	}
-
-
-}
-
-function ifMobileNDisabled(){
-	//Function specifically for when script is set internally to be disabled
-	//Not meant for additional code related to how the script runs
-	//This is for adding/stylizing buttons at the bottom of the page
-	//to enable the script if it is set to be disabled for the site
-	
-	//For adding functionality for mobile, check the previous function ifMobile();
-	
-	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-	
-	var GM_CMD_Buttons = document.createElement('div');
-		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
-		GM_CMD_Buttons.style.textAlign = 'center';
-		
-	
-
-		var scriptEngine;
-
-		if (typeof GM_info === "undefined") {
-			scriptEngine = "N/A";
-			
-		} else {
-			
-			scriptEngine = GM_info.scriptHandler	||	"Greasemonkey";
-			
-		}
-		
-		if (scriptEngine === "Greasemonkey"){
-			GM_CMD_Buttons.innerHTML =
-			'<style id="wcr_style" type="text/css">'+
-				'body > button:nth-last-of-type(1){'+
-				wcr_set_btn_disable_mobile_css+
-				'}'+
-			'</style>';
-		} else {
-		GM_CMD_Buttons.innerHTML =
-			'<button id="wcr_set_btn_enable_mobile">Enable script for this site</button>'+
-			'<style id="wcr_style" type="text/css">'+
-				'#wcr_set_btn_enable_mobile{'+
-				wcr_set_btn_disable_mobile_css+
-				'}'+
-			'</style>';
-		}
-		document.body.appendChild(GM_CMD_Buttons);
-		setEvt('wcr_set_btn_enable_mobile', 'click', function(){
-				delData('confpag');
-				redirect(link[posActual]);
-			});
-	}
-
-
-}
-
 //pantalla de configuracion q sale cuando se habilita el zoom pero no esta configurado
 function mostrarSettingsZoom(){
 	try{
@@ -6447,7 +6007,7 @@ function mostrarSettingsZoom(){
 		divsets.style.textAlign = 'center';
 		divsets.innerHTML =
 			'<div style="position:fixed; z-index:232322; background:#000; top:0; left:0; right:0; bottom:0; opacity:0.8;"></div>'+
-			'<div id="wcr_settings_popup" style="position:absolute; left:50%; z-index:232323; background-color:#fff; color:#000; padding: 20px;max-width: 900px; min-width: 800px">'+
+			'<div id="wcr_settings_popup" style="position:absolute; left:50%; z-index:232323; background-color:#fff; color:#000; padding: 20px;">'+
 				'<div>How do you want the images to be fitted?</div><hr/>'+
 				'<div id="wcr_settings_content" style="text-align:left">'+html+'</div><br/>'+
 				'These (and more) settings can be changed later by clicking the "Settings" button<hr/>'+
@@ -6506,17 +6066,6 @@ function mostrarSettingsZoom(){
 		alert('Error while initializing the zoom settings window: ' + e);
 		if(get('wcr_settings')) document.body.removeChild(get('wcr_settings'));
 	}
-}
-
-function wcr_ext_navi_ctrls(dir){ 
-// Edited from Webtoon's entry. Thanks to who ever did that
-// Makes it so anything within extra will be nav-clickable
-//
-// js:	wcr_ext_navi_ctrls
-//
-	var elemImagen = document.querySelectorAll('#wcr_extra');
-	setEvt(elemImagen, 'click', imgClick);
-	setEvt(elemImagen, 'mousemove', imgCursor);
 }
 
 run_script();
