@@ -43,11 +43,11 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.07.28.115100
+// @version		2020.07.30.130000
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
-// @homepageURL https://github.com/anka-213/webcomic_reader#readme
+// @homepageURL	https://github.com/anka-213/webcomic_reader#readme
 // @supportURL	https://github.com/anka-213/webcomic_reader/issues
 // @updateURL	https://raw.githubusercontent.com/anka-213/webcomic_reader/master/webcomic_reader.user.js
 // @updatetype	24
@@ -57,10 +57,7 @@ var defaultSettings = {
 // @grant		GM_xmlhttpRequest
 // @grant		GM_registerMenuCommand
 // @grant		GM_openInTab
-// @exclude		*.jpg
-// @exclude		*.jpeg
-// @exclude		*.png
-// @exclude		*.gif
+// @exclude		/^(?!.*(?:\.html|\.php|\?|\=)).*(jpg|jpeg|png|gif)$/
 // @include		http*://www.sluggy.com/*
 // @include		http*://sluggy.com/*
 // @include		http*://www.penny-arcade.com/comic*
@@ -561,22 +558,7 @@ var defaultSettings = {
 // @include		http*://www.atomic-robo.com/*
 // @include		http*://www.furaffinity.net/view/*
 // @include		http*://www.furaffinity.net/full/*
-// @include		http*://www.dhscomix.com/comics*
-// @include		http*://www.dhscomix.com/bcomics*
-// @include		http*://www.dhscomix.com/dcomics*
-// @include		http*://www.dhscomix.com/decomics*
-// @include		http*://www.dhscomix.com/dfcomics*
-// @include		http*://www.dhscomix.com/dhscomics*
-// @include		http*://www.dhscomix.com/fcomics*
-// @include		http*://www.dhscomix.com/jcomics*
-// @include		http*://www.dhscomix.com/kcomics*
-// @include		http*://www.dhscomix.com/lcomics*
-// @include		http*://www.dhscomix.com/mercomics*
-// @include		http*://www.dhscomix.com/ocomics*
-// @include		http*://www.dhscomix.com/pcomics*
-// @include		http*://www.dhscomix.com/scomics*
-// @include		http*://www.dhscomix.com/tcomics*
-// @include		http*://www.dhscomix.com/wcomics*
+// @include		/^https?://(www\.|)dhscomix.com/.*comics/.*$/
 // @include		http*://*.kemono.cafe/*
 // @include		http*://www.yoshsaga.com/*
 // @include		http*://www.artificialincident.com/*
@@ -2731,7 +2713,7 @@ var paginas = [
 		style:	'#wcr_imagen{display: none !important;}\ndiv#content p:nth-child(1){display: none !important}', //Hides img and displays only extra
 		js:	wcr_ext_navi_ctrls
 	},
-	{	url:	'dhscomix.com/bcomics|dhscomix.com/dcomics|dhscomix.com/decomics|dhscomix.com/dfcomics|dhscomix.com/dhscomics|dhscomix.com/fcomics|dhscomix.com/jcomics|dhscomix.com/kcomics|dhscomix.com/lcomics|dhscomix.com/mercomics|dhscomix.com/ocomics|dhscomix.com/pcomics|dhscomix.com/scomics|dhscomix.com/tcomics|dhscomix.com/wcomics', //All the other DHS Comix Comics
+	{	url:	'dhscomix.com/*comics', //All the other DHS Comix Comics
 		img:	['//div[@id="content"]//img'],
 		extra:	[['//div[@id="content"]']],
 		back:	'img[contains(@src, "previous")]',
