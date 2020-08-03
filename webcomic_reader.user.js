@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.07.30.130000
+// @version		2020.08.03.152600
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2341,7 +2341,20 @@ var paginas = [
 		next:	[['.cc-next']],
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
-		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>']
+		extra:	[
+        '<div id="wcr_egs_alts"><h1>',
+        ['//div[@class="cc-newsbody"]//a[contains(@href, "png") or contains(@href, "gif") or contains(@href, "jpg") or contains(@href, "jpeg")]/text()'],
+        '</h1><object data="',
+        ['//div[@class="cc-newsbody"]//a[contains(@href, "png") or contains(@href, "gif") or contains(@href, "jpg") or contains(@href, "jpeg")]/@href'],
+        '"></object>',
+        '</div>',
+        '<div id="wrapper">',
+        '<div id="leftarea" style="text-align: left">',
+        [['#news']],
+        '</div>',
+        '</div>'],
+        style:  '#wcr_egs_alts object{width: 50%; min-height: 0px, min-width: 0px; opacity: 0.8}'+
+        '#wcr_egs_alts{}',
 	},
 	//]--
 	{
@@ -2555,22 +2568,16 @@ var paginas = [
 		img:	['//img[contains(@src, "/strips")][1]'],
 		back:	[['#bottomprev']],
 		next:	[['#bottomnext']],
-		extra:	[
-		['//div[@id="comicbody"]/a/img[@alt="Comic"]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][1]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][2]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][3]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][4]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][5]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][6]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][7]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][8]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][9]'],
-		['//div[@id="comicbody"]/img[@alt="Comic"][10]'],
-		['//div[@id="comicbody"]/table'],
-		],
+        // Test Multi-image Capture on these two pages
+        // http://www.girlgeniusonline.com/comic.php?date=20111104
+        // http://www.girlgeniusonline.com/comic.php?date=20170802
+		extra:	[['//div[@id="comicbody"]']],
 		js:	wcr_ext_navi_ctrls,
-		style:	'#wcr_imagen{display: none;}'
+		style:	''+
+        'div#comicbody a{display: none;}'+
+        'div#comicbody p{display: none;}'+
+        '#comicbody{margin: 0 0 0 0}'+
+        '#wcr_div{margin-left: 66px}',
 	},
 	{
 		url:	'http://incase.buttsmithy.com/comic/',
