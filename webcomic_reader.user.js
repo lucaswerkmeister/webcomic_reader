@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.08.03.152600
+// @version		2020.08.14.134000
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -568,6 +568,8 @@ var defaultSettings = {
 // @include		http*://skin-horse.com/*
 // @include		http*://sailorsun.org/*
 // @include		http*://jeaniebottle.com/*
+// @include		http*://machall.com/*
+// @include		http*://www.machall.com/*
 
 // ==/UserScript==
 
@@ -2328,7 +2330,18 @@ var paginas = [
 		next:	[['.cc-next']],
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
-		extra:	['<div id="wrapper"><div id="leftarea" style="text-align: left">',[['#news']],'</div></div>'],
+		extra:	[
+        '<div id="wcr_egs_alts"><h1>',
+        ['//div[@class="cc-newsbody"]//a[contains(@href, "png") or contains(@href, "gif") or contains(@href, "jpg") or contains(@href, "jpeg")]/text()'],
+        '</h1><object data="',
+        ['//div[@class="cc-newsbody"]//a[contains(@href, "png") or contains(@href, "gif") or contains(@href, "jpg") or contains(@href, "jpeg")]/@href'],
+        '"></object>',
+        '</div>',
+        '<div id="wrapper">',
+        '<div id="leftarea" style="text-align: left">',
+        [['#news']],
+        '</div>',
+        '</div>'],
 		fixurl:	function(url, img, link){
 		if(link) return url.replace('://egscomics', '://www.egscomics');
 		return url;
@@ -2573,9 +2586,12 @@ var paginas = [
         // http://www.girlgeniusonline.com/comic.php?date=20170802
 		extra:	[['//div[@id="comicbody"]']],
 		js:	wcr_ext_navi_ctrls,
-		style:	''+
+		style:	'div#comicbody table{background-color: #001731; color: #fff;}'+
+        '#wcr_extra{display: inline-block;}'+
         'div#comicbody a{display: none;}'+
         'div#comicbody p{display: none;}'+
+        'div#comicbody table p{display: block;}'+
+        'div#comicbody table a{display: block;}'+
         '#comicbody{margin: 0 0 0 0}'+
         '#wcr_div{margin-left: 66px}',
 	},
@@ -2911,7 +2927,14 @@ var paginas = [
 	},
 	{	url:	'lfg.co/page',
 		style:	'#header{position:relative;}'
-	}
+	},
+    {
+        url:    'machall.com/',
+        // First Page: http://www.machall.com/view.php?date=2000-11-07
+        img:    ['//img[contains(@src , "comics/")]'],  
+        next:   'img[contains(@src, "next")]',
+        back:   'img[contains(@src, "previous")]',
+    }
 	// End of sites
 	/*
 	,
