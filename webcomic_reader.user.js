@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.08.14.134000
+// @version		2020.08.14.135900
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2330,6 +2330,9 @@ var paginas = [
 		next:	[['.cc-next']],
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
+        js:	wcr_ext_navi_ctrls,
+        style:  '#wcr_egs_alts object{width: 50%; min-height: 0px, min-width: 0px; opacity: 0.8}'+
+        '#wcr_egs_alts{}',
 		extra:	[
         '<div id="wcr_egs_alts"><h1>',
         ['//div[@class="cc-newsbody"]//a[contains(@href, "png") or contains(@href, "gif") or contains(@href, "jpg") or contains(@href, "jpeg")]/text()'],
@@ -2346,6 +2349,7 @@ var paginas = [
 		if(link) return url.replace('://egscomics', '://www.egscomics');
 		return url;
 		}
+
 	},
 	{
 		url:	'egscomics.com',
@@ -2354,6 +2358,7 @@ var paginas = [
 		next:	[['.cc-next']],
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
+        js:	wcr_ext_navi_ctrls,
 		extra:	[
         '<div id="wcr_egs_alts"><h1>',
         ['//div[@class="cc-newsbody"]//a[contains(@href, "png") or contains(@href, "gif") or contains(@href, "jpg") or contains(@href, "jpeg")]/text()'],
