@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2020.08.14.135900
+// @version		2020.12.05.144200
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2892,7 +2892,7 @@ var paginas = [
 	},
 	{	url:	'yoshsaga.com|artificialincident.com',
 		img:	['//div[@class="webcomic-image"]//a//img[1]'],
-        extra:  [['//div[@class="webcomic-image"]//a//img[2]'],['//div[@class="webcomic-image"]//a//img[3]'],['//div[@class="webcomic-image"]//a//img[4]'],['//div[@class="webcomic-image"]//a//img[5]'],['//div[@class="webcomic-image"]//a//img[6]'],['//div[@class="webcomic-image"]//a//img[7]'],['//div[@class="webcomic-image"]//a//img[8]'],['//div[@class="webcomic-image"]//a//img[9]'],['//div[@class="webcomic-image"]//a//img[10]'],['//article[1]']],
+        extra:  [['//div[@class="webcomic-image"]//a//img[2]'],['//div[@class="webcomic-image"]//a//img[3]'],['//div[@class="webcomic-image"]//a//img[4]'],['//div[@class="webcomic-image"]//a//img[5]'],['//div[@class="webcomic-image"]//a//img[6]'],['//div[@class="webcomic-image"]//a//img[7]'],['//div[@class="webcomic-image"]//a//img[8]'],['//div[@class="webcomic-image"]//a//img[9]'],['//div[@class="webcomic-image"]//a//img[10]'],['//article[1]'],['//section[@id="comments"]']],
         js: wcr_ext_navi_ctrls,
 	},
 	{	url:	'vickifox.com/comic',
