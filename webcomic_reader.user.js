@@ -571,6 +571,7 @@ var defaultSettings = {
 // @include		http*://machall.com/*
 // @include		http*://www.machall.com/*
 // @include     http*://e621.net/posts/*
+// @include     http*://aliendice.com/*
 
 // ==/UserScript==
 
@@ -2987,6 +2988,23 @@ var paginas = [
         ['//div[@id="post-description-container"]'],
         ['//section[@id="tag-list"]'],
         ],
+    },
+    {
+        url:    'aliendice.com/comic/',
+        img:    ['//div[@id="comic"]//img'],
+        next:   ['//a[@class="next-comic"]'],
+        back:   ['//a[@class="previous-comic"]'],
+        extra:  [
+        '<div id="wcr-ad-extra">',
+        ['//div[@class="blog-wrapper"]'],
+        '<br><br>',
+        ['//div[@id="comments"]'],
+        '</div>',
+        ],
+        style:  
+        '#wcr-ad-extra{width: 700px;'
+        +'margin: auto;'
+        +'}',
     }
 	// End of sites
 	/*
