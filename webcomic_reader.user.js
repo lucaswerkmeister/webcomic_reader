@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2021.01.15.183300
+// @version		2021.01.15.183800
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2996,6 +2996,9 @@ var paginas = [
         back:   ['//a[@class="previous-comic"]'],
         extra:  [
         '<div id="wcr-ad-extra">',
+        ['//div[@id="comic"]//img[2]'],
+        ['//div[@id="comic"]//img[3]'],
+        ['//div[@id="comic"]//img[4]'],
         ['//div[@class="blog-wrapper"]'],
         '<br><br>',
         ['//div[@id="comments"]'],
@@ -3005,6 +3008,7 @@ var paginas = [
         '#wcr-ad-extra{width: 700px;'
         +'margin: auto;'
         +'}',
+        js:	wcr_ext_navi_ctrls
     }
 	// End of sites
 	/*
