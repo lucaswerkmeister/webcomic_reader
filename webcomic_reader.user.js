@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2021.01.15.183800
+// @version		2021.01.20.233500
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -572,6 +572,11 @@ var defaultSettings = {
 // @include		http*://www.machall.com/*
 // @include     http*://e621.net/posts/*
 // @include     http*://aliendice.com/*
+// @include     http*://shivae.net/*
+// @include     http*://abbysagency.us/*
+// @include     http*://cyantian.net/*
+// @include     http*://shivae.com/*
+// @include     http*://www.blackrose.monster/*
 
 // ==/UserScript==
 
@@ -2583,26 +2588,6 @@ var paginas = [
 					if (mWrapper && mWrapper.length > 0) mWrapper[0].style.marginTop = '0px';
 				},
 	},
-    {
-        url:	'girlgeniusonline.com/comic.php', //Latest Page
-        fixurl:	function(url, img, link){
-		if(link) return url.replace('http://', 'https://');
-		return url;
-		},
-        img:	['//img[@alt="Comic"]'],
-		back:	['//a[@id="topprev"]'],
-		next:	['//a[@id="topnext"]'],
-        extra:	[['//div[@id="comicbody"]']],
-		js:	wcr_ext_navi_ctrls,
-		style:	'div#comicbody table{background-color: #001731; color: #fff;}'+
-        '#wcr_extra{display: inline-block;}'+
-        'div#comicbody a{display: none;}'+
-        'div#comicbody p{display: none;}'+
-        'div#comicbody table p{display: block;}'+
-        'div#comicbody table a{display: block;}'+
-        '#comicbody{margin: 0 0 0 0}'+
-        '#wcr_div{margin-left: 66px}',
-    },
 	{
 		url:	'girlgeniusonline.com/comic.php?', //Archive
         fixurl:	function(url, img, link){
@@ -2627,6 +2612,28 @@ var paginas = [
         '#comicbody{margin: 0 0 0 0}'+
         '#wcr_div{margin-left: 66px}',
 	},
+    {
+        url:	'girlgeniusonline.com/comic.php', //Latest Page
+        fixurl:	function(url, img, link){
+		if(link) return url.replace('http://', 'https://');
+		return url;
+		},
+        img:	['//img[@alt="Comic"]'],
+		back:	['//a[@id="topprev"]'],
+		next:	['//a[@id="topnext"]'],
+        //extra:	['<br>',['//div[@id="comicbody"]']],
+        extra:  ['<br>',['//div[@id="comicbody"]/table']],
+		js:	wcr_ext_navi_ctrls,
+		style:	'div#comicbody table{background-color: #001731; color: #fff;}'+
+        '#wcr_extra{display: inline-block;}'+
+        'img[alt="comic]:nth-of-type(1){display:none;}'+
+        'div#comicbody a{display: none;}'+
+        'div#comicbody p{display: none;}'+
+        'div#comicbody table p{display: block;}'+
+        'div#comicbody table a{display: block;}'+
+        '#comicbody{margin: 0 0 0 0}'+
+        '#wcr_div{margin-left: 66px}',
+    },
 	{
 		url:	'http://incase.buttsmithy.com/comic/',
 		img:	[['#comic img']],
@@ -2990,8 +2997,8 @@ var paginas = [
         ],
     },
     {
-        url:    'aliendice.com/comic/',
-        img:    ['//div[@id="comic"]//img'],
+        url:    'aliendice.com/|shivae.net/|abbysagency.us/|cyantian.net/|shivae.com/|blackrose.monster/',
+        img:    ['//div[@id="comic"]//img[1]'],
         next:   ['//a[@class="next-comic"]'],
         back:   ['//a[@class="previous-comic"]'],
         extra:  [
