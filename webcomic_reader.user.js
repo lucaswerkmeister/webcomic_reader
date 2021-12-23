@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2021.01.20.233500
+// @version		2021.12.22.154800
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -298,7 +298,6 @@ var defaultSettings = {
 // @include		http*://www.snafu-comics.com/*
 // @include		http*://www.wayfarersmoon.com/*
 // @include		http*://wayfarersmoon.com/*
-// @include		http*://*.smackjeeves.com/*
 // @include		http*://www.10kcommotion.com/*
 // @include		http*://10kcommotion.com/*
 // @include		http*://www.multiplexcomic.com/*
@@ -558,6 +557,8 @@ var defaultSettings = {
 // @include		http*://www.atomic-robo.com/*
 // @include		http*://www.furaffinity.net/view/*
 // @include		http*://www.furaffinity.net/full/*
+// @include		http*://furaffinity.net/view/*
+// @include		http*://furaffinity.net/full/*
 // @include		/^https?://(www\.|)dhscomix.com/.*comics/.*$/
 // @include		http*://*.kemono.cafe/*
 // @include		http*://www.yoshsaga.com/*
@@ -577,6 +578,8 @@ var defaultSettings = {
 // @include     http*://cyantian.net/*
 // @include     http*://shivae.com/*
 // @include     http*://www.blackrose.monster/*
+// @include     http*://www.aliceandthenightmare.com/*
+// @include     http*://aliceandthenightmare.com/*
 
 // ==/UserScript==
 
@@ -1011,7 +1014,12 @@ var paginas = [
 		txtcol:	'#888'
 	},
 	{	url:	'misfile.com',
-		img:	'comics/'
+		img:	['//img[@id="cc-comic"]'],
+		back:	['//a[@class="cc-prev"]'],
+		next:	['//a[@class="cc-next"]'],
+        first:	['//a[@class="cc-first"]'],
+		last:	['//a[@class="cc-last"]'],
+        extra: [['//div[@id="bottom-left"]']]
 	},
 	{	url:	'sluggy.com',
 		img:	'/images/comics/',
@@ -1212,7 +1220,7 @@ var paginas = [
 					if(x<0 || x>thumbs.length) throw new Error('fail');
 					x = x.toString();
 					while(x.length<3) x='0'+x;
-					return html.match(/'([^']+\/images\/manga\/[^']+)'/)[1] + x + '.jpg'; 
+					return html.match(/'([^']+\/images\/manga\/[^']+)'/)[1] + x + '.jpg';
 				},
 		back:	function(html, pos){
 					var thumbs = JSON.parse(match(html, /params\.thumbs\s*=\s*(.+);/, 1));
@@ -1470,6 +1478,7 @@ var paginas = [
 					throw new Error('fail');
 				},
 		extra:	[['//div[span]'], '<span style="display:none">', ['//a[@onclick[contains(., "nl")]]'], '</span>'],
+        style:	'body{padding:0px;}',
 		scrollx:'R',
 		onerr:	function(url, img, num, pos){
 					if(num >= 4) return null;
@@ -1841,10 +1850,10 @@ var paginas = [
 					} catch (error) {
 						var page = xpath('//optgroup[@label="Page"]//option[@selected="true"]/@value', html);
 						var regex = /var images = (.*);/g;
-						return JSON.parse(regex.exec(html)[1])[page]; 
+						return JSON.parse(regex.exec(html)[1])[page];
 					}
 
-					return xpath('//img[@class="page-img"]', html);	
+					return xpath('//img[@class="page-img"]', html);
 				},
 		back:	function(html, pos){
 					return xpath("//div[contains(concat(' ',normalize-space(@class),' '),' nav-prev ')]//a/@href", html);
@@ -2396,7 +2405,7 @@ var paginas = [
 		next:	[['font[size="5"]>a']],
 		extra:	[['//table[@width="600"]']],
 		js:	function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
-			
+
 			// Click on any img
 			var elemImagen=document.querySelectorAll('#wcr_extra img');
 			setEvt(elemImagen, 'click', imgClick);
@@ -2417,7 +2426,7 @@ var paginas = [
 			return link[pos].replace(/\d+/, comicNr);},
 		extra:	[['//table[@width="800"]']],
 		js:	function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
-			
+
 			// Click on any img
 			var elemImagen=document.querySelectorAll('#wcr_extra img');
 			setEvt(elemImagen, 'click', imgClick);
@@ -2451,7 +2460,7 @@ var paginas = [
 			var elemImagen=document.querySelectorAll('#wcr_extra img');
 			setEvt(elemImagen, 'click', imgClick);
 			setEvt(elemImagen, 'mousemove', imgCursor);
-			
+
 			// Show pesterlogs
 			var x = document.getElementsByClassName('spoiler');
 			for (var i = 0; i < x.length; i++) {x[i].previousSibling.firstChild.click();}
@@ -2468,16 +2477,16 @@ var paginas = [
 		xelem:	'//table[@width="600"]/tbody',
 		layelem:	'//table[@width="600"]',
 		js:	function(dir){/*[].slice.call(document.getElementsByTagName("table")).forEach(function(x){x.width = 800;})*/
-			
+
 			// Click on any img to switch page
 			var elemImagen=document.querySelectorAll('#wcr_extra img');
 			setEvt(elemImagen, 'click', imgClick);
 			setEvt(elemImagen, 'mousemove', imgCursor);
-			
+
 			// Show pesterlogs
 			var x = document.getElementsByClassName('spoiler');
 			for (var i = 0; i < x.length; i++) {x[i].previousSibling.firstChild.click();}
-			
+
 			typeof onChange == 'function' && onChange(dir);},
 		style:	'#wcr_imagena { display: none; }\np { font-size: large; }',
 	},
@@ -2565,7 +2574,7 @@ var paginas = [
 						request.open('POST', 'request.chapter.php', false);
 						request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 						request.send('IndexName=' + indexName + '&ChapterValue=' + cS[chapter].value + '&MaxPage=yes');
-						if (request.responseText) { 
+						if (request.responseText) {
 							var res = JSON.parse(request.responseText);
 							page = res.CurPage - 1;
 						}
@@ -2700,7 +2709,7 @@ var paginas = [
 					page = pageCh[2];
 				}
 				var images = JSON.parse(html.match(/var images = ([^;]*)/)[1]).map(x=>x.url);
-				
+
 				return images[page-1];
 				},
 		back:	function(html, pos){
@@ -2711,9 +2720,9 @@ var paginas = [
 					page = +pageCh[2];
 				}
 				var images = JSON.parse(html.match(/var images = ([^;]*)/)[1]).map(x=>x.url);
-				
+
 				var prev_ch = html.match(/var prev_chapter_url = '([^']*)'/);
-				
+
 				if (page <= 1) {
 					return prev_ch[1];
 				} else {
@@ -2728,9 +2737,9 @@ var paginas = [
 					page = +pageCh[2];
 				}
 				var images =JSON.parse(html.match(/var images = ([^;]*)/)[1]).map(x=>x.url);
-				
+
 				var next_ch =html.match(/var next_chapter_url = '([^']*)'/);
-				
+
 				if (page >= images.length-1) {
 					return next_ch[1];
 				} else {
@@ -2795,13 +2804,13 @@ var paginas = [
 	{	url:	'dominic-deegan.com',
 		img:	['//div[@class="post-thumbnail"]//img'],
 		style:	'body{background-color:inherit !important;}'
-		
+
 	},
 	{	url:	'cad-comic.com',
 		img:	['//div[@class="comicpage"]//img[contains(@src, "wp-content/uploads")]'],
 		back:	'@rel="prev"',
 		next:	'@rel="next"'
-		
+
 	},
 	{	url:	'curtailedcomic.com',
 		img:	['//div[@id="comic"]//a//img'],
@@ -2809,7 +2818,7 @@ var paginas = [
 		next:	'@class="navi comic-nav-next navi-next"',
 		extra:	[['//div[@class="entry-content"]']],
 		style:	'.creator-comment{background:white}'
-		
+
 	},
 	{	url:	'homestuck.com/story|homestuck2.com/story/',
 		img:	['//img[contains(@class, "mar-x-auto disp-bl")]'],
@@ -2838,50 +2847,50 @@ var paginas = [
 		],
 		style:	'.disp-n{'+
 				'display: inherit !important;}'+
-				
+
 				'#wcr_imagen{'+
 				'display: none;}'+
-				
+
 				'.wcr_imagen_override{'+
 				'display: block !important;}'+
-				
+
 				'.o_chat-log-btn{'+
 				'display:none;'+
 				'}'+
-				
+
 				'#wcr_HS_title, .o_chat-container, .o_story-nav, .o-story_text, #o_no-flash, .pad-t-lg{'+
 				'border: 1px dashed gray;'+
 				'}'+
-				
+
 				'.o_story-nav{'+
 				'margin-right: 25px;'+
 				'margin-left: 25px;'+
 				'padding-top: 25px;'+
 				'padding-bottom:25px;}'+
-				
+
 				'.type-hs-header{'+
 				'font-size: 20px;'+
 				'white-space: nowrap;'+
 				'font-weight:bold;}'+
-				
+
 				'#wcr-hs-extra-2{'+
 				'background: #EFEFEF;'+
 				'max-width: 650px;'+
 				'margin-left: auto;'+
 				'margin-right: auto;}'+
-				
+
 				'#wcr_HS_title{'+
 				'display: inline-block;'+
 				'margin-bottom: 16px;'+
 				'margin-top: 8px}'+
 				'.pad-t-md.pad-x-lg--md.type-center.type-hs-header.line-tight, .pad-t-md{'+
 				'padding: 0;}'+
-				
+
 				'span[style*="color: white"], span[style*="color: #ffffff"], span[style*="color:white"], span[style*="color:#ffffff"], body.scratch {'+
 				''+
 				'background: black;'+
 				'}'+
-				
+
 				'div.pad-t-md, div.pad-t-md > div, #wcr_div, #wcr_extra{'+
 				'background: inherit;'+
 				''+
@@ -2980,13 +2989,13 @@ var paginas = [
     {
         url:    'machall.com/',
         // First Page: http://www.machall.com/view.php?date=2000-11-07
-        img:    ['//img[contains(@src , "comics/")]'],  
+        img:    ['//img[contains(@src , "comics/")]'],
         next:   'img[contains(@src, "next")]',
         back:   'img[contains(@src, "previous")]',
     },
     {
         url:    'e621.net/posts/',
-        img:    ['//img[@id="image"]'],  
+        img:    ['//img[@id="image"]'],
         next:   ['(//a[@rel="prev nofollow"]|//a[@rel="next"])[last()]'],
         back:   ['(//a[@rel="next nofollow"]|//a[@rel="prev"])[last()]'],
         extra:  [
@@ -3011,12 +3020,20 @@ var paginas = [
         ['//div[@id="comments"]'],
         '</div>',
         ],
-        style:  
+        style:
         '#wcr-ad-extra{width: 700px;'
         +'margin: auto;'
         +'}',
         js:	wcr_ext_navi_ctrls
-    }
+    },
+	{	url:	'aliceandthenightmare.com/comic/',
+		img:	['//img[@id="cc-comic"]'],
+		back:	['//a[@class="cc-prev"]'],
+		next:	['//a[@class="cc-next"]'],
+        first:	['//a[@class="cc-first"]'],
+		last:	['//a[@class="cc-last"]'],
+        extra: [['//div[@id="textarea"]']]
+	}
 	// End of sites
 	/*
 	,
@@ -3107,6 +3124,7 @@ var layoutDefault =
 			'background: #222;'+
 			'color: #ccc;'+
 			'font-family: "Lucida Grande", sans-serif !important;}'+
+            'max-width: 500px'+
 		'#wcr_pages optgroup{'+
 			'background-color: #030;}'+
 		'#wcr_pages option{'+
@@ -3144,7 +3162,7 @@ var layoutDefault =
 		'<div id="wcr_links_imgs" style="display:none;"></div>'+
 	'</div>';
 
-var wcr_set_btn_disable_mobile_css = 
+var wcr_set_btn_disable_mobile_css =
 	'display: block;'+
 	'position: relative;'+
 	'z-index: 2323;'+
@@ -3377,7 +3395,7 @@ function run_script(){
 				if(defaultSettings.showSettingsOnFail) mostrarSettings();
 				else error('no settings found for this site');
 			}
-			
+
 			if(GM_registerMenuCommand){
 				GM_registerMenuCommand('Webcomic Reader - Disable for this site', function(){
 					if(confirm('Are you sure you want to disable Webcomic Reader on this site?\n'+
@@ -3648,7 +3666,7 @@ function setear(html, pos, dir){
 				}catch(e){error('set['+pos+']/extras['+i+']: ', e);}
 			}
 		}
-	
+
 		if(dir) get('wcr_btn'+dir).innerHTML = (dir>0?'Next':'Back')+' ('+((pos-posActual)*dir)+(link[pos+dir]?'':'!')+')';
 	}
 	catch(e){
@@ -3848,7 +3866,7 @@ function fitImagen(reintentando){
 		cambiarPorte(wi, hi);
 		//para ver si (des)aparecen las scrollbars y hay q recalcular
 		//"reintentando" para evitar posibles loops infinitos
-		if(!reintentando && size.p!=winsize().p) fitImagen(true); 
+		if(!reintentando && size.p!=winsize().p) fitImagen(true);
 	}
 	else get('wcr_imagen').setAttribute('style', '');
 }
@@ -3952,7 +3970,7 @@ function prefetch(dir, pos, prof, reintento){
 	var url = link[pos];
 	var meth = 'GET';
 	var pars = null;
-	if(typeof(url)=='object' && url.doubleLink){ // Para paginas con AJAX 
+	if(typeof(url)=='object' && url.doubleLink){ // Para paginas con AJAX
 		url = url[1];
 	}
 
@@ -4792,7 +4810,7 @@ function toggleConfFit(){
 }
 
 //Toggle Fullscreen
-function toggleFullscreen(){ 
+function toggleFullscreen(){
 	if (fullScreened == false){
 		//Toggle on
 		if (docelem.requestFullscreen) {
@@ -5274,14 +5292,14 @@ function mostrarSettings(){
 					'1':'Enabled'
 				}
 			},
-			overwrite_links:{ desc:'Overwrite links', title:'If enabled, overwrites the original back/next links (when using the original layout) to work like the script\'s buttons', 
+			overwrite_links:{ desc:'Overwrite links', title:'If enabled, overwrites the original back/next links (when using the original layout) to work like the script\'s buttons',
 				def:'1',
 				vals:{
 					'0':'Disabled',
 					'1':'Enabled'
 				}
 			},
-			goToBookmark:{ desc: 'Go to bookmark', title: 'If you have 1 bookmark saved for a site, asks you if you want to go there when you visit the site', 
+			goToBookmark:{ desc: 'Go to bookmark', title: 'If you have 1 bookmark saved for a site, asks you if you want to go there when you visit the site',
 				def: defaultSettings.goToBookmark ? '1' : '0',
 				vals:{
 					'0':'Disabled',
@@ -5296,7 +5314,7 @@ function mostrarSettings(){
 					'1':'Enabled'
 				}
 			},
-			useHistoryAPI:{ desc: 'Use browser history', title: 'Changes the URL and keeps track of the visited pages in the browser history, so you can navigate with the browser\'s back/forward buttons as usual', 
+			useHistoryAPI:{ desc: 'Use browser history', title: 'Changes the URL and keeps track of the visited pages in the browser history, so you can navigate with the browser\'s back/forward buttons as usual',
 				def: '1',
 				vals:{
 					'0':'Disabled',
@@ -5399,7 +5417,7 @@ function mostrarSettings(){
 
 		//opciones visuales
 		var opsLayout = {
-			layout:{ desc:'Layout', title:'Minimalistic layout will show only the image, the defined extra content, and this script\'s buttons. Keeping the original layout will stuff that same content in the place where the image used to be, leaving the rest of the page untouched. This setting can also be toggled for this site with a keyboard shortcut (- by default)', 
+			layout:{ desc:'Layout', title:'Minimalistic layout will show only the image, the defined extra content, and this script\'s buttons. Keeping the original layout will stuff that same content in the place where the image used to be, leaving the rest of the page untouched. This setting can also be toggled for this site with a keyboard shortcut (- by default)',
 				def: defaultSettings.fullLayout ? '1' : '0',
 				vals:{
 					'0':'Minimalistic',
@@ -5846,7 +5864,7 @@ function initTeclas(teclas){
 
 			setEvt(input, 'keydown', function(evt){
 				if(evt.keyCode >= 16 && evt.keyCode <= 18 || evt.keyCode == 27) return; //ctrl/shift/alt o ESC (funca raro)
-				
+
 				if(evt.keyCode == 8){ //BACKSPACE, dejo la accion sin tecla
 					for(var h=0; h<hiddens.length; h++)
 						get(evt.target.id+'_'+hiddens[h]).value = '';
@@ -6408,16 +6426,16 @@ function isFirefox(){
 
 //If Mobile Device
 function ifMobile(){
-	
+
 	//https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device/3540295#3540295
-	
+
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-	
+
 	var GM_CMD_Buttons = document.createElement('div');
 		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
 		GM_CMD_Buttons.style.textAlign = 'center';
-		
-	
+
+
 	//Detect if GreaseMonkey
 		//https://stackoverflow.com/questions/27487828/how-to-detect-if-a-userscript-is-installed-from-the-chrome-store/27494812#27494812
 
@@ -6425,13 +6443,13 @@ function ifMobile(){
 
 		if (typeof GM_info === "undefined") {
 			scriptEngine = "N/A";
-			
+
 		} else {
-			
+
 			scriptEngine = GM_info.scriptHandler	||	"Greasemonkey";
-			
+
 		}
-		
+
 		if (scriptEngine === "Greasemonkey"){
 			GM_CMD_Buttons.innerHTML =
 			'<style id="wcr_style" type="text/css">'+
@@ -6466,28 +6484,28 @@ function ifMobileNDisabled(){
 	//Not meant for additional code related to how the script runs
 	//This is for adding/stylizing buttons at the bottom of the page
 	//to enable the script if it is set to be disabled for the site
-	
+
 	//For adding functionality for mobile, check the previous function ifMobile();
-	
+
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-	
+
 	var GM_CMD_Buttons = document.createElement('div');
 		GM_CMD_Buttons.id = 'wcr_CMD_Buttons';
 		GM_CMD_Buttons.style.textAlign = 'center';
-		
-	
+
+
 
 		var scriptEngine;
 
 		if (typeof GM_info === "undefined") {
 			scriptEngine = "N/A";
-			
+
 		} else {
-			
+
 			scriptEngine = GM_info.scriptHandler	||	"Greasemonkey";
-			
+
 		}
-		
+
 		if (scriptEngine === "Greasemonkey"){
 			GM_CMD_Buttons.innerHTML =
 			'<style id="wcr_style" type="text/css">'+
@@ -6603,7 +6621,7 @@ function mostrarSettingsZoom(){
 	}
 }
 
-function wcr_ext_navi_ctrls(dir){ 
+function wcr_ext_navi_ctrls(dir){
 // Edited from Webtoon's entry. Thanks to who ever did that
 // Makes it so anything within extra will be nav-clickable
 //
@@ -6657,7 +6675,7 @@ alert(
 			btnback y btnnext no avanzan si no se ha cargado la pag q viene
 			saltar directo a una pag si funciona, y empieza a cargar las imgs alrededor
 		cambiar condicion para sacar un img de las cargadas (actualmente mantiene la actual +-23)
-	
+
 	usar el doc magico para parsear las cosas ajaxeadas, asi no carga las imgs
 		hacer q las funciones parseadoras reciban el html y el doc
 		hacer una funcion htmlToDoc
