@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2021.12.28.014000
+// @version		2021.12.28.015900
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -580,6 +580,8 @@ var defaultSettings = {
 // @include     http*://www.blackrose.monster/*
 // @include     http*://www.aliceandthenightmare.com/*
 // @include     http*://aliceandthenightmare.com/*
+// @include     http*://navcomic.com/*
+// @include     http*://www.navcomic.com/*
 
 
 // ==/UserScript==
@@ -3034,6 +3036,15 @@ var paginas = [
         first:	['//a[@class="cc-first"]'],
 		last:	['//a[@class="cc-last"]'],
         extra: [['//div[@id="textarea"]']]
+	},
+	{	url:	'navcomic.com',
+		img:	['//div[@id="webcomic"]/div/a/img'],
+        extra: [['//main[@role="main"]/article'],
+                '<br>',
+                ['//aside[@id="webcomic-transcripts"]'],
+                '<br>',
+                ['//aside[@id="comments"]']],
+       style: 'main[role=main] > article[2], #webcomic-transcripts[2], #comments[2]{display: none}'
 	}
 	// End of sites
 	/*
