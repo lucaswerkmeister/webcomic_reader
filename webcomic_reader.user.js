@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2021.12.28.013500
+// @version		2021.12.28.014000
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -3470,7 +3470,7 @@ function iniciar(){
 		var sombrear = dimScreen=='I' ? 'wcr_imagen' : (dimScreen=='S' ? 'wcr_div' : '');
 		if(sombrear){
 			var sombra = document.createElement('div');
-			sombra.setAttribute('style', 'opacity:0.8; position:fixed; z-index:2322; background:#000; top:0; left:0; right:0; bottom:0; pointer-events:none;');
+			sombra.setAttribute('style', 'opacity:0.8; position:fixed; z-index:2322; background:#000; top:-100%; left:-100%; right:-100%; bottom:-100%; pointer-events:none;');
 			var sombreado = get(sombrear);
 			sombreado.style.position = 'relative';
 			sombreado.style.zIndex = '2323';
