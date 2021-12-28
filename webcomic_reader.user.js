@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2021.12.22.154800
+// @version		2021.12.28.013500
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -580,6 +580,7 @@ var defaultSettings = {
 // @include     http*://www.blackrose.monster/*
 // @include     http*://www.aliceandthenightmare.com/*
 // @include     http*://aliceandthenightmare.com/*
+
 
 // ==/UserScript==
 
@@ -3038,9 +3039,9 @@ var paginas = [
 	/*
 	,
 	{	url:	'',
-		img:	'',
-		back:	'',
-		next:	''
+		img:	[''],
+		back:	[''],
+		next:	['']
 	}
 	,
 	{	url:	'',
@@ -3123,22 +3124,26 @@ var layoutDefault =
 			'padding: 0px 8px 0px 8px;'+
 			'background: #222;'+
 			'color: #ccc;'+
-			'font-family: "Lucida Grande", sans-serif !important;}'+
-            'max-width: 500px'+
+			'font-family: "Lucida Grande", sans-serif !important;'+
+            'max-width: 100% !important}'+
 		'#wcr_pages optgroup{'+
 			'background-color: #030;}'+
 		'#wcr_pages option{'+
 			'background-color: #222;}'+
+        '#wcr_first > button{background-color:#6bf}'+
+        '#wcr_last > button{background-color:#f66}'+
+        ''+
+        ''+
 		'</style>'+
 		'<img id="wcr_imagen" style=""/><br/>' +
 		'<div id="wcr_title"></div>' +
 		'<div id="wcr_extra"></div>' +
 		'<div id="wcr_botones">'+
 			'<br/><div>'+
-				'<a id="wcr_first" href="#">&lt;&lt; First</a> '+
+				'<a id="wcr_first" href="#"><button>&lt;&lt; First</button></a> '+
 				'<button id="wcr_btn-1">Back</button> '+
 				'<button id="wcr_btn1">Next</button> '+
-				'<a id="wcr_last" href="#">Last &gt;&gt;</a>'+
+				'<a id="wcr_last" href="#"><button>Last &gt;&gt;</button></a>'+
 			'</div><br/>'+
 			'<div>'+
 				'<button id="wcr_btnaddbm" style="background-color:#0f0">Remember this page</button>'+
