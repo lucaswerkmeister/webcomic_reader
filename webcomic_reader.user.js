@@ -41,7 +41,7 @@ var defaultSettings = {
 };
 
 // ==UserScript==
-// @name		Webcomic Reader
+// @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
 // @version		2021.12.28.225600
 // @license		MIT
