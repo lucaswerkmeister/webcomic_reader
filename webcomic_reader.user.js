@@ -582,6 +582,8 @@ var defaultSettings = {
 // @include     http*://aliceandthenightmare.com/*
 // @include     http*://navcomic.com/*
 // @include     http*://www.navcomic.com/*
+// @include     http*://www.housepetscomic.com/*
+// @include     http*://housepetscomic.com/*
 
 
 // ==/UserScript==
