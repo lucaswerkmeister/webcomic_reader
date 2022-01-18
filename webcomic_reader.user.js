@@ -2617,14 +2617,14 @@ var paginas = [
         // http://www.girlgeniusonline.com/comic.php?date=20170802
 		extra:	[['//div[@id="comicbody"]']],
 		js:	wcr_ext_navi_ctrls,
-		style:	'div#comicbody table{background-color: #001731; color: #fff;}'+
-        '#wcr_extra{display: inline-block;}'+
-        'div#comicbody a{display: none;}'+
-        'div#comicbody p{display: none;}'+
-        'div#comicbody table p{display: block;}'+
-        'div#comicbody table a{display: block;}'+
-        '#comicbody{margin: 0 0 0 0}'+
-        '#wcr_div{margin-left: 66px}',
+		style:	`div#comicbody table{background-color: #001731; color: #fff;}
+        '#wcr_extra{display: inline-block;}
+        'div#comicbody a{display: none;}
+        'div#comicbody p{display: none;}
+        'div#comicbody table p{display: block;}
+        'div#comicbody table a{display: block;}
+        '#comicbody{margin: 0 0 0 0}
+        '#wcr_div{margin-left: 66px}`,
 	},
     {
         url:	'girlgeniusonline.com/comic.php', //Latest Page
@@ -2638,15 +2638,14 @@ var paginas = [
         //extra:	['<br>',['//div[@id="comicbody"]']],
         extra:  ['<br>',['//div[@id="comicbody"]/table']],
 		js:	wcr_ext_navi_ctrls,
-		style:	'div#comicbody table{background-color: #001731; color: #fff;}'+
-        '#wcr_extra{display: inline-block;}'+
-        'img[alt="comic]:nth-of-type(1){display:none;}'+
-        'div#comicbody a{display: none;}'+
-        'div#comicbody p{display: none;}'+
-        'div#comicbody table p{display: block;}'+
-        'div#comicbody table a{display: block;}'+
-        '#comicbody{margin: 0 0 0 0}'+
-        '#wcr_div{margin-left: 66px}',
+		style:	`div#comicbody table{background-color: #001731; color: #fff;}
+        '#wcr_extra{display: inline-block;}
+        'div#comicbody a{display: none;}
+        'div#comicbody p{display: none;}
+        'div#comicbody table p{display: block;}
+        'div#comicbody table a{display: block;}
+        '#comicbody{margin: 0 0 0 0}
+        '#wcr_div{margin-left: 66px}`,
     },
 	{
 		url:	'http://incase.buttsmithy.com/comic/',
