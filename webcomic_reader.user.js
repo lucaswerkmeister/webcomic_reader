@@ -1094,32 +1094,58 @@ var paginas = [
 	},
 	{	url:	'oglaf.com',
 		img:	[['#strip']],
-		back:	'div[@id="pv" or @id="pvs"]',
-		next:	'div[@id="nx" or @id="ns"]',
-		first:	'div[@id="st"]',
-		last:	function(html){
-					if (window.location.pathname !== "/") {
-						return window.location.protocol + "//" + window.location.hostname;
-					} else {
-						return "";
-					}
+		back:	['//a[contains(@class, "prev")]'],
+		next:	['(//a[contains(@class, "next")]|//div[@id="nav"]/a[8][starts-with(@href, "/")])[last()]'],
+        first:   function(html, pos){
+					return 'https://www.oglaf.com/';
 				},
-		extra:	[function(html, pos){
-					var ret = "";
-					try {
-						var alt = xpath('//img[@id="strip"]/@alt', html);
-						if(alt !== "") ret += alt + "<br>";
-					} catch (e) {}
-					try {
-						var imgTitle = xpath('//div[@id="tt"]/img/@title', html);
-						if(imgTitle !== "None" && imgTitle !== "") ret += imgTitle + "<br>";
-					} catch (e) {}
-					try {
-						var img = xpath('//div[@id="tt"]/img', html);
-						return ret + img.outerHTML;
-					} catch (e) {return ret;}
-					}],
-		style:	'b>div{float:left;}\n.content{height:1%;}\n.content:after{clear:both;}\n.content:before,.content:after{content:" ";display:table;}',
+        last:   function(html, pos){
+					return 'https://www.oglaf.com/';
+				},
+        extra:  [
+                    '<div class="wcr-oglaf-extra-1">',
+                    '<div class="wcr-oglaf-extra-2">',
+                    ['//div[@id="tt"]/img'],
+                    '</div><br><div class="wcr-oglaf-extra-3">',
+                    '<a id="wcr-oglaf-8th" href="',
+                    ['//div[@id="nav"]/a[8]/@href'],
+                    '">',
+                    ['//div[@id="nav"]/a[8]/img'],
+                    '</a>',
+                    '</div></div>',
+                    ['//div[@id="nav"]'],
+                    '<br><br>',
+                ],
+		style:	`b>div{
+                    float:left;
+                    }
+                .content{
+                    height:1%;
+                    }
+                .content:after{
+                    clear:both;
+                    }
+                .content:before,.content:after{
+                    content:" ";display:table;
+                    }
+                .wcr-oglaf-extra-1{
+                    float:left;
+                    margin: auto;
+                    width: 20%;
+                    height: auto;
+                }
+                .wcr-oglaf-extra-2{
+                    float:left;
+                    margin: auto;
+                    width: 20%;
+                    height: auto;
+                }
+                .wcr-oglaf-extra-3{
+                    height: 195px;
+                }
+                
+                #"wcr-oglaf-8th{display: block;margin-top: 195px;width:220px;}
+                `,
 		bgcol:	'#ccc',
 	},
 	{	url:	'kevinandkell.com',
