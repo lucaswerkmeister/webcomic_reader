@@ -2124,8 +2124,11 @@ var paginas = [
 		layelem:	'//div[@id="divImage"]',
 	},
 	{	url:	'spinnyverse.com',
-		back:	[['.nav-previous a']],
-		next:	[['.nav-next a']]
+        img:    ['//img[@id="cc-comic"]'],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+        last:   [['.cc-last']],
+        first:  [['.cc-first']],
 	},
 	{	url:	'zenpencils.com',
 		extra:	[[['.comicpress_comic_blog_post_widget']]]
