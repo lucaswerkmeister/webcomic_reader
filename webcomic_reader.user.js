@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.01.18.134000
+// @version		2022.02.03.023700
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -583,7 +583,8 @@ var defaultSettings = {
 // @include     http*://navcomic.com/*
 // @include     http*://www.navcomic.com/*
 // @include     http*://www.housepetscomic.com/*
-// @include     http*://housepetscomic.com/*
+// @include     http*://rickgriffinstudios.com/*
+// @include     http*://www.supernormalstep.com/*
 
 
 // ==/UserScript==
@@ -1095,32 +1096,58 @@ var paginas = [
 	},
 	{	url:	'oglaf.com',
 		img:	[['#strip']],
-		back:	'div[@id="pv" or @id="pvs"]',
-		next:	'div[@id="nx" or @id="ns"]',
-		first:	'div[@id="st"]',
-		last:	function(html){
-					if (window.location.pathname !== "/") {
-						return window.location.protocol + "//" + window.location.hostname;
-					} else {
-						return "";
-					}
+		back:	['//a[contains(@class, "prev")]'],
+		next:	['(//a[contains(@class, "next")]|//div[@id="nav"]/a[8][starts-with(@href, "/")])[last()]'],
+        first:   function(html, pos){
+					return 'https://www.oglaf.com/';
 				},
-		extra:	[function(html, pos){
-					var ret = "";
-					try {
-						var alt = xpath('//img[@id="strip"]/@alt', html);
-						if(alt !== "") ret += alt + "<br>";
-					} catch (e) {}
-					try {
-						var imgTitle = xpath('//div[@id="tt"]/img/@title', html);
-						if(imgTitle !== "None" && imgTitle !== "") ret += imgTitle + "<br>";
-					} catch (e) {}
-					try {
-						var img = xpath('//div[@id="tt"]/img', html);
-						return ret + img.outerHTML;
-					} catch (e) {return ret;}
-					}],
-		style:	'b>div{float:left;}\n.content{height:1%;}\n.content:after{clear:both;}\n.content:before,.content:after{content:" ";display:table;}',
+        last:   function(html, pos){
+					return 'https://www.oglaf.com/';
+				},
+        extra:  [
+                    '<div class="wcr-oglaf-extra-1">',
+                    '<div class="wcr-oglaf-extra-2">',
+                    ['//div[@id="tt"]/img'],
+                    '</div><br><div class="wcr-oglaf-extra-3">',
+                    '<a id="wcr-oglaf-8th" href="',
+                    ['//div[@id="nav"]/a[8]/@href'],
+                    '">',
+                    ['//div[@id="nav"]/a[8]/img'],
+                    '</a>',
+                    '</div></div>',
+                    ['//div[@id="nav"]'],
+                    '<br><br>',
+                ],
+		style:	`b>div{
+                    float:left;
+                    }
+                .content{
+                    height:1%;
+                    }
+                .content:after{
+                    clear:both;
+                    }
+                .content:before,.content:after{
+                    content:" ";display:table;
+                    }
+                .wcr-oglaf-extra-1{
+                    float:left;
+                    margin: auto;
+                    width: 20%;
+                    height: auto;
+                }
+                .wcr-oglaf-extra-2{
+                    float:left;
+                    margin: auto;
+                    width: 20%;
+                    height: auto;
+                }
+                .wcr-oglaf-extra-3{
+                    height: 195px;
+                }
+                
+                #"wcr-oglaf-8th{display: block;margin-top: 195px;width:220px;}
+                `,
 		bgcol:	'#ccc',
 	},
 	{	url:	'kevinandkell.com',
@@ -2098,8 +2125,11 @@ var paginas = [
 		layelem:	'//div[@id="divImage"]',
 	},
 	{	url:	'spinnyverse.com',
-		back:	[['.nav-previous a']],
-		next:	[['.nav-next a']]
+        img:    ['//img[@id="cc-comic"]'],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+        last:   [['.cc-last']],
+        first:  [['.cc-first']],
 	},
 	{	url:	'zenpencils.com',
 		extra:	[[['.comicpress_comic_blog_post_widget']]]
@@ -3052,7 +3082,22 @@ var paginas = [
 		back:	'contains(@class, "comic-nav-previous")',
 		next:	'contains(@class, "comic-nav-next")',
         extra:	[['//div[@class="main-content"]']],
-	}
+	},
+    {
+        url:    'rickgriffinstudios.com/comic-post/',
+        img:    ['(//div[@id="comic"]/a/img|//div[@id="comic"]/img)[last()]'],
+        next:   ['//td[@class="comic_navi_right"]/a[contains(@class, "navi-next-in")]'],
+        back:   ['//td[@class="comic_navi_left"]/a[contains(@class, "navi-prev-in")]'],
+        extra:  [['//h1[@class="entry-title"]']]
+    },
+    {
+        url:    'supernormalstep.com/',
+        img:    ['//img[@id="cc-comic"]'],
+		back:	[['.cc-prev']],
+		next:	[['.cc-next']],
+        last:   [['.cc-last']],
+        first:  [['.cc-first']],
+    },
 	// End of sites
 	/*
 	,
