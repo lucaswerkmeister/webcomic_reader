@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.02.03.004700
+// @version		2022.02.03.022500
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -583,6 +583,7 @@ var defaultSettings = {
 // @include     http*://navcomic.com/*
 // @include     http*://www.navcomic.com/*
 // @include     http*://www.housepetscomic.com/*
+// @include     http*://rickgriffinstudios.com/*
 
 
 // ==/UserScript==
@@ -3077,7 +3078,14 @@ var paginas = [
 		back:	'contains(@class, "comic-nav-previous")',
 		next:	'contains(@class, "comic-nav-next")',
         extra:	[['//div[@class="main-content"]']],
-	}
+	},
+    {
+        url:    'rickgriffinstudios.com/comic-post/',
+        img:    ['(//div[@id="comic"]/a/img|//div[@id="comic"]/img)[last()]'],
+        next:   ['//td[@class="comic_navi_right"]/a[contains(@class, "navi-next-in")]'],
+        back:   ['//td[@class="comic_navi_left"]/a[contains(@class, "navi-prev-in")]'],
+        extra:  [['//h1[@class="entry-title"]']]
+    },
 	// End of sites
 	/*
 	,
