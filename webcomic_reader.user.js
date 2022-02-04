@@ -587,7 +587,7 @@ var defaultSettings = {
 // @include     http*://www.housepetscomic.com/*
 // @include     http*://rickgriffinstudios.com/*
 // @include     http*://www.supernormalstep.com/*
-// @include		http*://www.wishmakers.me/*
+// @include     http*://www.wishmakers.me/*
 // @include     http*://alphaluna.net/*
 
 
@@ -3115,7 +3115,7 @@ var paginas = [
         last:   [['.cc-last']],
         first:  [['.cc-first']],
     },
-	{	url:	'https://www.wishmakers.me',
+	{	url:	'wishmakers.me',
 		img:	['//img[contains(@class,"attachment-large")][1]'],
 		back:	['//img[contains(@src, "previous_arrow.png")]/..'],
 		next:	['(//img[contains(@src, "next_chapter.png")]/..|//img[contains(@src, "next_arrow.png")]/..)[last()]']
