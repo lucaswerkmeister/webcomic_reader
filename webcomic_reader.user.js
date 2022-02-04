@@ -3029,7 +3029,7 @@ var paginas = [
 	{	url:	'project-future.xepher.net/',
 		back:	['//img[@alt="Previous"]/..']
 	},
-	{	url:	'sailorsun.org/|jeaniebottle.com/|melvin.jeaniebottle.com/|wolfpac.ca',
+	{	url:	'sailorsun.org/|jeaniebottle.com/|melvin.jeaniebottle.com/|wolfpac.ca/',
 		img:	['//div[@id="comic"]//img'],
 		back:	'contains(@class, "comic-nav-previous")',
 		next:	'contains(@class, "comic-nav-next")',
