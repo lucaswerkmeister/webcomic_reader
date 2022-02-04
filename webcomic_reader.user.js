@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.02.03.230300
+// @version		2022.02.03.230900
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -589,6 +589,7 @@ var defaultSettings = {
 // @include     http*://www.supernormalstep.com/*
 // @include     http*://www.wishmakers.me/*
 // @include     http*://alphaluna.net/*
+// @include     http*://themonsterunderthebed.net/*
 
 
 // ==/UserScript==
@@ -3138,6 +3139,11 @@ var paginas = [
 		img:	['//main[@id="comic"]//img'],
 		back:	['//img[contains(@src, "/prev.png")]/..'],
 		next:	['//img[contains(@src, "/next.png")]/..']
+	},
+	{	url:	'themonsterunderthebed.net/',
+		img:	['(//div[@id="comic"]/img|//div[@id="comic"]/a/img)'],
+		back:	['//a[contains(@class, "comic-nav-previous")]'],
+		next:	['//a[contains(@class, "comic-nav-next")]'],
 	}
 	// End of sites
 	/*
