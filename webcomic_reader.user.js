@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.02.03.223200
+// @version		2022.02.03.223400
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -569,6 +569,7 @@ var defaultSettings = {
 // @include		http*://skin-horse.com/*
 // @include		http*://sailorsun.org/*
 // @include		http*://jeaniebottle.com/*
+// @include		http*://wolfpac.ca/*
 // @include		http*://*.jeaniebottle.com/*
 // @include		http*://machall.com/*
 // @include		http*://www.machall.com/*
@@ -3027,7 +3028,7 @@ var paginas = [
 	{	url:	'project-future.xepher.net/',
 		back:	['//img[@alt="Previous"]/..']
 	},
-	{	url:	'sailorsun.org/|jeaniebottle.com/|melvin.jeaniebottle.com/',
+	{	url:	'sailorsun.org/|jeaniebottle.com/|melvin.jeaniebottle.com/|wolfpac.ca/',
 		img:	['//div[@id="comic"]//img'],
 		back:	'contains(@class, "comic-nav-previous")',
 		next:	'contains(@class, "comic-nav-next")',
