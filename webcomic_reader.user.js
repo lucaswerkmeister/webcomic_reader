@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.02.03.223800
+// @version		2022.02.03.230300
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -1372,6 +1372,20 @@ var paginas = [
 		extra:	[['//div[@class="style3"]']]
 	},
 	{	url:	'collectedcurios.com/sequentialart.php',
+		img:	['//img[@class="w3-image"]'],
+        back:   ['//a[@id="backOne"]'],
+        next:   ['//a[@id="forwardOne"]'],
+        style:  `
+                .w3-display-middle{
+                    transform: initial;
+                    -ms-transform: initial;
+                    position: initial;
+                    top: initial;
+                    left: initial;
+                    }
+                `,
+	},
+	{	url:	'collectedcurios.com/battlebunnies.php|collectedcurios.com/spiderandscorpion.php',
 		img:	['//img[@id="strip"]'],
 		back:	'img[@title="Back one"]',
 		next:	'img[@title="Forward one"]'
