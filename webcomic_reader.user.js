@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.02.03.223400
+// @version		2022.02.03.223800
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -587,7 +587,8 @@ var defaultSettings = {
 // @include     http*://www.housepetscomic.com/*
 // @include     http*://rickgriffinstudios.com/*
 // @include     http*://www.supernormalstep.com/*
-// @includ		http*://www.wishmakers.me/*
+// @include		http*://www.wishmakers.me/*
+// @include     http*://alphaluna.net/*
 
 
 // ==/UserScript==
@@ -3118,6 +3119,11 @@ var paginas = [
 		img:	['//img[contains(@class,"attachment-large")][1]'],
 		back:	['//img[contains(@src, "previous_arrow.png")]/..'],
 		next:	['(//img[contains(@src, "next_chapter.png")]/..|//img[contains(@src, "next_arrow.png")]/..)[last()]']
+	},
+	{	url:	'alphaluna.net/',
+		img:	['//main[@id="comic"]//img'],
+		back:	['//img[contains(@src, "/prev.png")]/..'],
+		next:	['//img[contains(@src, "/next.png")]/..']
 	}
 	// End of sites
 	/*
