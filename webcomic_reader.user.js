@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.02.03.230900
+// @version		2022.02.07.004000
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -1078,21 +1078,11 @@ var paginas = [
 		img:	['//div[@class="photo"]//img']
 	},
 	{	url:	'gocomics.com',
-		img:	function(html, pos){
-					try{ return selCss('div > .strip', html); }
-					catch(e){ return selCss('.strip', html); }
-				},
-		back:	['//ul[@class="feature-nav"]//a[@class="prev"]/@href'],
-		next:	['//ul[@class="feature-nav"]//a[@class="next"]/@href'],
+		img:	['//div[@class="comic__wrapper"]//picture[@class="item-comic-image"]/img/@src'],
+		next:	['//a[@class="fa btn btn-outline-secondary btn-circle fa-caret-right sm "]'],
+		back:	['//a[@class="fa btn btn-outline-secondary btn-circle fa-caret-left sm js-previous-comic "]'],
 		last:	[['.newest']],
-		style:	'.feature_item, .feature, #content {width: auto !important;} .zoom_link{display:none !important;}',
-		layelem:'//p[@class="feature_item"]//img',
-		fixurl:	function(url, img, link){
-					if (img && url.indexOf('width=') > 0) {
-						url = url.replace(/width=[^&]*/, '');
-					}
-					return url;
-				}
+		layelem:'//div[@class="comic__wrapper"]',
 	},
 	{	url:	'threepanelsoul.com',
 		img:	[['#cc-comic']],
