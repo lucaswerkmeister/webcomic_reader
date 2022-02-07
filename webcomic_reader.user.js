@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.02.07.013000
+// @version		2022.02.07.013500
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -3138,6 +3138,7 @@ var paginas = [
 	{	url:	'starwarriorscomic.com',
 		img:	['(//div[@id="comic"]/a/img|//div[@id="comic"]/img)[last()]'],
         extra:  [['//div[@id="content"]']],
+        layelem:'//div[@id="page-wrap"]',
 	}
 	// End of sites
 	/*
