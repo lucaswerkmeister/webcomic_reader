@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.02.07.013500
+// @version		2022.03.14.044400
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -591,6 +591,7 @@ var defaultSettings = {
 // @include     http*://alphaluna.net/*
 // @include     http*://themonsterunderthebed.net/*
 // @include     http*://www.starwarriorscomic.com/*
+// @include     http*://www.wukrii.com/*
 
 // ==/UserScript==
 
@@ -2983,7 +2984,7 @@ var paginas = [
 	{	url:	'bobandgeorge.com/archives',
 		img:	['//img[@id="comic_0"]|//img[contains(@src, "comics/")]'],
 		extra:	[['//img[@id="comic_1"]'],['//img[@id="comic_2"]'],['//img[@id="comic_3"]'],['//img[@id="comic_4"]'],['//img[@id="comic_5"]'],['//img[@id="comic_6"]'],['//img[@id="comic_7"]'],['//img[@id="comic_8"]'],['//img[@id="comic_9"]'],['//img[@id="comic_10"]'],'<br><br>',['//table[@class="table-bottom"]']],
-		style:	'#comic_0, #comic_1, #comic_2, #comic_3, #comic_4, #comic_5, #comic_6, #comic_7, #comic_8, #comic_9, #comic_10{display: inline !important; top:auto !important; left: auto !important; position: relative !important;}',
+		style:	'#comic_0, #comic_1, #comic_2, #comic_3, #comic_4, #comic_5, #comic_6, #comic_7, #comic_8, #comic_9, #comic_10{display: inline !important; top:auto !important; left: auto !important; position: relative !important;} .table-bottom{font-size: 1vw}',
 		js:	wcr_ext_navi_ctrls
 	},
 	{	url:	'snafu-comics.com/',
@@ -3139,6 +3140,9 @@ var paginas = [
 		img:	['(//div[@id="comic"]/a/img|//div[@id="comic"]/img)[last()]'],
         extra:  [['//div[@id="content"]']],
         layelem:'//div[@id="page-wrap"]',
+	},
+	{	url:	'wukrii.com',
+		img:	['(//div[@id="comic"]/img|//div[@id="comic"]/a/img)'],
 	}
 	// End of sites
 	/*
