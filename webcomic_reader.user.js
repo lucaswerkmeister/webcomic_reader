@@ -6737,9 +6737,19 @@ function mostrarSettingsZoom(){
 
 function wcr_ext_navi_ctrls(dir){
 // Edited from Webtoon's entry. Thanks to who ever did that
-// Makes it so anything within extra will be nav-clickable
+// Makes it so any image within extra will be nav-clickable
 //
 // js:	wcr_ext_navi_ctrls
+//
+	var elemImagen = document.querySelectorAll('#wcr_extra img');
+	setEvt(elemImagen, 'click', imgClick);
+	setEvt(elemImagen, 'mousemove', imgCursor);
+}
+
+function wcr_block_ext_navi_ctrls(dir){
+// Same as above, but is for the entire block, not just images
+//
+// js:	wcr_block_ext_navi_ctrls
 //
 	var elemImagen = document.querySelectorAll('#wcr_extra');
 	setEvt(elemImagen, 'click', imgClick);
