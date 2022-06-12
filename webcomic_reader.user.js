@@ -592,6 +592,8 @@ var defaultSettings = {
 // @include     http*://themonsterunderthebed.net/*
 // @include     http*://www.starwarriorscomic.com/*
 // @include     http*://www.wukrii.com/*
+// @include     http*//unicornjelly.com/*
+// @include     http*//www.unicornjelly.com/*
 
 // ==/UserScript==
 
@@ -3143,6 +3145,16 @@ var paginas = [
 	},
 	{	url:	'wukrii.com',
 		img:	['(//div[@id="comic"]/img|//div[@id="comic"]/a/img)'],
+	},
+	{	url:	'unicornjelly.com',
+		img:	['(//img[@height>="128"])[1]'],
+        style:  '#wcr_imagen{display: none !important;}',
+        extra:  [
+                    '<div style="max-width:800px;margin: auto">',
+                    ['(//img[@height>="128"])[1]/../../..'],
+                    '</div>'
+                ],
+        js:	wcr_ext_navi_ctrls
 	}
 	// End of sites
 	/*
