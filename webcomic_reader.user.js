@@ -3148,12 +3148,27 @@ var paginas = [
 	},
 	{	url:	'unicornjelly.com',
 		img:	['(//img[@height>="128"])[1]'],
-        style:  '#wcr_imagen{display: none !important;}',
+        style:  `
+                    #wcr_imagen {
+                        display: none !important;
+                        }
+                    #wcr_uj_extras {
+                        max-width: 800px;
+                        min-width: 640px;
+                        margin-auto;
+                        padding: 16px;
+                        }
+                    #wcr_uj_extras img, #wcr_div {
+                        background: url("images/paper.gif");
+                        }
+
+                `,
         extra:  [
-                    '<div style="max-width:800px;margin: auto">',
+                    '<div id="wcr_uj"><div id="wcr_uj_extras" style="max-width:800px;margin: auto">',
                     ['(//img[@height>="128"])[1]/../../..'],
-                    '</div>'
+                    '</div></div>'
                 ],
+        layelem: '//blockquote',
         js:	wcr_ext_navi_ctrls
 	}
 	// End of sites
@@ -3425,6 +3440,10 @@ var bordey = confVal('bordey', defaultSettings.borderUD); //edge up and down
 
 var scrollRate = parseInt(confVal('scroll_rate', 50)); //edge to the sides of the image
 var dimScreen = confVal('dim', '0');
+var dimOpac = confVal('dimTran', '0.8');
+var dimColor = confVal('dimCol', '#000');
+
+var invScreen = confVal('invert', '0');
 
 var colOK   = 'rgb(204, 238, 204)'; //green
 var colWait = 'rgb(238, 238, 238)'; //gray
@@ -3591,12 +3610,18 @@ function iniciar(){
 		var sombrear = dimScreen=='I' ? 'wcr_imagen' : (dimScreen=='S' ? 'wcr_div' : '');
 		if(sombrear){
 			var sombra = document.createElement('div');
-			sombra.setAttribute('style', 'opacity:0.8; position:fixed; z-index:2322; background:#000; top:-100%; left:-100%; right:-100%; bottom:-100%; pointer-events:none;');
+            sombra.setAttribute('id','wcr_dim');
+			sombra.setAttribute('style', 'opacity: '+ dimOpac +'; position:fixed; z-index:2322; background: '+ dimColor +'; top:-100%; left:-100%; right:-100%; bottom:-100%; pointer-events:none;');
 			var sombreado = get(sombrear);
 			sombreado.style.position = 'relative';
 			sombreado.style.zIndex = '2323';
 			sombreado.parentNode.insertBefore(sombra, sombreado);
 		}
+        
+        //If Dim + Invert enabled, invert colors except for comic images. (experimental)
+        if(invScreen == '1'){
+            document.head.innerHTML += '<style>#wcr_div, #wcr_botones, #wcr_div img {filter: invert(100%);}'
+        }
 
 		if(!showButtons) get('wcr_botones').style.display = 'none';
 
@@ -5563,6 +5588,22 @@ function mostrarSettings(){
 					'0':'Disabled',
 					'S':'Focus script content',
 					'I':'Focus image'
+				}
+			},
+            dimTran:{ desc:'Screen Dimmer Opacity', title:'Set Opacity of screen dimmer 0.0 to 1.0 or 0% to 100%',
+				def: '80%'
+			},
+            
+            dimCol:{ desc:'Screen Dimmer Color', title:'Set Color or url("image")',
+				def: '#000'
+			},
+            
+            
+			invert:{ desc:'Invert colors', title:'Inverts the colors of everything but the images',
+				def: '0',
+				vals:{
+					'0':'Disabled',
+					'1':'Enabled'
 				}
 			},
 
