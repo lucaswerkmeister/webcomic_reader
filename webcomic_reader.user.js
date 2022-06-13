@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.06.12.050800
+// @version		2022.06.13.020600
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -3158,14 +3158,37 @@ var paginas = [
                         margin-auto;
                         padding: 16px;
                         }
-                    #wcr_uj_extras img, #wcr_div {
+                    #wcr_uj_extras img, #wcr_uj_extras p{
                         background: url("images/paper.gif");
                         }
+                    body::before {
+                        content: "";
+                        width: 100%;
+                        height: 100%;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        background: url("images/paper.gif");
+                        position: fixed;
+                        filter: invert(` + confVal('invert', '0') + `00%);
+                    }
+                    a {
+                        font-size: 16pt;
+                    }
+                    a:visited {
+                        color: #777 !important;
+                    }
+                    a:link {
+                        color: red !important;
+                    }
 
                 `,
         extra:  [
                     '<div id="wcr_uj"><div id="wcr_uj_extras" style="max-width:800px;margin: auto">',
-                    ['(//img[@height>="128"])[1]/../../..'],
+                    
+                    ['(//img[@height>="128"])[1]/ancestor::blockquote'],
+                    
                     '</div></div>'
                 ],
         layelem: '//blockquote',
