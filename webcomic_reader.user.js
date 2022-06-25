@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.06.13.020600
+// @version		2022.06.25.042200
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -433,6 +433,7 @@ var defaultSettings = {
 // @include		http*://www.aikoniacomic.com/*
 // @include		http*://aikoniacomic.com/*
 // @include		http*://grrlpowercomic.com/*
+// @include		http*://www.grrlpowercomic.com/*
 // @include		http*://www.poisonedminds.com/*
 // @include		http*://poisonedminds.com/*
 // @include		http*://nodwick.humor.gamespy.com/*
@@ -585,6 +586,7 @@ var defaultSettings = {
 // @include     http*://navcomic.com/*
 // @include     http*://www.navcomic.com/*
 // @include     http*://www.housepetscomic.com/*
+// @include     http*://housepetscomic.com/*
 // @include     http*://rickgriffinstudios.com/*
 // @include     http*://www.supernormalstep.com/*
 // @include     http*://www.wishmakers.me/*
@@ -592,8 +594,10 @@ var defaultSettings = {
 // @include     http*://themonsterunderthebed.net/*
 // @include     http*://www.starwarriorscomic.com/*
 // @include     http*://www.wukrii.com/*
-// @include     http*//unicornjelly.com/*
-// @include     http*//www.unicornjelly.com/*
+// @include     http*://unicornjelly.com/*
+// @include     http*://www.unicornjelly.com/*
+// @include     http*://pasteldefender.com/*
+// @include     http*://www.pasteldefender.com/*
 
 // ==/UserScript==
 
@@ -1386,7 +1390,7 @@ var paginas = [
 	},
 	{	url:	'waywardsons.keenspot.com',
 		img:	[['img[src*="/comics"]']],
-		back:	'img[@id="p_bot_nav"]',
+		back:	'a[@id="p_bot_nav"]',
 		next:	'img[@id="n_bot_nav"]'
 	},
 	{	url:	'lastblood.keenspot.com',
@@ -2384,36 +2388,6 @@ var paginas = [
 		next:	'text()="next >"',
 		first:	'text()="|<"',
 	},
-	//Needed Two Seperate EGS entries to handle the www and non-www URLs
-	//--[
-	{
-		url:	'www.egscomics.com',
-		img:	[['#cc-comic']],
-		back:	[['.cc-prev']],
-		next:	[['.cc-next']],
-		first:	[['.cc-first']],
-		last:	[['.cc-last']],
-        js:	wcr_ext_navi_ctrls,
-        style:  '#wcr_egs_alts object{width: 50%; min-height: 0px, min-width: 0px; opacity: 0.8}'+
-        '#wcr_egs_alts{}',
-		extra:	[
-        '<div id="wcr_egs_alts"><h1>',
-        ['//div[@class="cc-newsbody"]//a[contains(@href, "png") or contains(@href, "gif") or contains(@href, "jpg") or contains(@href, "jpeg")]/text()'],
-        '</h1><object data="',
-        ['//div[@class="cc-newsbody"]//a[contains(@href, "png") or contains(@href, "gif") or contains(@href, "jpg") or contains(@href, "jpeg")]/@href'],
-        '"></object>',
-        '</div>',
-        '<div id="wrapper">',
-        '<div id="leftarea" style="text-align: left">',
-        [['#news']],
-        '</div>',
-        '</div>'],
-		fixurl:	function(url, img, link){
-		if(link) return url.replace('://egscomics', '://www.egscomics');
-		return url;
-		}
-
-	},
 	{
 		url:	'egscomics.com',
 		img:	[['#cc-comic']],
@@ -2421,20 +2395,23 @@ var paginas = [
 		next:	[['.cc-next']],
 		first:	[['.cc-first']],
 		last:	[['.cc-last']],
+        layelem: '//div[@id="cc-comicbody"]',
         js:	wcr_ext_navi_ctrls,
+        
+        //Grab Any linked Images. Test page https://www.egscomics.com/comic/2016-02-15
 		extra:	[
         '<div id="wcr_egs_alts"><h1>',
         ['//div[@class="cc-newsbody"]//a[contains(@href, "png") or contains(@href, "gif") or contains(@href, "jpg") or contains(@href, "jpeg")]/text()'],
-        '</h1><object data="',
+        '</h1><img src="',
         ['//div[@class="cc-newsbody"]//a[contains(@href, "png") or contains(@href, "gif") or contains(@href, "jpg") or contains(@href, "jpeg")]/@href'],
-        '"></object>',
+        '"></img>',
         '</div>',
         '<div id="wrapper">',
         '<div id="leftarea" style="text-align: left">',
         [['#news']],
         '</div>',
         '</div>'],
-        style:  '#wcr_egs_alts object{width: 50%; min-height: 0px, min-width: 0px; opacity: 0.8}'+
+        style:  '#wcr_egs_alts img{width: 50%; min-height: 0px, min-width: 0px; opacity: 0.8}'+
         '#wcr_egs_alts{}',
 	},
 	//]--
@@ -2986,7 +2963,7 @@ var paginas = [
 	{	url:	'bobandgeorge.com/archives',
 		img:	['//img[@id="comic_0"]|//img[contains(@src, "comics/")]'],
 		extra:	[['//img[@id="comic_1"]'],['//img[@id="comic_2"]'],['//img[@id="comic_3"]'],['//img[@id="comic_4"]'],['//img[@id="comic_5"]'],['//img[@id="comic_6"]'],['//img[@id="comic_7"]'],['//img[@id="comic_8"]'],['//img[@id="comic_9"]'],['//img[@id="comic_10"]'],'<br><br>',['//table[@class="table-bottom"]']],
-		style:	'#comic_0, #comic_1, #comic_2, #comic_3, #comic_4, #comic_5, #comic_6, #comic_7, #comic_8, #comic_9, #comic_10{display: inline !important; top:auto !important; left: auto !important; position: relative !important;} .table-bottom{font-size: 1vw}',
+		style:	'#comic_0, #comic_1, #comic_2, #comic_3, #comic_4, #comic_5, #comic_6, #comic_7, #comic_8, #comic_9, #comic_10{display: inline !important; top:auto !important; left: auto !important; position: relative !important;} .table-bottom{font-size: 1vw;}',
 		js:	wcr_ext_navi_ctrls
 	},
 	{	url:	'snafu-comics.com/',
@@ -3037,7 +3014,7 @@ var paginas = [
 	{	url:	'project-future.xepher.net/',
 		back:	['//img[@alt="Previous"]/..']
 	},
-	{	url:	'sailorsun.org/|jeaniebottle.com/|melvin.jeaniebottle.com/|wolfpac.ca/',
+	{	url:	'sailorsun.org/|jeaniebottle.com/|melvin.jeaniebottle.com/|wolfpac.ca',
 		img:	['//div[@id="comic"]//img'],
 		back:	'contains(@class, "comic-nav-previous")',
 		next:	'contains(@class, "comic-nav-next")',
@@ -3146,11 +3123,15 @@ var paginas = [
 	{	url:	'wukrii.com',
 		img:	['(//div[@id="comic"]/img|//div[@id="comic"]/a/img)'],
 	},
-	{	url:	'unicornjelly.com',
+	{	url:	'unicornjelly.com/u',
 		img:	['(//img[@height>="128"])[1]'],
         style:  `
                     #wcr_imagen {
                         display: none !important;
+                        }
+                    #wcr_extra {
+                        position: relative;
+                        top: -50px;
                         }
                     #wcr_uj_extras {
                         max-width: 800px;
@@ -3180,8 +3161,19 @@ var paginas = [
                         color: #777 !important;
                     }
                     a:link {
-                        color: red !important;
+                        
+                        animation: flow 2s linear infinite;
+                        color: transparent;
+                        background: linear-gradient(-60deg, #ff5500, #55ff00, #00ff55, #0055ff, #5500ff, #ff0055, #ff5500, #55ff00);
+                        background-size: 700%;
+                        background-clip: text;
+                        text-decoration: underline;
+                        text-decoration-color: red;
                     }
+                    @keyframes flow {
+                        0% { background-position: 0% 50% }
+                        100% { background-position: 100% 50% }
+                        }
 
                 `,
         extra:  [
@@ -3193,6 +3185,83 @@ var paginas = [
                 ],
         layelem: '//blockquote',
         js:	wcr_ext_navi_ctrls
+	},
+	{	url:	'pasteldefender.com/to|pasteldefender.com/c',
+		img:	['(//img[@height>="200"])[1]'],
+        next: ['(//a[contains(text(),"FORWARD")]|//img[contains(@src, "fore")]/..)[last()]'],
+        back: ['(//a[contains(text(),"BACKWARD")]|//img[contains(@src, "back")]/..)[last()]'],
+        style:  `
+                    #wcr_imagen {
+                        display: none !important;
+                        }
+                    #wcr_extra {
+                        position: relative;
+                        top: -50px;
+                        }
+                    #wcr_uj_extras {
+                        max-width: 800px;
+                        min-width: 640px;
+                        margin-auto;
+                        padding: 16px;
+                        }
+                    #wcr_uj_extras img, #wcr_uj_extras p{
+                        background: url("images/paper.gif");
+                        }
+                    body::before {
+                        content: "";
+                        width: 100%;
+                        height: 100%;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        background: url("images/paper.gif");
+                        position: fixed;
+                        filter: invert(` + confVal('invert', '0') + `00%);
+                    }
+                    a {
+                        font-size: 16pt;
+                    }
+                    a:visited {
+                        color: #777 !important;
+                    }
+                    a:link {
+                        
+                        animation: flow 2s linear infinite;
+                        color: transparent;
+                        background: linear-gradient(-60deg, #ff5500, #55ff00, #00ff55, #0055ff, #5500ff, #ff0055, #ff5500, #55ff00);
+                        background-size: 700%;
+                        background-clip: text;
+                        text-decoration: underline;
+                        text-decoration-color: red;
+                    }
+                    @keyframes flow {
+                        0% { background-position: 0% 50% }
+                        100% { background-position: 100% 50% }
+                        }
+
+                `,
+        extra:  [
+                    '<br>',
+                    ['//center[1]'],
+                    ['//center[2]'],
+                    ['//center[3]'],
+                    ['//center[4]'],
+                    ['//center[5]'],
+                    ['//center[6]'],
+                    ['//center[7]'],
+                    ['//center[8]'],
+                    ['//center[9]'],
+                    ['//center[10]'],
+                    ['//center[11]'],
+                    ['//center[12]'],
+                    ['//center[13]'],
+                    ['//center[14]'],
+                    ['//center[15]'],
+                    ['//center[16]'],
+                ],
+        layelem:'//center',
+        js:	    wcr_ext_navi_ctrls
 	}
 	// End of sites
 	/*
@@ -3263,36 +3332,36 @@ var layoutDefault =
 	'<div id="wcr_div" style="text-align:center">'+
 		//Default styling for the buttons
 		'<style id="wcr_style" type="text/css">'+
-		'#wcr_div button,button[id^="wcr_set_btn"],button[id^="wcr_btn"]{'+
-			'font-weight: 100;'+
-			'letter-spacing: 0;'+
-			'text-transform: none;'+
-			'line-height: 20px;'+
-			'font-size: 16px;'+
-			'padding: 0px 8px 0px 8px;'+
-			'float:none;'+
-			'text-align: center;'+
-			'color: #222;'+
-			'background-color: #ccc;'+
-			'border: 2px solid rgba(22,22,22,0.3);'+
-			'font-family: "Lucida Grande", sans-serif !important;}'+
-		'#wcr_div button:Active,button[id^="wcr_set_btn"],button[id^="wcr_btn"]:Active{'+
-			'background-color: #555;+}'+
-		'#wcr_pages{'+
-			'font-size: 14px;'+
-			'padding: 0px 8px 0px 8px;'+
-			'background: #222;'+
-			'color: #ccc;'+
-			'font-family: "Lucida Grande", sans-serif !important;'+
-            'max-width: 100% !important}'+
-		'#wcr_pages optgroup{'+
-			'background-color: #030;}'+
-		'#wcr_pages option{'+
-			'background-color: #222;}'+
-        '#wcr_first > button{background-color:#6bf}'+
-        '#wcr_last > button{background-color:#f66}'+
-        ''+
-        ''+
+		`#wcr_div button,button[id^="wcr_set_btn"],button[id^="wcr_btn"]{
+			font-weight: 100;
+			letter-spacing: 0;
+			text-transform: none;
+			line-height: 20px;
+			font-size: 16px;
+			padding: 0px 8px 0px 8px;
+			float:none;
+			text-align: center;
+			color: #222;
+			background-color: #ccc;
+			border: 2px solid rgba(22,22,22,0.3);
+			font-family: "Lucida Grande", sans-serif !important;}
+		#wcr_div button:Active,button[id^="wcr_set_btn"],button[id^="wcr_btn"]:Active{
+			background-color: #555;+}
+		#wcr_pages{
+			font-size: 14px;
+			padding: 0px 8px 0px 8px;
+			background: #222;
+			color: #ccc;
+			font-family: "Lucida Grande", sans-serif !important;
+            max-width: 100% !important}
+		#wcr_pages optgroup{
+			background-color: #030;}
+		#wcr_pages option{
+			background-color: #222;}
+        #wcr_first > button{background-color:#6bf}
+        #wcr_last > button{background-color:#f66}
+        #wcr_extra * {float: none}
+        `+
 		'</style>'+
 		'<img id="wcr_imagen" style=""/><br/>' +
 		'<div id="wcr_title"></div>' +
@@ -3632,20 +3701,32 @@ function iniciar(){
 
 		var sombrear = dimScreen=='I' ? 'wcr_imagen' : (dimScreen=='S' ? 'wcr_div' : '');
 		if(sombrear){
-			var sombra = document.createElement('div');
+            var sombra = document.createElement('div');
             sombra.setAttribute('id','wcr_dim');
-			sombra.setAttribute('style', 'opacity: '+ dimOpac +'; position:fixed; z-index:2322; background: '+ dimColor +'; top:-100%; left:-100%; right:-100%; bottom:-100%; pointer-events:none;');
-			var sombreado = get(sombrear);
-			sombreado.style.position = 'relative';
-			sombreado.style.zIndex = '2323';
-			sombreado.parentNode.insertBefore(sombra, sombreado);
+            sombra.setAttribute('style', 'opacity: '+ dimOpac +'; position:fixed; z-index:2322; background: '+ dimColor +'; top:-500%; left:-500%; right:-500%; bottom:-500%; pointer-events:none;');
+            var sombreado = get(sombrear);
+            sombreado.style.position = 'relative';
+            sombreado.style.zIndex = '2323';
+            if(invScreen == '2'){
+                var indiv = document.createElement('div');
+                indiv.setAttribute('id','wcr_dim_inv');
+                indiv.setAttribute('style','position:fixed; width: 100%; height: 100%; top: -500%; left: -500%; filter:invert(1); pointer-events:none; z-index:2321;');
+                sombreado.parentNode.insertBefore(indiv, sombreado);
+                indiv.appendChild(sombra);
+            } else {
+                sombreado.parentNode.insertBefore(sombra, sombreado);
+            }
 		}
         
         //If Dim + Invert enabled, invert colors except for comic images. (experimental)
         if(invScreen == '1'){
-            document.head.innerHTML += '<style>#wcr_div, #wcr_botones, #wcr_div img {filter: invert(100%);}'
+            document.head.innerHTML += '<style>#wcr_div, #wcr_botones, #wcr_div img {filter: invert(1.0);}</style>'
         }
-
+        
+        if(invScreen == '2'){
+            document.head.innerHTML += '<style>body, #wcr_botones, img {filter: invert(1.0);}</style>'
+        }
+        
 		if(!showButtons) get('wcr_botones').style.display = 'none';
 
 		// stop using scroll * for the border, use border *
@@ -5626,7 +5707,8 @@ function mostrarSettings(){
 				def: '0',
 				vals:{
 					'0':'Disabled',
-					'1':'Enabled'
+					'1':'Scrip Focused',
+                    '2':'Entire Page'
 				}
 			},
 
