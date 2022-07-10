@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.06.25.042200
+// @version		2022.07.10.025700
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -3186,7 +3186,7 @@ var paginas = [
         layelem: '//blockquote',
         js:	wcr_ext_navi_ctrls
 	},
-	{	url:	'pasteldefender.com/to|pasteldefender.com/c',
+	{	url:	'pasteldefender.com/to|pasteldefender.com/c|pasteldefender.com/0|pasteldefender.com/1|pasteldefender.com/2',
 		img:	['(//img[@height>="200"])[1]'],
         next: ['(//a[contains(text(),"FORWARD")]|//img[contains(@src, "fore")]/..)[last()]'],
         back: ['(//a[contains(text(),"BACKWARD")]|//img[contains(@src, "back")]/..)[last()]'],
@@ -3262,6 +3262,18 @@ var paginas = [
                 ],
         layelem:'//center',
         js:	    wcr_ext_navi_ctrls
+	}	,
+	{	url:	'*.thecomicseries.com',
+		extra:  [
+                    ['//div[@class="afterheading"][2]'],
+                    '<br>',
+                    ['//div[@class="afterheading"][3]'],
+                ],
+        style: `
+                .afterheading {
+                    text-align: left;
+                    }
+                `,
 	}
 	// End of sites
 	/*
@@ -5707,8 +5719,8 @@ function mostrarSettings(){
 				def: '0',
 				vals:{
 					'0':'Disabled',
-					'1':'Scrip Focused',
-                    '2':'Entire Page'
+					'1':'Script Focused Content',
+                    '2':'Most of the Page'
 				}
 			},
 
