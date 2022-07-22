@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.07.10.025700
+// @version		2022.07.21.211900
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -2039,8 +2039,25 @@ var paginas = [
 	},
 	{	url:	'grrlpowercomic.com',
 		img:	[['#comic img']],
-		extra:	[[['.post-content']]],
-		style:	'#content{display:none}.post-content,#comment-wrapper{width: 766px;margin: auto;}'
+		extra:	[
+                    ['(//div[@id="content"]//img[@width>="250"])[1]'],
+                    ['(//div[@id="content"]//img[@width>="250"])[2]'],
+                    ['(//div[@id="content"]//img[@width>="250"])[3]'],
+                    ['(//div[@id="content"]//img[@width>="250"])[4]'],
+                    ['//div[@id="content"]']
+                ],
+		style:	`#content
+                    {
+                        text-align: left;
+                    }
+                #content:nth-of-type(2)
+                    {
+                        display: none;
+                    }
+                .post-content, #comment-wrapper
+                    {
+                    width: 766px;margin: 0;padding:0
+                    }`
 	},
 	{	url:	'the-whiteboard.com',
 		img:	[['center>img']]
