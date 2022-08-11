@@ -43,7 +43,7 @@ var defaultSettings = {
 // ==UserScript==
 // @name		Webcomic Reader - Sora Testing
 // @author		Javier Lopez <ameboide@gmail.com> https://github.com/ameboide , fork by v4Lo https://github.com/v4Lo and by anka-213 http://github.com/anka-213
-// @version		2022.08.01.032200
+// @version		2022.08.11.043500
 // @license		MIT
 // @namespace	http://userscripts.org/scripts/show/59842
 // @description	Can work on almost any webcomic/manga page, preloads 5 or more pages ahead (or behind), navigates via ajax for instant-page-change, lets you use the keyboard, remembers your progress, and it's relatively easy to add new sites
@@ -977,9 +977,21 @@ var paginas = [
 	{	url:	'crfh.net',
 		img:	['(//img[contains(@src, "0/crfh")]|//img[contains(@src, "1/crfh")]|//img[contains(@src, "2/crfh")]|//img[contains(@src, "3/crfh")]|//img[contains(@src, "4/crfh")]|//img[contains(@src, "5/crfh")]|//img[contains(@src, "6/crfh")]|//img[contains(@src, "7/crfh")]|//img[contains(@src, "8/crfh")]|//img[contains(@src, "9/crfh")])'],
         next:   ['//map/area[@alt="next strip"]'],
-        back:   ['//map/area@alt="previous strip"]'],
-        last:   ['//map/area@alt="latest strip"]'],
-        first:  ['//map/area@alt="first strip"]']
+        back:   ['//map/area[@alt="previous strip"]'],
+        last:   ['//map/area[@alt="latest strip"]'],
+        first:  ['//map/area[@alt="first strip"]'],
+        js:	wcr_ext_navi_ctrls,
+        extra:  ['<br>',
+                    ['(//img[contains(@src, "0/crfh")]|//img[contains(@src, "1/crfh")]|//img[contains(@src, "2/crfh")]|//img[contains(@src, "3/crfh")]|//img[contains(@src, "4/crfh")]|//img[contains(@src, "5/crfh")]|//img[contains(@src, "6/crfh")]|//img[contains(@src, "7/crfh")]|//img[contains(@src, "8/crfh")]|//img[contains(@src, "9/crfh")])[2]'],
+                    ['(//img[contains(@src, "0/crfh")]|//img[contains(@src, "1/crfh")]|//img[contains(@src, "2/crfh")]|//img[contains(@src, "3/crfh")]|//img[contains(@src, "4/crfh")]|//img[contains(@src, "5/crfh")]|//img[contains(@src, "6/crfh")]|//img[contains(@src, "7/crfh")]|//img[contains(@src, "8/crfh")]|//img[contains(@src, "9/crfh")])[3]'],
+                    ['(//img[contains(@src, "0/crfh")]|//img[contains(@src, "1/crfh")]|//img[contains(@src, "2/crfh")]|//img[contains(@src, "3/crfh")]|//img[contains(@src, "4/crfh")]|//img[contains(@src, "5/crfh")]|//img[contains(@src, "6/crfh")]|//img[contains(@src, "7/crfh")]|//img[contains(@src, "8/crfh")]|//img[contains(@src, "9/crfh")])[4]'],
+                    ['(//img[contains(@src, "0/crfh")]|//img[contains(@src, "1/crfh")]|//img[contains(@src, "2/crfh")]|//img[contains(@src, "3/crfh")]|//img[contains(@src, "4/crfh")]|//img[contains(@src, "5/crfh")]|//img[contains(@src, "6/crfh")]|//img[contains(@src, "7/crfh")]|//img[contains(@src, "8/crfh")]|//img[contains(@src, "9/crfh")])[5]'],
+                    ['(//img[contains(@src, "0/crfh")]|//img[contains(@src, "1/crfh")]|//img[contains(@src, "2/crfh")]|//img[contains(@src, "3/crfh")]|//img[contains(@src, "4/crfh")]|//img[contains(@src, "5/crfh")]|//img[contains(@src, "6/crfh")]|//img[contains(@src, "7/crfh")]|//img[contains(@src, "8/crfh")]|//img[contains(@src, "9/crfh")])[6]'],
+                    ['(//img[contains(@src, "0/crfh")]|//img[contains(@src, "1/crfh")]|//img[contains(@src, "2/crfh")]|//img[contains(@src, "3/crfh")]|//img[contains(@src, "4/crfh")]|//img[contains(@src, "5/crfh")]|//img[contains(@src, "6/crfh")]|//img[contains(@src, "7/crfh")]|//img[contains(@src, "8/crfh")]|//img[contains(@src, "9/crfh")])[7]'],
+                    ['(//img[contains(@src, "0/crfh")]|//img[contains(@src, "1/crfh")]|//img[contains(@src, "2/crfh")]|//img[contains(@src, "3/crfh")]|//img[contains(@src, "4/crfh")]|//img[contains(@src, "5/crfh")]|//img[contains(@src, "6/crfh")]|//img[contains(@src, "7/crfh")]|//img[contains(@src, "8/crfh")]|//img[contains(@src, "9/crfh")])[8]'],
+                    ['(//img[contains(@src, "0/crfh")]|//img[contains(@src, "1/crfh")]|//img[contains(@src, "2/crfh")]|//img[contains(@src, "3/crfh")]|//img[contains(@src, "4/crfh")]|//img[contains(@src, "5/crfh")]|//img[contains(@src, "6/crfh")]|//img[contains(@src, "7/crfh")]|//img[contains(@src, "8/crfh")]|//img[contains(@src, "9/crfh")])[9]'],
+                    ['(//img[contains(@src, "0/crfh")]|//img[contains(@src, "1/crfh")]|//img[contains(@src, "2/crfh")]|//img[contains(@src, "3/crfh")]|//img[contains(@src, "4/crfh")]|//img[contains(@src, "5/crfh")]|//img[contains(@src, "6/crfh")]|//img[contains(@src, "7/crfh")]|//img[contains(@src, "8/crfh")]|//img[contains(@src, "9/crfh")])[10]'],
+                ]
 	},
 	{	url:	'nuklearpower.com',
 		img:	['//img[contains(@src, "/comics/")]'],
